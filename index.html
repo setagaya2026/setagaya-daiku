@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Re:Freude 世田谷ユースアクションフェス 練習サイト</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --crimson:#9B1B30; --crimson-dark:#6d1220; --gold:#C9963A; --gold-light:#e8c06a;
+  --cream:#FAF6EF; --dark:#1a1208; --text:#2d1f0f; --muted:#7a6a55;
+  --navy:#1a3a5c; --navy-dark:#0d2035; --purple:#2c1a4e; --purple-dark:#1a0a2e;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden}
+
+/* ── HEADER ── */
+header{background:var(--dark);position:relative;overflow:hidden}
+.hbg{position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(155,27,48,.35) 0%,transparent 60%),radial-gradient(ellipse at 80% 30%,rgba(201,150,58,.2) 0%,transparent 50%),linear-gradient(135deg,#1a1208 0%,#2d1a0a 50%,#1a1208 100%)}
+.hpat{position:absolute;inset:0;opacity:.06;background-image:repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(201,150,58,1) 20px,rgba(201,150,58,1) 21px)}
+.hinn{position:relative;z-index:1;text-align:center;padding:44px 24px 36px}
+.hbadge{display:inline-block;border:1px solid rgba(201,150,58,.5);color:var(--gold-light);font-size:11px;letter-spacing:.25em;padding:5px 18px;margin-bottom:18px;font-weight:300}
+header h1{font-family:'Noto Serif JP',serif;font-weight:900;font-size:clamp(24px,5vw,46px);color:#fff;line-height:1.25;letter-spacing:.05em;margin-bottom:6px}
+header h1 span{color:var(--gold-light)}
+.hsub{color:rgba(255,255,255,.55);font-size:13px;letter-spacing:.1em;margin-top:12px;font-weight:300}
+.hdiv{width:60px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:20px auto 0}
+
+/* ── COUNTDOWN ── */
+.cdbar{background:linear-gradient(135deg,var(--crimson-dark),var(--crimson));padding:20px 16px;text-align:center;position:relative;overflow:hidden}
+.cdbar::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(-45deg,transparent,transparent 8px,rgba(255,255,255,.04) 8px,rgba(255,255,255,.04) 9px)}
+.cdtitle{color:rgba(255,255,255,.8);font-size:12px;letter-spacing:.2em;margin-bottom:10px;position:relative}
+.cdblocks{display:flex;justify-content:center;align-items:center;gap:6px;position:relative}
+.cdb{text-align:center}
+.cdn{display:block;font-family:'Noto Serif JP',serif;font-size:clamp(36px,8vw,64px);font-weight:900;color:#fff;line-height:1;text-shadow:0 2px 20px rgba(0,0,0,.3)}
+.cdl{display:block;font-size:10px;letter-spacing:.15em;color:rgba(255,255,255,.6);margin-top:3px}
+.cdsep{font-size:clamp(28px,6vw,48px);color:rgba(255,255,255,.3);font-weight:300;line-height:1;align-self:flex-start;padding-top:4px}
+.cdsub{color:rgba(255,255,255,.7);font-size:12px;margin-top:10px;position:relative}
+.cdsub strong{color:var(--gold-light)}
+
+/* ── NAV ── */
+nav{background:var(--dark);border-top:1px solid rgba(201,150,58,.2);position:sticky;top:0;z-index:100;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.nav-inner{display:flex;white-space:nowrap;min-width:max-content;padding:0 8px}
+nav a{display:inline-block;padding:13px 14px;color:rgba(255,255,255,.5);text-decoration:none;font-size:12px;letter-spacing:.03em;border-bottom:2px solid transparent;transition:all .2s;cursor:pointer}
+nav a:hover,nav a.active{color:var(--gold-light);border-bottom-color:var(--gold)}
+
+/* ── MAIN ── */
+main{max-width:900px;margin:0 auto;padding:0 16px 80px}
+.section{display:none;animation:fadeIn .3s ease}
+.section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── COMMON ── */
+.notice{background:linear-gradient(135deg,var(--crimson-dark),var(--crimson));color:white;border-radius:6px;padding:22px 24px;margin:32px 0 24px;position:relative;overflow:hidden}
+.notice::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(-45deg,transparent,transparent 8px,rgba(255,255,255,.03) 8px,rgba(255,255,255,.03) 9px)}
+.notice h2{font-family:'Noto Serif JP',serif;font-size:15px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px;position:relative}
+.notice p{font-size:13px;line-height:1.7;opacity:.9;position:relative}
+.mbadge{background:var(--gold);color:var(--dark);font-size:10px;font-weight:700;padding:2px 8px;border-radius:2px;letter-spacing:.05em}
+
+.slabel{font-family:'Noto Serif JP',serif;font-size:17px;font-weight:700;color:var(--text);margin:32px 0 14px;padding-bottom:10px;border-bottom:2px solid var(--gold);display:flex;align-items:center;gap:10px}
+.licon{width:28px;height:28px;background:var(--crimson);color:white;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:14px}
+
+.parts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:8px}
+.pcard{border-radius:6px;overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s;text-decoration:none;display:block}
+.pcard:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.pci{padding:20px 16px;position:relative;overflow:hidden}
+.pci::after{content:'→';position:absolute;right:14px;bottom:12px;font-size:16px;opacity:.4;transition:opacity .2s,right .2s}
+.pcard:hover .pci::after{opacity:.8;right:10px}
+.plabel{font-family:'Noto Serif JP',serif;font-size:20px;font-weight:700;color:white;display:block;margin-bottom:3px}
+.psub{font-size:11px;color:rgba(255,255,255,.7);letter-spacing:.1em}
+.cs .pci{background:linear-gradient(135deg,#c0392b,#922b21)}
+.ca .pci{background:linear-gradient(135deg,#8e44ad,#6c3483)}
+.ct .pci{background:linear-gradient(135deg,#2471a3,#1a5276)}
+.cb .pci{background:linear-gradient(135deg,#1e8449,#145a32)}
+
+.cblock{background:white;border-radius:6px;overflow:hidden;margin-bottom:14px;border:1px solid rgba(0,0,0,.07);transition:box-shadow .2s}
+.cblock:hover{box-shadow:0 4px 16px rgba(0,0,0,.09)}
+.cbh{padding:13px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(0,0,0,.06)}
+.cnum{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:white;flex-shrink:0}
+.ctitle{font-weight:700;font-size:14px;flex:1}
+.cbody{padding:16px 18px}
+.eplace{background:#f0ede8;border-radius:4px;height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted);font-size:13px;gap:8px;border:2px dashed rgba(0,0,0,.12)}
+.eplace .icon{font-size:32px;opacity:.5}
+.enote{font-size:11px;color:var(--muted);margin-top:8px;padding:8px 12px;background:#f7f4ef;border-radius:4px;line-height:1.6}
+
+/* YouTube responsive embed */
+.yt-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:6px;background:#000}
+.yt-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+
+.ttabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.ttab{padding:7px 18px;border-radius:20px;border:1px solid rgba(0,0,0,.15);background:white;font-size:13px;cursor:pointer;transition:all .2s;font-family:'Noto Sans JP',sans-serif}
+.ttab.active,.ttab:hover{color:white;border-color:transparent}
+.tv.active,.tv:hover{background:var(--crimson)}
+.ta.active,.ta:hover{background:#2c7be5}
+
+.ph{margin:28px 0 20px;padding:18px 24px;border-radius:6px;color:white;position:relative;overflow:hidden}
+.ph::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(-45deg,transparent,transparent 10px,rgba(255,255,255,.04) 10px,rgba(255,255,255,.04) 11px)}
+.ph h2{font-family:'Noto Serif JP',serif;font-size:20px;font-weight:700;position:relative}
+.ph p{font-size:13px;opacity:.8;margin-top:4px;position:relative}
+.phs{background:linear-gradient(135deg,#c0392b,#7b241c)}
+.pha{background:linear-gradient(135deg,#8e44ad,#5b2c6f)}
+.pht{background:linear-gradient(135deg,#2471a3,#154360)}
+.phb{background:linear-gradient(135deg,#1e8449,#0e6624)}
+
+/* ── SCHEDULE ── */
+.calh{margin:28px 0 20px;padding:20px 24px;border-radius:6px;color:white;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--navy),var(--navy-dark))}
+.calh::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(201,150,58,.2) 0%,transparent 60%)}
+.calh h2{font-family:'Noto Serif JP',serif;font-size:20px;font-weight:700;position:relative}
+.calh p{font-size:13px;opacity:.8;margin-top:4px;position:relative;line-height:1.6}
+
+.cal-embed{background:white;border-radius:8px;border:1px solid rgba(0,0,0,.1);overflow:hidden;margin-bottom:20px}
+.cal-embed iframe{display:block;width:100%;border:none}
+
+.next-bar{background:linear-gradient(135deg,var(--navy),var(--navy-dark));border-radius:8px;padding:18px 20px;margin-bottom:16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.next-bar-icon{font-size:32px;flex-shrink:0}
+.next-bar-info{flex:1}
+.next-bar-lbl{font-size:11px;letter-spacing:.15em;color:rgba(255,255,255,.6);margin-bottom:4px}
+.next-bar-date{font-family:'Noto Serif JP',serif;font-size:18px;font-weight:700;color:#fff}
+.next-bar-sub{font-size:12px;color:rgba(255,255,255,.7);margin-top:3px}
+.next-bar-btn{background:var(--gold);color:var(--dark);border:none;border-radius:4px;padding:10px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;white-space:nowrap}
+
+.sch-list{background:white;border-radius:8px;border:1px solid rgba(0,0,0,.08);overflow:hidden;margin-bottom:16px}
+.sch-list-hd{background:var(--dark);color:var(--gold-light);padding:12px 18px;font-size:13px;font-weight:700;letter-spacing:.05em}
+.sch-item{display:flex;align-items:center;gap:14px;padding:13px 18px;border-bottom:1px solid rgba(0,0,0,.06);transition:background .15s}
+.sch-item:last-child{border-bottom:none}
+.sch-item:hover{background:#faf7f2}
+.sch-item.today{background:#fff8f0}
+.sch-item.past{opacity:.4}
+.sch-date{text-align:center;flex-shrink:0;width:44px}
+.sch-mo{font-size:10px;color:var(--muted);letter-spacing:.05em}
+.sch-d{font-family:'Noto Serif JP',serif;font-size:22px;font-weight:700;color:var(--crimson);line-height:1}
+.sch-dow{font-size:10px;color:var(--muted)}
+.sch-divider{width:1px;height:36px;background:rgba(0,0,0,.1);flex-shrink:0}
+.sch-info{flex:1}
+.sch-title{font-size:13px;font-weight:700;margin-bottom:2px}
+.sch-sub{font-size:11px;color:var(--muted)}
+.badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:2px;white-space:nowrap}
+.badge-sp{background:var(--gold);color:var(--dark)}
+.badge-n{background:#e8f0fe;color:#1a5276}
+.badge-rh{background:#fde8e8;color:var(--crimson)}
+.badge-c{background:var(--crimson);color:white}
+
+/* ── VIDEO SECTION ── */
+.vid-header{margin:28px 0 20px;padding:20px 24px;border-radius:6px;color:white;position:relative;overflow:hidden;background:linear-gradient(135deg,#1a1208,#2d1a0a)}
+.vid-header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(201,150,58,.15) 0%,transparent 60%)}
+.vid-header h2{font-family:'Noto Serif JP',serif;font-size:20px;font-weight:700;position:relative}
+.vid-header p{font-size:13px;opacity:.8;margin-top:4px;position:relative;line-height:1.6}
+
+.vid-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+@media(max-width:560px){.vid-grid{grid-template-columns:1fr}}
+.vid-card{background:white;border-radius:8px;overflow:hidden;border:1px solid rgba(0,0,0,.08)}
+.vid-card-label{padding:12px 16px;font-size:13px;font-weight:700;border-bottom:1px solid rgba(0,0,0,.06);display:flex;align-items:center;gap:8px}
+.vid-card-body{padding:12px 16px 16px}
+
+/* ── FREUDE VOICE ── */
+.frh{margin:28px 0 20px;padding:22px 24px;border-radius:6px;background:linear-gradient(135deg,var(--purple),var(--purple-dark));color:white;position:relative;overflow:hidden}
+.frh::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(201,150,58,.2) 0%,transparent 60%)}
+.frh h2{font-family:'Noto Serif JP',serif;font-size:20px;font-weight:700;position:relative}
+.frh p{font-size:13px;opacity:.8;margin-top:6px;position:relative;line-height:1.6}
+
+.pidx{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:28px}
+.pbtn{background:white;border:1px solid rgba(0,0,0,.1);border-radius:6px;padding:12px 14px;cursor:pointer;text-align:left;transition:all .2s;font-family:'Noto Sans JP',sans-serif}
+.pbtn:hover{border-color:var(--gold);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.pbtn.active{background:var(--dark);color:white;border-color:var(--dark)}
+.pbtn-num{font-size:10px;color:var(--gold);font-weight:700;letter-spacing:.1em;display:block;margin-bottom:3px}
+.pbtn.active .pbtn-num{color:var(--gold-light)}
+.pbtn-title{font-size:13px;font-weight:700;line-height:1.4}
+
+.qpanel{display:none}
+.qpanel.active{display:block;animation:fadeIn .3s ease}
+.qpart-title{font-family:'Noto Serif JP',serif;font-size:18px;font-weight:700;color:var(--crimson);margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid var(--gold)}
+.qcard{background:white;border-radius:8px;border:1px solid rgba(0,0,0,.07);margin-bottom:20px;overflow:hidden}
+.qq{background:var(--dark);color:white;padding:16px 20px;display:flex;gap:12px;align-items:flex-start}
+.qqbadge{background:var(--gold);color:var(--dark);font-size:11px;font-weight:700;padding:3px 10px;border-radius:2px;white-space:nowrap;margin-top:1px}
+.qqtext{font-size:14px;line-height:1.65;font-weight:400}
+.qa{padding:20px}
+.qah{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.qabadge{background:var(--crimson);color:white;font-size:11px;font-weight:700;padding:3px 10px;border-radius:2px;white-space:nowrap}
+.qawho{font-size:13px;font-weight:700;color:var(--crimson)}
+.qatext{font-size:14px;line-height:1.85;color:#333;margin-bottom:10px}
+.qdiv{border:none;border-top:1px dashed rgba(0,0,0,.12);margin:20px 0}
+
+.prog{margin-bottom:20px}
+.prog-lbl{font-size:12px;color:var(--muted);margin-bottom:6px}
+.prog-bar{height:4px;background:rgba(0,0,0,.08);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--crimson),var(--gold));border-radius:2px;transition:width .4s ease}
+
+.qnav{display:flex;gap:10px;margin-top:24px}
+.qnbtn{flex:1;padding:12px 16px;background:white;border:1px solid rgba(0,0,0,.15);border-radius:6px;cursor:pointer;font-family:'Noto Sans JP',sans-serif;font-size:13px;transition:all .2s;display:flex;flex-direction:column;gap:3px}
+.qnbtn:hover:not(:disabled){border-color:var(--gold)}
+.qnbtn .nh{font-size:10px;color:var(--muted)}
+.qnbtn.next{text-align:right}
+.qnbtn:disabled{opacity:.3;cursor:not-allowed}
+
+/* ── SHINNINGENKAKUMEI ── */
+.sngh{margin:28px 0 20px;padding:20px 24px;border-radius:6px;color:white;position:relative;overflow:hidden;background:linear-gradient(135deg,#2d3a1a,#1a2510)}
+.sngh::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(201,150,58,.2) 0%,transparent 60%)}
+.sngh h2{font-family:'Noto Serif JP',serif;font-size:20px;font-weight:700;position:relative}
+.sngh p{font-size:13px;opacity:.8;margin-top:4px;position:relative;line-height:1.6}
+
+.sng-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-bottom:20px}
+.sng-btn{background:white;border:1px solid rgba(0,0,0,.1);border-radius:6px;padding:12px 10px;cursor:pointer;text-align:center;transition:all .2s;font-family:'Noto Sans JP',sans-serif}
+.sng-btn:hover{border-color:#5d8a3c;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.sng-btn.active{background:#2d3a1a;color:white;border-color:#2d3a1a}
+.sng-btn-num{font-size:10px;color:#5d8a3c;font-weight:700;display:block;margin-bottom:3px}
+.sng-btn.active .sng-btn-num{color:var(--gold-light)}
+.sng-btn-range{font-size:12px;font-weight:700;line-height:1.3}
+
+.sng-viewer{background:white;border-radius:8px;border:1px solid rgba(0,0,0,.1);overflow:hidden;display:none}
+.sng-viewer.active{display:block;animation:fadeIn .3s ease}
+.sng-viewer-hd{background:#2d3a1a;color:var(--gold-light);padding:12px 18px;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:space-between}
+.sng-viewer-hd span{font-size:11px;opacity:.7}
+.sng-img-wrap{padding:8px}
+.sng-img-wrap img{width:100%;height:auto;display:block;border-radius:4px}
+.sng-img-note{font-size:11px;color:var(--muted);padding:8px 12px;text-align:center}
+
+.sng-nav{display:flex;gap:10px;margin-top:16px}
+.sng-nbtn{flex:1;padding:10px 14px;background:white;border:1px solid rgba(0,0,0,.15);border-radius:6px;cursor:pointer;font-size:12px;font-family:'Noto Sans JP',sans-serif;transition:all .2s;display:flex;flex-direction:column;gap:2px}
+.sng-nbtn:hover:not(:disabled){border-color:#5d8a3c}
+.sng-nbtn .nh{font-size:10px;color:var(--muted)}
+.sng-nbtn.next{text-align:right}
+.sng-nbtn:disabled{opacity:.3;cursor:not-allowed}
+
+/* ── CAL SETUP ── */
+.cal-setup{background:white;border-radius:8px;border:1px solid rgba(0,0,0,.08);padding:20px;margin-bottom:16px}
+.cal-setup h3{font-size:14px;font-weight:700;color:var(--crimson);margin-bottom:12px}
+.cal-step{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
+.cs-num{width:24px;height:24px;border-radius:50%;background:var(--gold);color:var(--dark);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.cs-text{font-size:13px;line-height:1.7;color:#444}
+.cs-text code{background:#f0ede8;padding:2px 6px;border-radius:3px;font-size:12px;color:var(--crimson-dark);font-family:monospace}
+
+/* ── INFO CARDS ── */
+.icards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:14px}
+.icard{background:white;border-radius:6px;padding:18px;border:1px solid rgba(0,0,0,.07)}
+.icard h3{font-family:'Noto Serif JP',serif;font-size:14px;font-weight:700;margin-bottom:8px;color:var(--crimson)}
+.icard p{font-size:13px;line-height:1.8;color:var(--muted)}
+
+footer{background:var(--dark);color:rgba(255,255,255,.4);text-align:center;padding:26px 16px;font-size:12px;letter-spacing:.05em}
+footer strong{color:var(--gold-light);font-weight:400}
+
+@media(max-width:480px){
+  .parts-grid{grid-template-columns:1fr 1fr}
+  .pidx{grid-template-columns:1fr}
+  .sng-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr))}
+  .cdn{font-size:42px}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="hbg"></div>
+  <div class="hpat"></div>
+  <div class="hinn">
+    <div class="hbadge">SETAGAYA YOUTH ACTION FESTIVAL 2026</div>
+    <h1>Re:Freude<br><span>リ・フロイデ</span></h1>
+    <p class="hsub">世田谷ユースアクションフェス 練習コンテンツ</p>
+    <div class="hdiv"></div>
+  </div>
+</header>
+
+<!-- COUNTDOWN -->
+<div class="cdbar">
+  <div class="cdtitle">🎶 本番まであと</div>
+  <div class="cdblocks">
+    <div class="cdb"><span class="cdn" id="cd-d">---</span><span class="cdl">日</span></div>
+    <div class="cdsep">:</div>
+    <div class="cdb"><span class="cdn" id="cd-h">--</span><span class="cdl">時間</span></div>
+    <div class="cdsep">:</div>
+    <div class="cdb"><span class="cdn" id="cd-m">--</span><span class="cdl">分</span></div>
+    <div class="cdsep">:</div>
+    <div class="cdb"><span class="cdn" id="cd-s">--</span><span class="cdl">秒</span></div>
+  </div>
+  <div class="cdsub"><strong>2026年11月29日（日）</strong> 世田谷ユースアクションフェス本番</div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="active" onclick="showSection('home',this)">ホーム</a>
+    <a onclick="showSection('schedule',this)">📅 練習日程</a>
+    <a onclick="showSection('video',this)">🎬 映像アーカイブ</a>
+    <a onclick="showSection('freude',this)">📖 フロイデVoice</a>
+    <a onclick="showSection('nikk',this)">📚 新・人間革命</a>
+    <a onclick="showSection('soprano',this)">ソプラノ</a>
+    <a onclick="showSection('alto',this)">アルト</a>
+    <a onclick="showSection('tenor',this)">テノール</a>
+    <a onclick="showSection('bass',this)">バス</a>
+    <a onclick="showSection('info',this)">指導・情報</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ── HOME ── -->
+<div class="section active" id="sec-home">
+  <div class="notice">
+    <h2><span class="mbadge">必見</span>本番向け通し音源動画</h2>
+    <p>本番同様のテンポでの通し音源です。通しの練習はこちらをご利用ください。</p>
+  </div>
+  <div class="cblock">
+    <div class="cbh"><div class="cnum" style="background:var(--crimson)">▶</div><span class="ctitle">【合唱（フルコーラス）付き】通し音源</span></div>
+    <div class="cbody"><div class="eplace"><div class="icon">🎵</div><div>YouTube動画をここに埋め込み</div></div><p class="enote">💡 YouTubeのURLを取得後 &lt;iframe&gt; で差し替え</p></div>
+  </div>
+  <div class="cblock">
+    <div class="cbh"><div class="cnum" style="background:var(--muted)">▶</div><span class="ctitle">【合唱なし】通し音源（オーケストラのみ）</span></div>
+    <div class="cbody"><div class="eplace"><div class="icon">🎼</div><div>YouTube動画をここに埋め込み</div></div></div>
+  </div>
+
+  <div class="slabel"><div class="licon">📅</div>次回の練習</div>
+  <div class="next-bar">
+    <div class="next-bar-icon">🎵</div>
+    <div class="next-bar-info">
+      <div class="next-bar-lbl">NEXT PRACTICE</div>
+      <div class="next-bar-date" id="home-next-date">確認中...</div>
+      <div class="next-bar-sub" id="home-next-sub"></div>
+    </div>
+    <button class="next-bar-btn" onclick="showSection('schedule',null)">日程一覧 →</button>
+  </div>
+
+  <div class="slabel"><div class="licon">🎬</div>映像アーカイブ</div>
+  <div class="cblock" style="cursor:pointer" onclick="showSection('video',null)">
+    <div class="cbh"><div class="cnum" style="background:#1a1208">▶</div><span class="ctitle">2011年 世田谷第九合唱祭 / 2025年 九州アジア平和フェスタ</span></div>
+    <div class="cbody" style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+      <p style="font-size:13px;color:var(--muted);line-height:1.7">先輩たちの歓喜の歌声を観て、本番への思いを高めよう！</p>
+      <div style="background:#1a1208;color:var(--gold-light);padding:10px 16px;border-radius:4px;font-size:13px;font-weight:700;white-space:nowrap;flex-shrink:0">観る →</div>
+    </div>
+  </div>
+
+  <div class="slabel"><div class="licon">📖</div>フロイデVoice / 新・人間革命</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:8px">
+    <div class="cblock" style="cursor:pointer;margin-bottom:0" onclick="showSection('freude',null)">
+      <div class="cbh"><div class="cnum" style="background:var(--purple)">✦</div><span class="ctitle" style="font-size:13px">フロイデVoice 全20回</span></div>
+      <div class="cbody"><p style="font-size:12px;color:var(--muted)">不安・疑問をQ&Aで解消</p></div>
+    </div>
+    <div class="cblock" style="cursor:pointer;margin-bottom:0" onclick="showSection('nikk',null)">
+      <div class="cbh"><div class="cnum" style="background:#2d3a1a">📚</div><span class="ctitle" style="font-size:13px">新・人間革命「誓願」</span></div>
+      <div class="cbody"><p style="font-size:12px;color:var(--muted)">全139回 研鑽コンテンツ</p></div>
+    </div>
+  </div>
+
+  <div class="slabel"><div class="licon">🎬</div>練習動画・音声（パート別）</div>
+  <div class="parts-grid">
+    <a class="pcard cs" onclick="showSection('soprano',null)"><div class="pci"><span class="plabel">ソプラノ</span><span class="psub">Soprano</span></div></a>
+    <a class="pcard ca" onclick="showSection('alto',null)"><div class="pci"><span class="plabel">アルト</span><span class="psub">Alto</span></div></a>
+    <a class="pcard ct" onclick="showSection('tenor',null)"><div class="pci"><span class="plabel">テノール</span><span class="psub">Tenor</span></div></a>
+    <a class="pcard cb" onclick="showSection('bass',null)"><div class="pci"><span class="plabel">バス</span><span class="psub">Bass</span></div></a>
+  </div>
+</div>
+
+<!-- ── SCHEDULE ── -->
+<div class="section" id="sec-schedule">
+  <div class="calh">
+    <h2>📅 練習日程・スケジュール</h2>
+    <p>Googleカレンダーと連携して最新の練習日程をご確認いただけます。</p>
+  </div>
+
+  <div class="cblock">
+    <div class="cbh"><div class="cnum" style="background:#1a73e8">📅</div><span class="ctitle">Googleカレンダー（練習日程）</span></div>
+    <div class="cbody">
+      <!-- ★ Googleカレンダー埋め込み: src を差し替えてください -->
+      <!-- <iframe src="https://calendar.google.com/calendar/embed?src=XXX%40group.calendar.google.com&ctz=Asia%2FTokyo&hl=ja&mode=AGENDA" style="border:0" width="100%" height="420" frameborder="0" scrolling="no"></iframe> -->
+      <div class="eplace" style="height:280px">
+        <div class="icon">📅</div>
+        <div style="text-align:center">Googleカレンダーをここに埋め込み<br><span style="font-size:11px;opacity:.7">下の設定手順を参考にURLを取得して差し替えてください</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slabel"><div class="licon">📋</div>練習日程一覧</div>
+  <div class="sch-list">
+    <div class="sch-list-hd">🗓 2026年 Re:Freude 練習スケジュール</div>
+    <div id="sch-items"></div>
+  </div>
+
+  <div class="cal-setup">
+    <h3>⚙️ Googleカレンダー埋め込み 設定方法</h3>
+    <div class="cal-step"><div class="cs-num">1</div><div class="cs-text">Googleカレンダーで「練習日程用」の新しいカレンダーを作成する</div></div>
+    <div class="cal-step"><div class="cs-num">2</div><div class="cs-text">カレンダーの設定 →「アクセス権限」で <code>一般公開</code> にチェック</div></div>
+    <div class="cal-step"><div class="cs-num">3</div><div class="cs-text">「カレンダーを統合」から埋め込みコード（<code>&lt;iframe&gt;</code>）をコピー</div></div>
+    <div class="cal-step"><div class="cs-num">4</div><div class="cs-text">このHTMLのコメントアウト部分を外して src を差し替えるだけ✨</div></div>
+  </div>
+</div>
+
+<!-- ── VIDEO ARCHIVE ── -->
+<div class="section" id="sec-video">
+  <div class="vid-header">
+    <h2>🎬 映像アーカイブ</h2>
+    <p>先輩たちの歓喜の歌声を観て、本番への思いを高めよう！</p>
+  </div>
+
+  <!-- 2011年 世田谷 -->
+  <div class="slabel"><div class="licon" style="background:#8B6914">🏛</div>2011年 世田谷第九合唱祭</div>
+  <div class="cblock">
+    <div class="cbh">
+      <div class="cnum" style="background:#8B6914">▶</div>
+      <span class="ctitle">わたしたちの歓喜の歌 ～世田谷第九合唱祭 2011～</span>
+    </div>
+    <div class="cbody">
+      <!-- ★ 2011年世田谷映像のYouTube IDを入れてください -->
+      <div class="eplace" style="height:240px">
+        <div class="icon">🎬</div>
+        <div style="text-align:center">
+          2011年 世田谷第九合唱祭の映像<br>
+          <span style="font-size:11px;opacity:.7">YouTubeのURLを取得して以下のiframeに差し替えてください</span>
+        </div>
+      </div>
+      <!--
+      <div class="yt-wrap">
+        <iframe src="https://www.youtube.com/embed/【2011年世田谷のYouTube ID】" allowfullscreen></iframe>
+      </div>
+      -->
+      <p class="enote">💡 映像URLが決まったら: &lt;iframe src="https://www.youtube.com/embed/【ID】" allowfullscreen&gt;&lt;/iframe&gt; で差し替え</p>
+    </div>
+  </div>
+  <div class="cblock" style="background:#fffbf0;border-color:rgba(201,150,58,.3)">
+    <div class="cbody">
+      <p style="font-size:13px;line-height:1.8;color:#555">
+        <strong style="color:#8B6914">📜 2011年 世田谷の原点</strong><br>
+        2011年11月27日、池田講堂で400名のフロイデ合唱団が富士交響楽団と共に「歓喜の歌」を大合唱。
+        池田先生からメッセージが届き、「今日の会合は、2030年への出発です」と万感の期待を寄せてくださった。
+        あれから15年——今度は私たちが受け継ぐ番です。
+      </p>
+    </div>
+  </div>
+
+  <!-- 九州 -->
+  <div class="slabel"><div class="licon" style="background:#c0392b">🎶</div>2025年 九州 アジア平和フェスタ</div>
+  <div class="cblock">
+    <div class="cbh">
+      <div class="cnum" style="background:#c0392b">▶</div>
+      <span class="ctitle">アジア平和フェスタ 第九合唱（九州・2025年）</span>
+    </div>
+    <div class="cbody">
+      <div class="yt-wrap">
+        <iframe src="https://www.youtube.com/embed/1ZQaO3Hn8bc" allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+        </iframe>
+      </div>
+      <p class="enote" style="margin-top:10px">🎵 九州の仲間たちが歌い上げた歓喜の歌。この精神を受け継いで世田谷から！</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── FREUDE VOICE ── -->
+<div class="section" id="sec-freude">
+  <div class="frh">
+    <h2>📖 フロイデ Voice ～みんなのギモンに答えます！ 全20回～</h2>
+    <p>九州「Q&amp;Aフロイデ質問ひろば」＋世田谷の歴史・開催大綱をもとに編集。本番への不安を自信に変える全20回。</p>
+  </div>
+  <div class="prog">
+    <div class="prog-lbl">進捗：<span id="prog-lbl">Part 1 / 20</span></div>
+    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:5%"></div></div>
+  </div>
+  <div class="pidx" id="pidx"></div>
+  <div id="qpanels"></div>
+  <div class="qnav">
+    <button class="qnbtn" id="qbtn-prev" onclick="movePart(-1)" disabled><span class="nh">← 前へ</span><span id="prev-lbl">―</span></button>
+    <button class="qnbtn next" id="qbtn-next" onclick="movePart(1)"><span class="nh">次へ →</span><span id="next-lbl">Part 2</span></button>
+  </div>
+</div>
+
+<!-- ── 新・人間革命 ── -->
+<div class="section" id="sec-nikk">
+  <div class="sngh">
+    <h2>📚 新・人間革命「誓願」研鑽コンテンツ</h2>
+    <p>全139回（35ファイル）。各ファイルに4回分（最終巻は3回分）の記事が掲載されています。<br>通勤・通学中にスマホでサクサク読めます。</p>
+  </div>
+
+  <div class="slabel"><div class="licon" style="background:#2d3a1a">📄</div>回を選んでください（全139回・35ファイル）</div>
+  <div class="sng-grid" id="sng-grid"></div>
+
+  <div id="sng-viewer-wrap"></div>
+
+  <div class="sng-nav" id="sng-nav" style="display:none">
+    <button class="sng-nbtn" id="sng-prev" onclick="moveSng(-1)" disabled><span class="nh">← 前へ</span><span id="sng-prev-lbl">―</span></button>
+    <button class="sng-nbtn next" id="sng-next" onclick="moveSng(1)"><span class="nh">次へ →</span><span id="sng-next-lbl">誓願02</span></button>
+  </div>
+</div>
+
+<!-- ── SOPRANO ── -->
+<div class="section" id="sec-soprano">
+  <div class="ph phs"><h2>🎤 ソプラノ（Soprano）</h2><p>動画・音声 練習コンテンツ</p></div>
+  <div class="ttabs"><button class="ttab tv active" onclick="st(this,'video','soprano')">🎬 練習動画</button><button class="ttab ta" onclick="st(this,'audio','soprano')">🎙 練習音声</button></div>
+  <div id="soprano-video">
+    <div class="cblock"><div class="cbh"><div class="cnum" style="background:#c0392b">1</div><span class="ctitle">ソプラノ 練習動画①</span></div><div class="cbody"><div class="eplace"><div class="icon">🎬</div><div>YouTube動画を埋め込み</div></div><p class="enote">💡 &lt;iframe src="https://www.youtube.com/embed/XXXXXX"&gt; で差し替え</p></div></div>
+    <div class="cblock"><div class="cbh"><div class="cnum" style="background:#c0392b">2</div><span class="ctitle">ソプラノ 練習動画②</span></div><div class="cbody"><div class="eplace"><div class="icon">🎬</div><div>YouTube動画を埋め込み</div></div></div></div>
+    <div class="cblock"><div class="cbh"><div class="cnum" style="background:#c0392b">3</div><span class="ctitle">ソプラノ 練習動画③</span></div><div class="cbody"><div class="eplace"><div class="icon">🎬</div><div>YouTube動画を埋め込み</div></div></div></div>
+  </div>
+  <div id="soprano-audio" style="display:none">
+    <div class="cblock"><div class="cbh"><div class="cnum" style="background:#2c7be5">1</div><span class="ctitle">ソプラノ 練習音声①</span></div><div class="cbody"><div class="eplace"><div class="icon">🎵</div><div>音声ファイルを埋め込み</div></div><p class="enote">💡 &lt;audio controls src="URL"&gt;&lt;/audio&gt; で差し替え</p></div></div>
+    <div class="cblock"><div class="cbh"><div class="cnum" style="background:#2c7be5">2</div><span class="ctitle">ソプラノ 練習音声②</span></div><div class="cbody"><div class="eplace"><div class="icon">🎵</div><div>音声ファイルを埋め込み</div></div></div></div>
+  </div>
+</div>
+
+<!-- ── ALTO ── -->
+<div class="section" id="sec-alto">
+  <div class="ph pha"><h2>🎤 アルト（Alto）</h2><p>動画・音声 練習コンテンツ</p></div>
+  <div class="ttabs"><button class="ttab tv active" onclick="st(this,'video','alto')">🎬 練習動画</button><button class="ttab ta" onclick="st(this,'audio','alto')">🎙 練習音声</button></div>
+  <div id="alto-video">
+    <div class="cblock"><div class="cbh"><div class="cnum" style="background:#8e44ad">1</div><span class="ctitle">アルト 練習動画①</span></div><div class="cbody"><div class="eplace"><div class="icon">🎬</div><div>YouTube動画を埋め込み</div></div></div></div>
+    <div class="cblock"><div class="cbh"><div class="cnum" style="background:#8e44ad">2</div><span class="ctitle">アルト 練習動画②</span></div><div class="cbody"><div class="eplace"><div class="icon">🎬</div><div>YouTube動画を埋め込み</div></div></div></div>
+  </div>
+  <div id="alto-audio" style="display:none">
+    <div class="cblock"><div class="cbh"><div class="cnum" style="background:#2c7be5">1</div><span class="ctitle">アルト 練習音声①</span></div><div class="cbody"><div class="eplace"><div class="icon">🎵</div><div>音声ファイルを埋め込み</div></div></div></div>
+  </div>
+</div>
+
+<!-- ── TENOR ── -->
+<div class="section" id="sec-tenor">
+  <div class="ph pht"><h2>🎤 テノール（Tenor）</h2><p>動画・音声 練習コンテンツ</p></div>
+  <div class="ttabs"><button class="ttab tv active" onclick="st(this,'video','tenor')">🎬 練習動画</button><button class="ttab ta" onclick="st(this,'audio','tenor')">🎙 練習音声</button></div>
+  <div id="tenor-video">
+    <div class="cblock"><div class="cbh"><div class="cnum" style="background:#2471a3">1</div><span class="ctitle">テノール 練習動画①</span></div><div class="cbody"><div class="eplace"><div class="icon">🎬</div><div>YouTube動画を埋め込み</div></div></div></div>
+    <div class="cblock"><div class="cbh"><div class="cnum" style="background:#2471a3">2</div><span class="ctitle">テノール 練習動画②</span></div><div class="cbody"><div class="eplace"><div class="icon">🎬</div><div>YouTube動画を埋め込み</div></div></div></div>
+  </div>
+  <div id="tenor-audio" style="display:none">
+    <div class="cblock"><div class="cbh"><div class="cnum" style="background:#2c7be5">1</div><span class="ctitle">テノール 練習音声①</span></div><div class="cbody"><div class="eplace"><div class="icon">🎵</div><div>音声ファイルを埋め込み</div></div></div></div>
+  </div>
+</div>
+
+<!-- ── BASS ── -->
+<div class="section" id="sec-bass">
+  <div class="ph phb"><h2>🎤 バス（Bass）</h2><p>動画・音声 練習コンテンツ</p></div>
+  <div class="ttabs"><button class="ttab tv active" onclick="st(this,'video','bass')">🎬 練習動画</button><button class="ttab ta" onclick="st(this,'audio','bass')">🎙 練習音声</button></div>
+  <div id="bass-video">
+    <div class="cblock"><div class="cbh"><div class="cnum" style="background:#1e8449">1</div><span class="ctitle">バス 練習動画①</span></div><div class="cbody"><div class="eplace"><div class="icon">🎬</div><div>YouTube動画を埋め込み</div></div></div></div>
+    <div class="cblock"><div class="cbh"><div class="cnum" style="background:#1e8449">2</div><span class="ctitle">バス 練習動画②</span></div><div class="cbody"><div class="eplace"><div class="icon">🎬</div><div>YouTube動画を埋め込み</div></div></div></div>
+  </div>
+  <div id="bass-audio" style="display:none">
+    <div class="cblock"><div class="cbh"><div class="cnum" style="background:#2c7be5">1</div><span class="ctitle">バス 練習音声①</span></div><div class="cbody"><div class="eplace"><div class="icon">🎵</div><div>音声ファイルを埋め込み</div></div></div></div>
+  </div>
+</div>
+
+<!-- ── INFO ── -->
+<div class="section" id="sec-info">
+  <div class="ph" style="background:linear-gradient(135deg,#5d4037,#3e2723)"><h2>📋 指導・情報</h2><p>合唱指導・技術指導動画・発声練習・本番情報など</p></div>
+  <div class="slabel"><div class="licon">📖</div>合唱指導のススメ</div>
+  <div class="cblock"><div class="cbh"><div class="cnum" style="background:#5d4037">1</div><span class="ctitle">合唱指導のススメ①</span></div><div class="cbody"><div class="eplace"><div class="icon">📄</div><div>コンテンツを埋め込み</div></div></div></div>
+  <div class="slabel"><div class="licon">🎬</div>技術指導動画</div>
+  <div class="cblock"><div class="cbh"><div class="cnum" style="background:#5d4037">1</div><span class="ctitle">技術指導動画①</span></div><div class="cbody"><div class="eplace"><div class="icon">🎬</div><div>YouTube動画を埋め込み</div></div></div></div>
+  <div class="slabel"><div class="licon">🎙</div>発声練習動画</div>
+  <div class="cblock"><div class="cbh"><div class="cnum" style="background:#5d4037">1</div><span class="ctitle">発声練習動画①</span></div><div class="cbody"><div class="eplace"><div class="icon">🎬</div><div>YouTube動画を埋め込み</div></div></div></div>
+  <div class="icards">
+    <div class="icard"><h3>📅 本番情報</h3><p>本番日：2026年11月29日（日）<br>午後・夜の2回公演予定<br>リハーサル：11月28日（土）</p></div>
+    <div class="icard"><h3>📝 スケジュール</h3><p>6月21日（日）17:00〜 結団式<br>東京池田記念講堂 2F講堂<br>8月30日〜 毎週日曜 練習</p></div>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <strong>Re:Freude ～わたしたちの新しい歓喜の歌～</strong><br>
+  世田谷ユースアクションフェス 2026.11.29<br>
+  <span style="font-size:10px;margin-top:4px;display:block">世田谷ユースアクションフェス実行委員会</span>
+</footer>
+
+<script>
+// ── COUNTDOWN ──
+const TARGET=new Date('2026-11-29T10:00:00+09:00');
+function updateCD(){
+  const diff=TARGET-new Date();
+  if(diff<=0){document.querySelector('.cdbar').innerHTML='<div style="color:var(--gold-light);font-family:Noto Serif JP,serif;font-size:22px;font-weight:700;text-align:center;position:relative;padding:20px">🎉 本番当日！フロイデー！！！</div>';return;}
+  const d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
+  document.getElementById('cd-d').textContent=d;
+  document.getElementById('cd-h').textContent=String(h).padStart(2,'0');
+  document.getElementById('cd-m').textContent=String(m).padStart(2,'0');
+  document.getElementById('cd-s').textContent=String(s).padStart(2,'0');
+}
+updateCD();setInterval(updateCD,1000);
+
+// ── SCHEDULE ──
+// ★ 練習日を追加・変更する場合はここを編集してください
+const SCH=[
+  {date:'2026-06-21',title:'結団式',detail:'17:00〜 東京池田記念講堂 2F講堂',badge:'badge-sp',btext:'結団式'},
+  {date:'2026-08-30',title:'第1回 合同練習',detail:'場所・時間は別途連絡',badge:'badge-n',btext:'練習'},
+  {date:'2026-09-06',title:'第2回 合同練習',detail:'場所・時間は別途連絡',badge:'badge-n',btext:'練習'},
+  {date:'2026-09-13',title:'第3回 合同練習',detail:'場所・時間は別途連絡',badge:'badge-n',btext:'練習'},
+  {date:'2026-09-20',title:'第4回 合同練習',detail:'場所・時間は別途連絡',badge:'badge-n',btext:'練習'},
+  {date:'2026-09-27',title:'第5回 合同練習',detail:'場所・時間は別途連絡',badge:'badge-n',btext:'練習'},
+  {date:'2026-10-04',title:'第6回 合同練習',detail:'場所・時間は別途連絡',badge:'badge-n',btext:'練習'},
+  {date:'2026-10-11',title:'第7回 合同練習',detail:'場所・時間は別途連絡',badge:'badge-n',btext:'練習'},
+  {date:'2026-10-18',title:'第8回 合同練習',detail:'場所・時間は別途連絡',badge:'badge-n',btext:'練習'},
+  {date:'2026-10-25',title:'第9回 合同練習',detail:'場所・時間は別途連絡',badge:'badge-n',btext:'練習'},
+  {date:'2026-11-01',title:'第10回 合同練習',detail:'場所・時間は別途連絡',badge:'badge-n',btext:'練習'},
+  {date:'2026-11-08',title:'第11回 合同練習',detail:'場所・時間は別途連絡',badge:'badge-n',btext:'練習'},
+  {date:'2026-11-15',title:'第12回 通し練習',detail:'全パート合同 通し稽古',badge:'badge-n',btext:'練習'},
+  {date:'2026-11-22',title:'第13回 最終練習',detail:'全パート合同 最終確認',badge:'badge-n',btext:'練習'},
+  {date:'2026-11-28',title:'リハーサル',detail:'本番会場にて',badge:'badge-rh',btext:'リハーサル'},
+  {date:'2026-11-29',title:'🎶 本番！Re:Freude',detail:'午後・夜の2回公演',badge:'badge-c',btext:'本番！'},
+];
+const DOW=['日','月','火','水','木','金','土'];
+const MON=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+function buildSch(){
+  const c=document.getElementById('sch-items');
+  const today=new Date();today.setHours(0,0,0,0);
+  let nf=false;
+  SCH.forEach(ev=>{
+    const d=new Date(ev.date+'T00:00:00+09:00');
+    const past=d<today,isToday=d.getTime()===today.getTime();
+    const el=document.createElement('div');
+    el.className='sch-item'+(past?' past':'')+(isToday?' today':'');
+    el.innerHTML=`<div class="sch-date"><div class="sch-mo">${MON[d.getMonth()]}</div><div class="sch-d">${d.getDate()}</div><div class="sch-dow">${DOW[d.getDay()]}曜</div></div><div class="sch-divider"></div><div class="sch-info"><div class="sch-title">${ev.title}</div><div class="sch-sub">${ev.detail}</div></div><span class="badge ${ev.badge}">${ev.btext}</span>`;
+    c.appendChild(el);
+    if(!past&&!nf){nf=true;document.getElementById('home-next-date').textContent=`${d.getMonth()+1}月${d.getDate()}日（${DOW[d.getDay()]}）${ev.title}`;document.getElementById('home-next-sub').textContent=ev.detail;}
+  });
+  if(!nf){document.getElementById('home-next-date').textContent='2026年11月29日（日）本番！';document.getElementById('home-next-sub').textContent='フロイデー！！！';}
+}
+buildSch();
+
+// ── NAV ──
+function showSection(name,link){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
+  document.getElementById('sec-'+name).classList.add('active');
+  const labels={home:'ホーム',schedule:'📅 練習日程',video:'🎬 映像アーカイブ',freude:'📖 フロイデVoice',nikk:'📚 新・人間革命',soprano:'ソプラノ',alto:'アルト',tenor:'テノール',bass:'バス',info:'指導・情報'};
+  if(link){link.classList.add('active');}
+  else{document.querySelectorAll('nav a').forEach(a=>{if(a.textContent.trim()===labels[name])a.classList.add('active');});}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function st(btn,type,part){
+  btn.closest('.ttabs').querySelectorAll('.ttab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(part+'-video').style.display=type==='video'?'block':'none';
+  document.getElementById(part+'-audio').style.display=type==='audio'?'block':'none';
+}
+
+// ── FREUDE VOICE DATA ──
+const FPARTS=[
+  {title:'そもそも、なぜ今「第九」なの？',qas:[
+    {q:'合唱と信心は関係あるんですか？',who:'近田青年部長',a:'一見つながりがなさそうですが、実は大ありなんです！ 私たちの合唱は、悩みや願いを祈りながら仲間と挑戦していく信心の実践です。合唱の中で団結が生まれ、信心も深まり、歓喜と成長につながっていきます！\n\nベートーベンは、難聴という大きな苦しみを抱えながらも「第九」をつくり上げました。その姿は「どんな苦しみも希望に変えていける」という仏法の精神そのもの。人間革命の最高の舞台なんです。'},
+    {q:'世田谷と「第九」って、何か特別な関係があるんですか？',who:'久里池田華陽会委員長',a:'大アリです！ 2011年11月27日、池田講堂で400名のフロイデ合唱団が富士交響楽団と共に「歓喜の歌」を大合唱しました。その時、池田先生は世田谷を「心の故郷」と呼んでくださったんです。\n\nあれから15年。今度は私たちが「Re:Freude（リ・フロイデ）～わたしたちの新しい歓喜の歌～」として、2030年へ向けた新たな出発を切るんです。先輩たちの思いを胸に、自分たちの歓喜のドラマを起こしましょう！'},
+    {q:'「自分の壁を破る歓喜のドラマを起こす」とはどういうことですか？',who:'比留間男子部長',a:'第九に込められた、苦悩を乗り越えて喜びをつかむという精神は、私たちが現実の課題に立ち向かう姿そのものです。仕事のこと、人間関係のこと、将来への不安......誰もが何かしらの「壁」を抱えていますよね。\n\n池田先生は「生きよう。自分にもまだできることがある。それだけを考えて生きよう」と語られています。一人ひとりが困難に負けず、自分を変えていく歓喜の連鎖をここ世田谷から巻き起こす。それが今回のフェスの心なんです。'}
+  ]},
+  {title:'活動の意義をもっと深く！',qas:[
+    {q:'今回の祭典は「必ず一生涯の思い出になる！」って言われたけど何でですか？',who:'松浦学生部長',a:'心と心を結び合うことの喜びを謳い上げた「第九」を合唱することは、必ず平和の道を開く力になる。その偉業に自分も声で連なることができる。これって、スゴいことじゃないですか。\n\n600名の仲間と歌い上げるあの瞬間は、忘れられない一日になること間違いなし！'},
+    {q:'見栄えを重視したイベントとは違うんですか？ 何が狙いなんですか？',who:'白石書記長',a:'今回のフェスは、単なるイベントではなく、人材育成と共感拡大の場、そして社会へ開かれた平和の連帯の場と位置づけています。\n\n狙いは4つ。「公共性の創出」「弘教拡大」「人材躍進」「広布後継」です。本番の完成度よりも、同世代の横のつながりを感じられるプロセスを重視する。青年世代がホッと息をつける温かい居場所を、共に創り上げていきましょう！'}
+  ]},
+  {title:'世田谷の歴史と師弟の原点',qas:[
+    {q:'池田先生と「第九」の歴史って、どんなものがあるんですか？',who:'比留間男子部長',a:'1990年11月、池田先生は「第九の合唱を行ってはどうだろうか」と提案されました。ところが宗門はそれに「外道礼賛だ」と難癖をつけた。この文化否定が第2次宗門事件の発端になったんです。\n\n世田谷は2011年に400名で第九を合唱。先生は「今日の会合は、2030年への出発です」と万感の期待を寄せてくださった。あの原点を今、私たちが受け継ぐんです。'},
+    {q:'「魂の独立記念日」って何ですか？ 第九とどう関係するんですか？',who:'白石書記長',a:'1991年11月28日、宗門が学会に破門通告を送りつけた日です。でも学会はそこから世界宗教へと大飛翔した。だからこの日は「魂の独立記念日」と呼ばれています。\n\n第2次宗門事件は「第九をドイツ語で歌うのは外道礼賛」という言いがかりから始まった。だから世田谷が第九を歌うことには、師匠への後継の誓いが込められているんです。'}
+  ]},
+  {title:'練習の雰囲気ってどんな感じ？',qas:[
+    {q:'周りの人のテンションが高過ぎて、ちょっと......。',who:'近田青年部長',a:'ちょ～分かります、その気持ち！ 僕も初めて学生部の会合に参加した時、ついていけずに引いちゃいましたもん（笑）。でも、先輩と一緒に活動していくうちに、いつの間にか盛り上げる側になってました（笑）。\n\n焦らなくて大丈夫！ 不安も緊張も全て、真剣に臨んでいる証し！「フロイデ！」と大きく声を出してみましょう。'},
+    {q:'練習って歌うだけ？ 知らない人ばかりだと緊張するんですが......。',who:'久里池田華陽会委員長',a:'実は練習は歌だけじゃないんです！ 開催大綱にも「練習の前半は、互いの近況や推し活、仕事の悩みを共有する話す時間を取る」とあります。最初は信心に直結しなくても全然OK。\n\nお気に入りのカフェや推しの話題で盛り上がるのもアリ。心の距離がぐっと縮まって、悩みや相談ごとまで話せるようになったりして最高の友情になること間違いなし！'}
+  ]},
+  {title:'青年世代の居場所をつくる',qas:[
+    {q:'正直、学会の集まりってちょっと堅いイメージがあるんですが......。',who:'松浦学生部長',a:'分かります、そのイメージ。だからこそ今回のフェスでは「青年世代がホッとできる居場所をつくる」ことを大切にしています。同世代の横のつながりを感じられる過程を重視しているんです。\n\n練習でも近況を語り合う時間を設けたり、推しの話で盛り上がったり。「ここに来ると元気になれる」「仲間がいるから頑張れる」。そんな場所を一緒に作りましょう！'}
+  ]},
+  {title:'歌への不安を吹き飛ばそう！',qas:[
+    {q:'わたし、音痴なんです。周りに迷惑をかけるんじゃないかと不安で......',who:'比留間男子部長',a:'その気持ち、めっちゃ分かります！ 実は私も歌うのが苦手で......。特にドイツ語だし、最初は全然、上手く歌えませんでした。\n\n練習中は思いっきり歌ってみて、失敗しても全然大丈夫！ 周りの人の歌声に耳を傾け、みんなと心を合わせようと努めること。皆と一緒に歌える楽しさを感じながら努力するうちに、声がピタッと重なるようになりました。'},
+    {q:'ドイツ語ってマジで意味不明なんですけど、大丈夫ですか？',who:'近田青年部長',a:'安心してください！ 今回は本番でも楽譜を見ながら歌えますので、歌詞を丸暗記する必要はありません。\n\nコツは通勤中や家事をしながら音源を繰り返し聴くこと。メロディーと一緒に言葉が自然と出てきます。600人で歌うんだから、多少つまずいても大丈夫！ 大事なのは心を込めて歌うことです。'}
+  ]},
+  {title:'友人を誘いたい！ 声かけのヒント',qas:[
+    {q:'あんまり乗り気じゃない子と参加したいけど......声をかけるのが緊張します。',who:'中島ユース委員長',a:'分かる分かる！ 集まりに声をかけるのって勇気が要るよね。相手が強制的に感じるんじゃないかって不安になったりして......。\n\nでも、まずは自分の思いを素直に伝えればいいんじゃないかな。気負わずに自分らしく！ 一緒に頑張ろう！'},
+    {q:'未入会の友人を誘ってもいいんですか？',who:'久里池田華陽会委員長',a:'ぜひ誘ってください！ 未入会の友人は客席に招待して、一緒に感動を分かち合うことができます。\n\n皆さんが歓喜いっぱいに歌う姿を友人に見てもらう。それ自体が最高の対話のきっかけになるんです！ 参加型ブースもありますので、友人と一緒に平和について語り合う場にもなりますよ。'}
+  ]},
+  {title:'ベートーベンの精神に学ぶ',qas:[
+    {q:'ベートーベンってどんな人だったんですか？',who:'中島ユース委員長',a:'ベートーベンの人生は苦悩の連続でした。恵まれない家庭に育ち、17歳で母を亡くし、26歳頃から難聴に悩まされ、やがて耳が聴こえなくなった。命を断つことさえ考えた。\n\nでもベートーベンは負けなかった！「私の運命がどんなに苦しく恐ろしいものであっても、信仰によって耐え抜く力が与えられる」と。その「困難と戦う生命」からほとばしる楽曲は、時代を超えて人を勇気づけ続けています。'},
+    {q:'池田先生はベートーベンについてどう語られていますか？',who:'松浦学生部長',a:'先生は「苦悩を突き抜けよ！と金の汗を流し、自己の課題に立ち向かった、幾つものドラマがあるだろう。努力と持続と勝利！ この生命の歓びの勝鬨こそ、われらの第九の伝統である」と語られています。\n\nまた「生きよう。自分にもまだできることがある。それだけを考えて生きよう」とも。第九を歌うことは、この先生の精神を我が胸に刻むことでもあるんです。'}
+  ]},
+  {title:'3つの実践項目について',qas:[
+    {q:'「3つの実践項目」って何ですか？',who:'白石書記長',a:'今回のフェスは人間革命の飛躍台。だからこそ3つのことに挑戦しましょう。\n\n①「朝晩の勤行・唱題を実践する」——勝利の根本は強き祈りです。②「新・人間革命の研鑽に励む」——第九や平和に関する章を中心に。③「1日1回の自主トレに励む」——スマホ音源等でスキマ時間に実践です。\n\nこの3つを通して、合唱だけでなく、信心も生活も全部勝つ自分になっていくんです！'}
+  ]},
+  {title:'2030年への誓い',qas:[
+    {q:'「2030年に向けた師匠との約束」って何ですか？',who:'近田青年部長',a:'15年前の2011年、池田先生は「今日の会合は、2030年への出発です」と万感の期待を寄せてくださいました。「皆さんは、これからの人生の目標を立ててください。その目標に向かって、自らの羽を広げ、どこまでも飛び抜いていかれるか。楽しみにも、私たちは見つめていきます」と。\n\nいよいよその2030年まであと4年。先生との約束を果たすのは、今この時を生きる私たちです。「壁を破った」と胸を張れる実証をつかみ取り、先生に勝利のご報告をしていきましょう！'}
+  ]},
+  {title:'練習に行けない！ という不安',qas:[
+    {q:'練習に一回も参加できてません。さすがにヤバくないですか？',who:'比留間男子部長',a:'全くヤバくない！ ぜ～んぜん間に合います。もっと大切なのは「皆と心を合わせて挑戦しよう」「自分の殻を破ろう」と以前の自分より一歩でも変わっていくことだと思います！\n\n本番では楽譜を見ながら歌えます。スマホで音源を聴きながら、スキマ時間に口ずさんでみてください。'},
+    {q:'仕事が忙しくて練習日に行けそうにないんですが......。',who:'白石書記長',a:'大丈夫です！ 地域分散型やハイブリッド型（オンライン併用）を取り入れて、誰もが無理なく集える柔軟な体制を整えていきます。\n\n欠席者のフォロー（動画共有など）も行います。大事なのは「参加しよう」という一念。その心が大切なんです。'}
+  ]},
+  {title:'平和への思いを形に',qas:[
+    {q:'フェスの「参加型ブース」って何をするんですか？',who:'久里池田華陽会委員長',a:'平和をテーマにした参加型ブースも企画しています。例えば「世田谷平和地域学」として区内各地域の戦跡調査や戦争体験の聞き取りの展示。平和学習に取り組む学生団体等とのコラボレーション企画も検討中です。\n\n地域社会に開かれた平和の連帯の場にしたい。未入会の友人を客席やブースに招待して、共感と対話の輪を広げていくんです。'}
+  ]},
+  {title:'対話に挑戦しよう',qas:[
+    {q:'「弘教拡大」も狙いに入ってますが、折伏しないとダメですか？',who:'中島ユース委員長',a:'折伏に「しないとダメ」ということはないですよ。でも、第九の練習を通して自分が変わった、元気になった、友達ができたということを、素直に周りの人に語ってみてほしい。それ自体が最高の対話なんです。\n\n池田先生は「人と会う勇気、語る勇気をもつことだ。対話の選択そのものが平和の勝利であり、人間性の勝利である」と語られています。'}
+  ]},
+  {title:'先輩たちの挑戦に学ぶ',qas:[
+    {q:'これまでの第九の取り組みでは、どんなドラマが生まれたんですか？',who:'白石書記長',a:'2011年の世田谷第九合唱祭では、練習を重ねるごとにどんどん明るく前向きになる友の姿がありました。タテ・ヨコ・ナナメ、多様な世代間の励ましの絆が生まれたんです。\n\n2025年の九州の祭典でも、ある池田華陽会のメンバーは、兄がダンスに出演予定だったのに練習中に脳腫瘍が見つかった。当日は「兄の分まで！」と声高らかに歌唱。2日後、兄も手術を無事乗り越えた。挑戦を通して「負けない心」を築いた一人一人が英雄なんです。'},
+    {q:'2011年の世田谷の先輩たちはどんな思いで取り組んでいたんですか？',who:'白石書記長',a:'「様々な困難、圧迫に晒されている時代の閉塞を、青年の歓喜の歌声で打ち破りたい」「何があってもがんばって生きていく、その爆発的な生命力をメッセージしていきたい」と。\n\n先輩たちはこの言葉を胸に練習に打ち込み、本番では大歓喜で歌い上げたんです。私たちもその精神を引き継いでいきましょう！'}
+  ]},
+  {title:'スケジュールを確認！',qas:[
+    {q:'本番までのスケジュールを教えてください！',who:'中島ユース委員長',a:'6月21日（日）17:00〜 結団式（東京池田記念講堂 2F講堂）でいよいよ本格スタート！ 8月30日（日）から毎週日曜を軸に練習を行います。\n\n練習は11月まで続き、11月28日（土）がリハーサル、そして11月29日（日）が本番です！ 午後と夜の2回公演を予定しています。\n\n欠席者フォロー（動画共有など）やオンラインも併用しながら、柔軟な練習体制を整えていきます。まずは結団式に集まりましょう！'}
+  ]},
+  {title:'家族や先輩への感謝',qas:[
+    {q:'親や壮年・女性部の先輩はどう関わるんですか？',who:'中島ユース委員長',a:'今回のフェスは「世代を超えた絆を築き、100周年への誓いを立てる」ことも大きな狙い。出演は青年世代が基本ですが、壮年・女性部の先輩方の支えは不可欠です。\n\n先輩方は「皆さんの成長した姿を見るのが一番うれしい」と言ってくださいます。皆さんが壁を破る歓喜の姿を見せること。それが最高の親孝行であり、恩返しです！'}
+  ]},
+  {title:'本番前の心構え',qas:[
+    {q:'練習をしてきましたが、もうすぐ終わってしまいます。なんか寂しいかも。',who:'松浦学生部長',a:'その気持ち、分かる～。あっという間に本番ですからね。\n\nドイツ語に悪戦苦闘したこと、隣にいたメンバーと仲良くなったこと、皆で励まし合った日々は、すごい財産になったんじゃないかな。\n\nいよいよ本番。精いっぱい練習して、思いっきり歌って、自分自身の新たな出発にしましょう！ フロイデ！！'}
+  ]},
+  {title:'本番直前！ 緊張をパワーに',qas:[
+    {q:'本番まであと少し。すっごく緊張してきました......。',who:'近田青年部長',a:'ついに来ましたね！ 「うまく歌おう」と気負わなくていい。これまでお世話になった人、歌を聞いて元気になってもらいたい人——その人のために精いっぱいやり遂げたらどうでしょう。きっと最高の舞台になるはず。\n\n楽譜を見ながら歌えますから、歌詞が飛ぶ心配もありません。大丈夫！ しっかり祈って、よく寝て、よく食べて、大きく深呼吸。エネルギー100%でいきましょう！ フロイデー！'}
+  ]},
+  {title:'本番当日の心得',qas:[
+    {q:'本番当日、気をつけることはありますか？',who:'比留間男子部長',a:'まず体調管理！ 前日は十分に睡眠を取り、食事もしっかりと。\n\n2011年の先輩たちからの申し送りでは「清潔感あふれる身だしなみで参加してください」「荷物は最小限に」「公共交通機関を使って来てください」とのこと。1回目と2回目の間に軽く食事を取る時間がありますので、おにぎりなど手軽に食べられるものを持参すると良いですよ。\n\nそして何より大事なのは、最高の歓喜の心で臨むこと。600名の仲間と共に、歓喜の歌を歌い上げましょう！'}
+  ]},
+  {title:'ここから始まる新しい物語',qas:[
+    {q:'フェスが終わった後は、どうなるんですか？',who:'近田青年部長',a:'フェスは終着ではなく出発です！\n\n池田先生は「若い時の苦労は一生涯の宝となる。だからこそ、真剣勝負で目の前の課題に、一つ一つ挑んでいただきたい」と語られています。\n\n11月29日に刻んだ歓喜の原点を胸に、一人一人が「壁を破った」と言える実証を示していきましょう。2011年の先輩たちが15年間走り抜いてきたように、今度は私たちが創立100周年の2030年へ走り抜く番です。フロイデー！！！'}
+  ]}
+];
+
+let curPart=0;
+function buildFreude(){
+  const idx=document.getElementById('pidx'),panels=document.getElementById('qpanels');
+  idx.innerHTML='';panels.innerHTML='';
+  FPARTS.forEach((p,i)=>{
+    const btn=document.createElement('button');
+    btn.className='pbtn'+(i===0?' active':'');
+    btn.innerHTML='<span class="pbtn-num">Part '+(i+1)+'</span><span class="pbtn-title">'+p.title+'</span>';
+    btn.onclick=()=>goPart(i);idx.appendChild(btn);
+    const panel=document.createElement('div');
+    panel.className='qpanel'+(i===0?' active':'');panel.id='qp-'+i;
+    let html='<div class="qpart-title">Part '+(i+1)+'　'+p.title+'</div>';
+    p.qas.forEach((qa,qi)=>{
+      if(qi>0)html+='<hr class="qdiv">';
+      const lines=qa.a.split('\n\n').map(l=>'<p class="qatext">'+l.replace(/\n/g,'<br>')+'</p>').join('');
+      html+='<div class="qcard"><div class="qq"><span class="qqbadge">Q</span><span class="qqtext">'+qa.q+'</span></div><div class="qa"><div class="qah"><span class="qabadge">A</span><span class="qawho">'+qa.who+' が答えます！</span></div>'+lines+'</div></div>';
+    });
+    panel.innerHTML=html;panels.appendChild(panel);
+  });
+  updateQNav();
+}
+function goPart(i){
+  document.querySelectorAll('.qpanel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.pbtn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('qp-'+i).classList.add('active');
+  document.querySelectorAll('.pbtn')[i].classList.add('active');
+  curPart=i;updateQNav();
+  document.getElementById('sec-freude').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function movePart(d){const n=curPart+d;if(n>=0&&n<FPARTS.length)goPart(n);}
+function updateQNav(){
+  document.getElementById('qbtn-prev').disabled=curPart===0;
+  document.getElementById('qbtn-next').disabled=curPart===FPARTS.length-1;
+  document.getElementById('prev-lbl').textContent=curPart>0?'Part '+curPart:'―';
+  document.getElementById('next-lbl').textContent=curPart<FPARTS.length-1?'Part '+(curPart+2):'―';
+  document.getElementById('prog-fill').style.width=Math.round(((curPart+1)/FPARTS.length)*100)+'%';
+  document.getElementById('prog-lbl').textContent='Part '+(curPart+1)+' / '+FPARTS.length;
+}
+buildFreude();
+
+// ── 新・人間革命 ──
+// ★ PDFファイルをGoogleドライブ等に公開してURLを取得し、
+//   pdfFiles[i].url に設定してください
+// ★ GoogleドライブのファイルIDが分かれば
+//   url: 'https://drive.google.com/file/d/【ファイルID】/preview' で埋め込み可能です
+const SNG=[
+  {num:'01',range:'第1〜4回',url:'https://drive.google.com/file/d/11F-BHLuFgoAhWU2xPdri31WDs0T3BSzr/preview'},
+  {num:'02',range:'第5〜8回',url:'https://drive.google.com/file/d/1YhT60Xab5t6lfz5Zc43h18h7gS_iEhre/preview'},
+  {num:'03',range:'第9〜12回',url:'https://drive.google.com/file/d/1f7vxuRX3NFjrLVxa3urf5JVi95dbhiY1/preview'},
+  {num:'04',range:'第13〜16回',url:'https://drive.google.com/file/d/13EfcaNiZPe6-pRvCsEgbxcIiVftTKatg/preview'},
+  {num:'05',range:'第17〜20回',url:'https://drive.google.com/file/d/1O1cZa-mVTtnS-h9Sbn5O9WmpFYfvMR6R/preview'},
+  {num:'06',range:'第21〜24回',url:'https://drive.google.com/file/d/1q0QLoahF1wQl-QtPzWvxTAlifPBmvpGF/preview'},
+  {num:'07',range:'第25〜28回',url:'https://drive.google.com/file/d/1P_NujuVnVcQ-ryDaO-XNcaJBZafkeSxK/preview'},
+  {num:'08',range:'第29〜32回',url:'https://drive.google.com/file/d/1gekTF75ViT06JnAsTXwcHp1K4eHgliSu/preview'},
+  {num:'09',range:'第33〜36回',url:'https://drive.google.com/file/d/13fzXbKESUf2_gqg7gmhP10LpgfzXD9mx/preview'},
+  {num:'10',range:'第37〜40回',url:'https://drive.google.com/file/d/1YDytfoPslu0T8Keke6rNzKhXPgLHQ8QA/preview'},
+  {num:'11',range:'第41〜44回',url:'https://drive.google.com/file/d/1MMNXVsPA-i_OHl3532uhk7Yyd60x867Y/preview'},
+  {num:'12',range:'第45〜48回',url:'https://drive.google.com/file/d/1AnBt0p7iIpa47Stv9xaT7z2ikzbdbdX6/preview'},
+  {num:'13',range:'第49〜52回',url:'https://drive.google.com/file/d/1ymm13oNwOAvzszfg5wU9TNrrvOp2Jce5/preview'},
+  {num:'14',range:'第53〜56回',url:'https://drive.google.com/file/d/15rqQAe_fNqOHpoOxAmb_EFSxF9VS_HAj/preview'},
+  {num:'15',range:'第57〜60回',url:'https://drive.google.com/file/d/11IsPAE5kaMvahrz-5j7bF6YxjPlaStnk/preview'},
+  {num:'16',range:'第61〜64回',url:'https://drive.google.com/file/d/1bD7tIz-B-iurie1XQxR1zcHBjwV_qpy7/preview'},
+  {num:'17',range:'第65〜68回',url:'https://drive.google.com/file/d/1eAsbW6A-3exqPguZ_Pq2RhWOxvhuO-kJ/preview'},
+  {num:'18',range:'第69〜72回',url:'https://drive.google.com/file/d/1yuv4qMySYbxWO2RwgWUETt_uHz3NCTQj/preview'},
+  {num:'19',range:'第73〜76回',url:'https://drive.google.com/file/d/1l18ILzOR8WW4POUpDE1q8uKy0mAGicec/preview'},
+  {num:'20',range:'第77〜80回',url:'https://drive.google.com/file/d/1CbamjuN3tKbENi_qLJSUvypAuAryNhZt/preview'},
+  {num:'21',range:'第81〜84回',url:'https://drive.google.com/file/d/1tHZWaoVo0iew0XX970OH2hTtucXBz8fR/preview'},
+  {num:'22',range:'第85〜88回',url:'https://drive.google.com/file/d/17UBd-BnYnysuVM1pg22MkD3jl0Q5Y1iS/preview'},
+  {num:'23',range:'第89〜92回',url:'https://drive.google.com/file/d/1LO_8h3anLnVsgtmPs1PAXMlRBKAc-yPv/preview'},
+  {num:'24',range:'第93〜96回',url:'https://drive.google.com/file/d/1smKYzWcnOf8RvezT_kHSfFPTjZJOJcc3/preview'},
+  {num:'25',range:'第97〜100回',url:'https://drive.google.com/file/d/1RuEelFaSUDtsH-JbyTl-o2DLekSWdrhT/preview'},
+  {num:'26',range:'第101〜104回',url:'https://drive.google.com/file/d/1TwahEA1dWun1tofZs385vjpmIXcMnat8/preview'},
+  {num:'27',range:'第105〜108回',url:'https://drive.google.com/file/d/1gt_eQo7wmvaxBreJ_J1sKyvJDMhmKljq/preview'},
+  {num:'28',range:'第109〜112回',url:'https://drive.google.com/file/d/1RtCt3LTuAmmZB_N3pJt--tvP3-3unXZb/preview'},
+  {num:'29',range:'第113〜116回',url:'https://drive.google.com/file/d/1sD82h3tj_gYyjUSRic7eaPfNCzHhtfcn/preview'},
+  {num:'30',range:'第117〜120回',url:'https://drive.google.com/file/d/1RoKbJEqyWiFQ7Us6pu5T60tilfMqBFS5/preview'},
+  {num:'31',range:'第121〜124回',url:'https://drive.google.com/file/d/1xZWFHKpV69QGR_oidO-fYeqf8ykgzH9o/preview'},
+  {num:'32',range:'第125〜128回',url:'https://drive.google.com/file/d/1Yh_Ju75yjJeWRombgC4we8WhI_9pVZz4/preview'},
+  {num:'33',range:'第129〜132回',url:'https://drive.google.com/file/d/12X6lxrJSNq9SwpBj5jhmtNyg8QjSgGaw/preview'},
+  {num:'34',range:'第133〜136回',url:'https://drive.google.com/file/d/1atzgpXVKHThG60J5ZB53TrrTBOizHUTs/preview'},
+  {num:'35',range:'第137〜139回',url:'https://drive.google.com/file/d/1DECw13zI_xU8vJJK_LsCB-M5Fx0V0n1k/preview'},
+];
+let curSng=-1;
+function buildSng(){
+  const grid=document.getElementById('sng-grid');
+  SNG.forEach((s,i)=>{
+    const btn=document.createElement('button');
+    btn.className='sng-btn';
+    btn.innerHTML='<span class="sng-btn-num">誓願'+s.num+'</span><span class="sng-btn-range">'+s.range+'</span>';
+    btn.onclick=()=>goSng(i);
+    grid.appendChild(btn);
+  });
+}
+function goSng(i){
+  document.querySelectorAll('.sng-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.sng-btn')[i].classList.add('active');
+  curSng=i;
+  const wrap=document.getElementById('sng-viewer-wrap');
+  const s=SNG[i];
+  const nav=document.getElementById('sng-nav');
+  nav.style.display='flex';
+  document.getElementById('sng-prev').disabled=i===0;
+  document.getElementById('sng-next').disabled=i===SNG.length-1;
+  document.getElementById('sng-prev-lbl').textContent=i>0?'誓願'+SNG[i-1].num:'―';
+  document.getElementById('sng-next-lbl').textContent=i<SNG.length-1?'誓願'+SNG[i+1].num:'―';
+
+  if(s.url){
+    wrap.innerHTML=`<div class="sng-viewer active">
+      <div class="sng-viewer-hd">📚 新・人間革命「誓願」 ${s.num} ／ ${s.range} <span>全139回</span></div>
+      <div class="sng-img-wrap">
+        <iframe src="${s.url}" width="100%" height="700" frameborder="0" allowfullscreen style="display:block;border-radius:4px"></iframe>
+      </div>
+    </div>`;
+  } else {
+    wrap.innerHTML=`<div class="sng-viewer active">
+      <div class="sng-viewer-hd">📚 新・人間革命「誓願」 ${s.num} ／ ${s.range} <span>全139回</span></div>
+      <div class="sng-img-wrap" style="padding:24px;text-align:center;background:#f7f4ef;border-radius:4px">
+        <div style="font-size:40px;margin-bottom:12px">📄</div>
+        <p style="font-size:14px;font-weight:700;color:#2d3a1a;margin-bottom:8px">「誓願」${s.num}（${s.range}）</p>
+        <p style="font-size:12px;color:var(--muted);line-height:1.8">
+          ファイルのURLをGoogleドライブ等にアップロードして<br>
+          SNG配列の <code>url</code> に設定してください。<br><br>
+          <strong>Googleドライブの場合：</strong><br>
+          1. ドライブにPDFをアップロード<br>
+          2. 「共有」→「リンクを知っている全員」に設定<br>
+          3. URLの <code>/view</code> を <code>/preview</code> に変えて設定
+        </p>
+      </div>
+    </div>`;
+  }
+  document.getElementById('sec-nikk').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function moveSng(d){const n=curSng+d;if(n>=0&&n<SNG.length)goSng(n);}
+buildSng();
+</script>
+</body>
+</html>
