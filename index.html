@@ -220,13 +220,25 @@ main{max-width:900px;margin:0 auto;padding:0 16px 80px}
 .sng-nbtn.next{text-align:right}
 .sng-nbtn:disabled{opacity:.3;cursor:not-allowed}
 
-/* ── CAL SETUP ── */
-.cal-setup{background:white;border-radius:8px;border:1px solid rgba(0,0,0,.08);padding:20px;margin-bottom:16px}
-.cal-setup h3{font-size:14px;font-weight:700;color:var(--crimson);margin-bottom:12px}
-.cal-step{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
-.cs-num{width:24px;height:24px;border-radius:50%;background:var(--gold);color:var(--dark);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
-.cs-text{font-size:13px;line-height:1.7;color:#444}
-.cs-text code{background:#f0ede8;padding:2px 6px;border-radius:3px;font-size:12px;color:var(--crimson-dark);font-family:monospace}
+/* ── CAL ADD BUTTON ── */
+.gcal-add-btn{
+  display:inline-flex;align-items:center;gap:5px;
+  background:#1a73e8;color:white;border:none;
+  border-radius:4px;padding:6px 10px;
+  font-size:11px;font-weight:700;cursor:pointer;
+  font-family:'Noto Sans JP',sans-serif;
+  white-space:nowrap;transition:background .2s;flex-shrink:0;
+  text-decoration:none;
+}
+.gcal-add-btn:hover{background:#1557b0;}
+.gcal-add-all{
+  display:flex;align-items:center;gap:10px;
+  background:white;border-radius:8px;
+  border:1px solid rgba(26,115,232,.3);
+  padding:14px 18px;margin-bottom:16px;
+}
+.gcal-add-all-text{flex:1;font-size:13px;color:var(--text);line-height:1.6;}
+.gcal-add-all-text strong{color:#1a73e8;}
 
 /* ── INFO CARDS ── */
 .icards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:14px}
@@ -352,7 +364,16 @@ footer strong{color:var(--gold-light);font-weight:400}
 <div class="section" id="sec-schedule">
   <div class="calh">
     <h2>📅 練習日程・スケジュール</h2>
-    <p>Googleカレンダーと連携して最新の練習日程をご確認いただけます。</p>
+    <p>各日程の「📅+」ボタンを押すと、自分のGoogleカレンダーに追加できます。</p>
+  </div>
+
+  <!-- 説明バナー -->
+  <div class="gcal-add-all">
+    <div class="gcal-add-all-text">
+      <strong>📅 Googleカレンダーへの追加方法</strong><br>
+      追加したい日程の右側にある <strong style="color:#1a73e8">「📅+」ボタン</strong> を1つずつ押してください。<br>
+      タップするとGoogleカレンダーの追加画面が開きますので、「保存」を押して登録してください。
+    </div>
   </div>
 
   <div class="slabel"><div class="licon">📋</div>練習日程一覧</div>
@@ -360,7 +381,6 @@ footer strong{color:var(--gold-light);font-weight:400}
     <div class="sch-list-hd">🗓 2026年 Re:Freude 練習スケジュール</div>
     <div id="sch-items"></div>
   </div>
-
 
 </div>
 
@@ -578,6 +598,20 @@ const SCH=[
 ];
 const DOW=['日','月','火','水','木','金','土'];
 const MON=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+
+// Googleカレンダー追加URL生成
+function gcalUrl(ev){
+  // 日付をYYYYMMDD形式に
+  const ds = ev.date.replace(/-/g,'');
+  // 終日イベントとして翌日をendに
+  const d = new Date(ev.date+'T00:00:00+09:00');
+  d.setDate(d.getDate()+1);
+  const de = d.toISOString().slice(0,10).replace(/-/g,'');
+  const title = encodeURIComponent('【Re:Freude】'+ev.title);
+  const detail = encodeURIComponent(ev.detail+'\n\n世田谷ユースアクションフェス 2026.11.29');
+  return `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${ds}/${de}&details=${detail}`;
+}
+
 function buildSch(){
   const c=document.getElementById('sch-items');
   const today=new Date();today.setHours(0,0,0,0);
@@ -587,7 +621,20 @@ function buildSch(){
     const past=d<today,isToday=d.getTime()===today.getTime();
     const el=document.createElement('div');
     el.className='sch-item'+(past?' past':'')+(isToday?' today':'');
-    el.innerHTML=`<div class="sch-date"><div class="sch-mo">${MON[d.getMonth()]}</div><div class="sch-d">${d.getDate()}</div><div class="sch-dow">${DOW[d.getDay()]}曜</div></div><div class="sch-divider"></div><div class="sch-info"><div class="sch-title">${ev.title}</div><div class="sch-sub">${ev.detail}</div></div><span class="badge ${ev.badge}">${ev.btext}</span>`;
+    el.innerHTML=`
+      <div class="sch-date">
+        <div class="sch-mo">${MON[d.getMonth()]}</div>
+        <div class="sch-d">${d.getDate()}</div>
+        <div class="sch-dow">${DOW[d.getDay()]}曜</div>
+      </div>
+      <div class="sch-divider"></div>
+      <div class="sch-info">
+        <div class="sch-title">${ev.title}</div>
+        <div class="sch-sub">${ev.detail}</div>
+      </div>
+      <span class="badge ${ev.badge}" style="margin-right:6px">${ev.btext}</span>
+      <a href="${gcalUrl(ev)}" target="_blank" class="gcal-add-btn" title="Googleカレンダーに追加">📅+</a>
+    `;
     c.appendChild(el);
     if(!past&&!nf){nf=true;document.getElementById('home-next-date').textContent=`${d.getMonth()+1}月${d.getDate()}日（${DOW[d.getDay()]}）${ev.title}`;document.getElementById('home-next-sub').textContent=ev.detail;}
   });
