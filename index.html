@@ -249,6 +249,21 @@ main{max-width:900px;margin:0 auto;padding:0 16px 80px}
 footer{background:var(--dark);color:rgba(255,255,255,.4);text-align:center;padding:26px 16px;font-size:12px;letter-spacing:.05em}
 footer strong{color:var(--gold-light);font-weight:400}
 
+/* ── LINE SHARE ── */
+.line-share-bar{background:linear-gradient(135deg,#06C755,#00a040);padding:16px 20px;text-align:center}
+.line-share-bar p{color:rgba(255,255,255,.85);font-size:12px;margin-bottom:10px;letter-spacing:.05em}
+.line-share-btn{display:inline-flex;align-items:center;gap:8px;background:white;color:#06C755;border:none;border-radius:24px;padding:10px 24px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;text-decoration:none;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.line-share-btn:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.2)}
+
+/* ── 出欠フォーム ── */
+.att-header{margin:28px 0 20px;padding:20px 24px;border-radius:6px;color:white;position:relative;overflow:hidden;background:linear-gradient(135deg,#2e7d32,#1b5e20)}
+.att-header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(255,255,255,.1) 0%,transparent 60%)}
+.att-header h2{font-family:'Noto Serif JP',serif;font-size:20px;font-weight:700;position:relative}
+.att-header p{font-size:13px;opacity:.85;margin-top:4px;position:relative;line-height:1.6}
+.att-note{background:#f0f7f0;border-radius:6px;border:1px solid rgba(46,125,50,.2);padding:14px 18px;font-size:13px;color:#2e7d32;line-height:1.7;margin-bottom:16px}
+.att-btn{display:inline-flex;align-items:center;gap:8px;background:#2e7d32;color:white;border:none;border-radius:6px;padding:14px 28px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;text-decoration:none;transition:all .2s;width:100%;justify-content:center;margin-bottom:12px}
+.att-btn:hover{background:#1b5e20;transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.15)}
+
 @media(max-width:480px){
   .parts-grid{grid-template-columns:1fr 1fr}
   .pidx{grid-template-columns:1fr}
@@ -291,6 +306,7 @@ footer strong{color:var(--gold-light);font-weight:400}
   <div class="nav-inner">
     <a class="active" onclick="showSection('home',this)">ホーム</a>
     <a onclick="showSection('schedule',this)">📅 練習日程</a>
+    <a onclick="showSection('attendance',this)">✋ 出欠連絡</a>
     <a onclick="showSection('video',this)">🎬 映像アーカイブ</a>
     <a onclick="showSection('freude',this)">📖 フロイデVoice</a>
     <a onclick="showSection('nikk',this)">📚 新・人間革命</a>
@@ -382,6 +398,41 @@ footer strong{color:var(--gold-light);font-weight:400}
     <div id="sch-items"></div>
   </div>
 
+</div>
+
+<!-- ── ATTENDANCE ── -->
+<div class="section" id="sec-attendance">
+  <div class="att-header">
+    <h2>✋ 出欠連絡</h2>
+    <p>練習に参加できない場合は、必ずこちらから事前にご連絡ください。</p>
+  </div>
+
+  <div class="att-note">
+    <strong>📌 連絡のお願い</strong><br>
+    欠席・遅刻・早退の場合は、練習日の前日までにフォームから送信してください。<br>
+    当日やむを得ない場合は、できるだけ早めにご連絡をお願いします。
+  </div>
+
+  <a href="https://forms.gle/tHMuR18vcGWAN1Cz5" target="_blank" class="att-btn">
+    ✋ 出欠・遅刻を連絡する（Googleフォーム）
+  </a>
+
+  <!-- Googleフォーム埋め込み -->
+  <div class="cblock">
+    <div class="cbh">
+      <div class="cnum" style="background:#2e7d32">📝</div>
+      <span class="ctitle">出欠連絡フォーム</span>
+    </div>
+    <div class="cbody">
+      <p style="font-size:13px;line-height:1.8;color:#555;margin-bottom:16px">
+        下のボタンをタップするとGoogleフォームが開きます。<br>
+        必要事項を入力して送信してください。
+      </p>
+      <a href="https://forms.gle/tHMuR18vcGWAN1Cz5" target="_blank" class="att-btn" style="margin-bottom:0">
+        📝 フォームを開いて連絡する
+      </a>
+    </div>
+  </div>
 </div>
 
 <!-- ── VIDEO ARCHIVE ── -->
@@ -551,6 +602,17 @@ footer strong{color:var(--gold-light);font-weight:400}
 
 </main>
 
+<!-- LINE シェアバー -->
+<div class="line-share-bar">
+  <p>🎶 このサイトをLINEで仲間にシェアしよう！</p>
+  <a href="https://line.me/R/msg/text/?Re%3AFreude%20%E4%B8%96%E7%94%B0%E8%B0%B7%E3%83%A6%E3%83%BC%E3%82%B9%E3%82%A2%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%E3%83%95%E3%82%A7%E3%82%B9%202026.11.29%20%E7%B7%B4%E7%BF%92%E3%82%B5%E3%82%A4%E3%83%88%0Ahttps%3A%2F%2Fsetagaya2026.github.io%2Fsetagaya-daiku" target="_blank" class="line-share-btn">
+    <svg class="line-icon" viewBox="0 0 24 24" fill="#06C755" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2C6.48 2 2 6.03 2 11c0 3.07 1.67 5.78 4.24 7.5L5.5 22l3.72-1.95C10.35 20.65 11.16 21 12 21c5.52 0 10-4.03 10-9S17.52 2 12 2z"/>
+    </svg>
+    LINEでシェアする
+  </a>
+</div>
+
 <footer>
   <strong>Re:Freude ～わたしたちの新しい歓喜の歌～</strong><br>
   世田谷ユースアクションフェス 2026.11.29<br>
@@ -559,7 +621,7 @@ footer strong{color:var(--gold-light);font-weight:400}
 
 <script>
 // ── COUNTDOWN ──
-const TARGET=new Date('2026-11-29T10:00:00+09:00');
+const TARGET=new Date('2026-11-29T13:00:00+09:00');
 function updateCD(){
   const diff=TARGET-new Date();
   if(diff<=0){document.querySelector('.cdbar').innerHTML='<div style="color:var(--gold-light);font-family:Noto Serif JP,serif;font-size:22px;font-weight:700;text-align:center;position:relative;padding:20px">🎉 本番当日！フロイデー！！！</div>';return;}
@@ -574,39 +636,44 @@ updateCD();setInterval(updateCD,1000);
 // ── SCHEDULE ──
 // ★ 練習日を追加・変更する場合はここを編集してください
 const SCH=[
-  {date:'2026-06-21',title:'結団式',detail:'17:00〜 東京池田記念講堂 2F講堂',badge:'badge-sp',btext:'結団式'},
-  {date:'2026-07-05',title:'第1回 合同練習',detail:'場所・時間は別途連絡',badge:'badge-n',btext:'練習'},
-  {date:'2026-07-12',title:'第2回 合同練習',detail:'場所・時間は別途連絡',badge:'badge-n',btext:'練習'},
-  {date:'2026-07-26',title:'第3回 合同練習',detail:'場所・時間は別途連絡',badge:'badge-n',btext:'練習'},
-  {date:'2026-08-02',title:'第4回 合同練習',detail:'場所・時間は別途連絡',badge:'badge-n',btext:'練習'},
-  {date:'2026-08-23',title:'第5回 合同練習',detail:'場所・時間は別途連絡',badge:'badge-n',btext:'練習'},
-  {date:'2026-08-30',title:'第6回 合同練習',detail:'場所・時間は別途連絡',badge:'badge-n',btext:'練習'},
-  {date:'2026-09-06',title:'第7回 合同練習',detail:'場所・時間は別途連絡',badge:'badge-n',btext:'練習'},
-  {date:'2026-09-13',title:'第8回 合同練習',detail:'場所・時間は別途連絡',badge:'badge-n',btext:'練習'},
-  {date:'2026-09-20',title:'第9回 合同練習',detail:'場所・時間は別途連絡',badge:'badge-n',btext:'練習'},
-  {date:'2026-09-27',title:'第10回 合同練習',detail:'場所・時間は別途連絡',badge:'badge-n',btext:'練習'},
-  {date:'2026-10-04',title:'第11回 合同練習',detail:'場所・時間は別途連絡',badge:'badge-n',btext:'練習'},
-  {date:'2026-10-11',title:'第12回 合同練習',detail:'場所・時間は別途連絡',badge:'badge-n',btext:'練習'},
-  {date:'2026-10-18',title:'第13回 合同練習',detail:'場所・時間は別途連絡',badge:'badge-n',btext:'練習'},
-  {date:'2026-10-25',title:'第14回 合同練習',detail:'場所・時間は別途連絡',badge:'badge-n',btext:'練習'},
-  {date:'2026-11-01',title:'第15回 合同練習',detail:'場所・時間は別途連絡',badge:'badge-n',btext:'練習'},
-  {date:'2026-11-08',title:'第16回 合同練習',detail:'場所・時間は別途連絡',badge:'badge-n',btext:'練習'},
-  {date:'2026-11-15',title:'第17回 通し練習',detail:'全パート合同 通し稽古',badge:'badge-n',btext:'練習'},
-  {date:'2026-11-22',title:'第18回 最終練習',detail:'全パート合同 最終確認',badge:'badge-n',btext:'練習'},
-  {date:'2026-11-28',title:'リハーサル',detail:'本番会場にて',badge:'badge-rh',btext:'リハーサル'},
-  {date:'2026-11-29',title:'🎶 本番！Re:Freude',detail:'午後・夜の2回公演',badge:'badge-c',btext:'本番！'},
+  {date:'2026-06-21',title:'結団式',detail:'17:00〜 東京池田記念講堂 2F講堂',badge:'badge-sp',btext:'結団式',start:'17:00',end:'19:00'},
+  {date:'2026-07-05',title:'第1回 合同練習',detail:'18:00〜20:00',badge:'badge-n',btext:'練習',start:'18:00',end:'20:00'},
+  {date:'2026-07-12',title:'第2回 合同練習',detail:'18:00〜20:00',badge:'badge-n',btext:'練習',start:'18:00',end:'20:00'},
+  {date:'2026-07-26',title:'第3回 合同練習',detail:'18:00〜20:00',badge:'badge-n',btext:'練習',start:'18:00',end:'20:00'},
+  {date:'2026-08-02',title:'第4回 合同練習',detail:'18:00〜20:00',badge:'badge-n',btext:'練習',start:'18:00',end:'20:00'},
+  {date:'2026-08-23',title:'第5回 合同練習',detail:'18:00〜20:00',badge:'badge-n',btext:'練習',start:'18:00',end:'20:00'},
+  {date:'2026-08-30',title:'第6回 合同練習',detail:'18:00〜20:00',badge:'badge-n',btext:'練習',start:'18:00',end:'20:00'},
+  {date:'2026-09-06',title:'第7回 合同練習',detail:'18:00〜20:00',badge:'badge-n',btext:'練習',start:'18:00',end:'20:00'},
+  {date:'2026-09-13',title:'第8回 合同練習',detail:'18:00〜20:00',badge:'badge-n',btext:'練習',start:'18:00',end:'20:00'},
+  {date:'2026-09-20',title:'第9回 合同練習',detail:'18:00〜20:00',badge:'badge-n',btext:'練習',start:'18:00',end:'20:00'},
+  {date:'2026-09-27',title:'第10回 合同練習',detail:'18:00〜20:00',badge:'badge-n',btext:'練習',start:'18:00',end:'20:00'},
+  {date:'2026-10-04',title:'第11回 合同練習',detail:'18:00〜20:00',badge:'badge-n',btext:'練習',start:'18:00',end:'20:00'},
+  {date:'2026-10-11',title:'第12回 合同練習',detail:'18:00〜20:00',badge:'badge-n',btext:'練習',start:'18:00',end:'20:00'},
+  {date:'2026-10-18',title:'第13回 合同練習',detail:'18:00〜20:00',badge:'badge-n',btext:'練習',start:'18:00',end:'20:00'},
+  {date:'2026-10-25',title:'第14回 合同練習',detail:'18:00〜20:00',badge:'badge-n',btext:'練習',start:'18:00',end:'20:00'},
+  {date:'2026-11-01',title:'第15回 合同練習',detail:'18:00〜20:00',badge:'badge-n',btext:'練習',start:'18:00',end:'20:00'},
+  {date:'2026-11-08',title:'第16回 合同練習',detail:'18:00〜20:00',badge:'badge-n',btext:'練習',start:'18:00',end:'20:00'},
+  {date:'2026-11-15',title:'第17回 通し練習',detail:'18:00〜20:00 全パート合同',badge:'badge-n',btext:'練習',start:'18:00',end:'20:00'},
+  {date:'2026-11-22',title:'第18回 最終練習',detail:'18:00〜20:00 全パート合同',badge:'badge-n',btext:'練習',start:'18:00',end:'20:00'},
+  {date:'2026-11-28',title:'リハーサル',detail:'本番会場にて（時間別途連絡）',badge:'badge-rh',btext:'リハーサル',start:'10:00',end:'17:00'},
+  {date:'2026-11-29',title:'🎶 本番！Re:Freude',detail:'13:00〜 午後・夜の2回公演',badge:'badge-c',btext:'本番！',start:'13:00',end:'21:00'},
 ];
 const DOW=['日','月','火','水','木','金','土'];
 const MON=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
 
 // Googleカレンダー追加URL生成
 function gcalUrl(ev){
-  // 日付をYYYYMMDD形式に
-  const ds = ev.date.replace(/-/g,'');
-  // 終日イベントとして翌日をendに
-  const d = new Date(ev.date+'T00:00:00+09:00');
-  d.setDate(d.getDate()+1);
-  const de = d.toISOString().slice(0,10).replace(/-/g,'');
+  // JST → UTC変換してYYYYMMDDTHHMMSSZ形式に
+  function toGcalDT(dateStr, timeStr){
+    const [y,mo,d] = dateStr.split('-').map(Number);
+    const [h,m] = timeStr.split(':').map(Number);
+    // JSTはUTC+9なのでUTCに変換
+    const utcH = h - 9;
+    const date = new Date(Date.UTC(y, mo-1, d, utcH, m, 0));
+    return date.toISOString().replace(/[-:]/g,'').replace('.000','');
+  }
+  const ds = toGcalDT(ev.date, ev.start || '18:00');
+  const de = toGcalDT(ev.date, ev.end   || '20:00');
   const title = encodeURIComponent('【Re:Freude】'+ev.title);
   const detail = encodeURIComponent(ev.detail+'\n\n世田谷ユースアクションフェス 2026.11.29');
   return `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${ds}/${de}&details=${detail}`;
@@ -647,7 +714,7 @@ function showSection(name,link){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
   document.getElementById('sec-'+name).classList.add('active');
-  const labels={home:'ホーム',schedule:'📅 練習日程',video:'🎬 映像アーカイブ',freude:'📖 フロイデVoice',nikk:'📚 新・人間革命',soprano:'ソプラノ',alto:'アルト',tenor:'テノール',bass:'バス',info:'指導・情報'};
+  const labels={home:'ホーム',schedule:'📅 練習日程',attendance:'✋ 出欠連絡',video:'🎬 映像アーカイブ',freude:'📖 フロイデVoice',nikk:'📚 新・人間革命',soprano:'ソプラノ',alto:'アルト',tenor:'テノール',bass:'バス',info:'指導・情報'};
   if(link){link.classList.add('active');}
   else{document.querySelectorAll('nav a').forEach(a=>{if(a.textContent.trim()===labels[name])a.classList.add('active');});}
   window.scrollTo({top:0,behavior:'smooth'});
