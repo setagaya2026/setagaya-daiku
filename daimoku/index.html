@@ -6,406 +6,232 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#1a1208">
-<meta name="description" content="題目フロイデ - 世田谷ユースアクションフェス Re:Freude 2026 唱題記録アプリ">
+<meta name="description" content="題目フロイデ - 世田谷ユースアクションフェス Re:Freude 2026">
 <title>題目フロイデ｜Re:Freude 世田谷 2026</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🙏</text></svg>">
-<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🙏</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
-<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body,#root{height:100%;overflow:hidden}
 body{font-family:'Noto Sans JP',sans-serif;background:#FAF6EF;color:#2d1f0f;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
 input,textarea,button{font-family:inherit;-webkit-appearance:none}
 button{touch-action:manipulation}
-::-webkit-scrollbar{width:3px}
-::-webkit-scrollbar-thumb{background:rgba(0,0,0,.1);border-radius:2px}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:rgba(0,0,0,.1);border-radius:2px}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 @keyframes popIn{0%{transform:scale(.7);opacity:0}60%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
 @keyframes confetti{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(150px) rotate(400deg);opacity:0}}
 @keyframes glow{0%,100%{box-shadow:0 0 8px rgba(155,27,48,.2)}50%{box-shadow:0 0 24px rgba(155,27,48,.5)}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 .cp{position:absolute;animation:confetti 1.4s ease-out forwards;pointer-events:none}
+#splash{position:fixed;inset:0;background:#1a1208;display:flex;align-items:center;justify-content:center;z-index:9999;transition:opacity .3s}
 </style>
 </head>
 <body>
+<div id="splash"><div style="text-align:center;color:#e8c06a"><div style="font-size:48px;margin-bottom:16px">🙏</div><div style="font-size:20px;font-weight:900;font-family:'Noto Serif JP',serif">題目<span style="color:#fff">フロイデ</span></div><div style="font-size:11px;margin-top:8px;opacity:.5">読み込み中...</div></div></div>
 <div id="root"></div>
+<div id="yt-player" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"></div>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script>
+// YouTube IFrame API
+var ytPlayer=null,ytReady=false;
+var tag=document.createElement('script');tag.src="https://www.youtube.com/iframe_api";document.head.appendChild(tag);
+function onYouTubeIframeAPIReady(){
+  ytPlayer=new YT.Player('yt-player',{height:'1',width:'1',videoId:'650WAvcZokA',
+    playerVars:{autoplay:0,loop:1,playlist:'650WAvcZokA',controls:0},
+    events:{onReady:function(){ytReady=true;}}
+  });
+}
+</script>
 <script type="text/babel">
-const{useState,useEffect,useRef,useMemo}=React;
-
-// ─── Firebase ───
+const{useState,useEffect,useRef}=React;
 const FBC={apiKey:"AIzaSyACCr1WZwQZL6DXR9QPG5EX4vZz9BJaYBw",authDomain:"daimoku-freude.firebaseapp.com",databaseURL:"https://daimoku-freude-default-rtdb.firebaseio.com",projectId:"daimoku-freude",storageBucket:"daimoku-freude.firebasestorage.app",messagingSenderId:"637502572501",appId:"1:637502572501:web:c00b0f7e3f47b1ce21df5c"};
-let db=null;
-try{firebase.initializeApp(FBC);db=firebase.database();}catch(e){console.warn("Firebase:",e);}
-
-const MAIN_SITE="https://setagaya2026.github.io/setagaya-daiku/";
+let db=null;try{firebase.initializeApp(FBC);db=firebase.database();}catch(e){console.warn("Firebase:",e);}
+const MAIN="https://setagaya2026.github.io/setagaya-daiku/";
 const C={crimson:"#9B1B30",crimsonDark:"#6d1220",gold:"#C9963A",goldLight:"#e8c06a",goldPale:"#f5e6c8",cream:"#FAF6EF",dark:"#1a1208",text:"#2d1f0f",muted:"#7a6a55",navy:"#1a3a5c",navyDark:"#0d2035",white:"#fff",cardBg:"#fff",green:"#2e7d32"};
+const G={hdr:`linear-gradient(135deg,${C.dark} 0%,#2d1a0a 50%,${C.dark} 100%)`,crim:`linear-gradient(135deg,${C.crimsonDark},${C.crimson})`,btn:`linear-gradient(135deg,${C.crimson},${C.crimsonDark})`,navy:`linear-gradient(135deg,${C.navy},${C.navyDark})`,dk:`linear-gradient(135deg,${C.dark},#2d1a0a)`,goldBar:`linear-gradient(90deg,${C.gold},${C.goldLight})`,crimBar:`linear-gradient(90deg,${C.crimson},${C.gold})`,todBar:`linear-gradient(180deg,${C.crimson},${C.crimsonDark})`,avatar:`linear-gradient(135deg,${C.crimson},${C.gold})`,rst:"linear-gradient(135deg,#c62828,#b71c1c)",grn:`linear-gradient(135deg,${C.green},#1b5e20)`};
 const TABS=[{id:"home",label:"唱題",icon:"⏱"},{id:"record",label:"記録",icon:"📊"},{id:"prayer",label:"御祈念",icon:"🙏"},{id:"goals",label:"目標",icon:"🎯"}];
-const SPEED_PRESETS=[{label:"ゆっくり",perMin:25},{label:"ふつう",perMin:40},{label:"はやい",perMin:55},{label:"カスタム",perMin:null}];
-const GOAL_PRESETS=[10,30,50,100];
+const SPEEDS=[{label:"ゆっくり",v:25},{label:"ふつう",v:40},{label:"はやい",v:55},{label:"カスタム",v:null}];
 
-// ─── localStorage ───
-const PK="df-personal-v4";
-function loadL(){try{return JSON.parse(localStorage.getItem(PK));}catch{return null;}}
-function saveL(d){try{localStorage.setItem(PK,JSON.stringify(d));}catch{}}
+// ■ データ永続化（全バージョン互換）
+const SK="daimoku-freude";
+const OLD=["df-personal-v4","df-personal-v3","df-personal-v2","daimoku-freude-v1"];
+function loadL(){try{const d=localStorage.getItem(SK);if(d)return JSON.parse(d);}catch{}for(const k of OLD){try{const d=localStorage.getItem(k);if(d){localStorage.setItem(SK,d);return JSON.parse(d);}}catch{}}return null;}
+function saveL(d){try{localStorage.setItem(SK,JSON.stringify(d));}catch{}}
 function gid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8);}
-function defP(){return{userId:gid(),userName:"",daimokuPerMin:40,totalSeconds:0,totalHen:0,sessions:[],privatePrayers:[],goals:[{id:gid(),label:"Re:Freudeまでに",target:100000}],heartedIds:[]};}
+function defP(){return{userId:gid(),userName:"",daimokuPerMin:40,totalSeconds:0,totalHen:0,sessions:[],privatePrayers:[],goalTarget:100000,heartedIds:[]};}
+function migrate(raw){const d=defP();const m={...d,...raw,sessions:raw.sessions||[],privatePrayers:raw.privatePrayers||[],heartedIds:raw.heartedIds||[]};if(raw.goals&&raw.goals.length>0&&!raw.goalTarget)m.goalTarget=raw.goals[0].target||100000;if(!m.goalTarget)m.goalTarget=100000;const t=recomp(m.sessions);return{...m,...t};}
+function exportData(P){const b=new Blob([JSON.stringify(P,null,2)],{type:"application/json"});const u=URL.createObjectURL(b);const a=document.createElement("a");a.href=u;a.download="daimoku-backup-"+new Date().toISOString().slice(0,10)+".json";a.click();URL.revokeObjectURL(u);}
 
-// ─── Utils ───
-function fmt(s){return`${String(Math.floor(s/3600)).padStart(2,"0")}:${String(Math.floor((s%3600)/60)).padStart(2,"0")}:${String(s%60).padStart(2,"0")}`;}
+// Utils
+function fmt(s){return String(Math.floor(s/3600)).padStart(2,"0")+":"+String(Math.floor((s%3600)/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");}
+function fmtH(sec){const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60);return h>0?h+"時間"+m+"分":m+"分";}
 function cH(sec,pm){return Math.round(sec*pm/60);}
-function ld(d){return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;}
+function ld(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
 function tdk(iso){return ld(new Date(iso));}
-function jdt(iso){const d=new Date(iso);return`${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`;}
-function rec(ss){let ts=0,th=0;ss.forEach(s=>{ts+=s.seconds;th+=s.hen;});return{totalSeconds:ts,totalHen:th};}
+function jdt(iso){const d=new Date(iso);return(d.getMonth()+1)+"/"+d.getDate()+" "+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");}
+function recomp(ss){let ts=0,th=0;ss.forEach(s=>{ts+=s.seconds;th+=s.hen;});return{totalSeconds:ts,totalHen:th};}
 function rcAll(ss,pm){return ss.map(s=>({...s,hen:cH(s.seconds,pm)}));}
 function dsum(ss){const m={};ss.forEach(s=>{const k=tdk(s.date);if(!m[k])m[k]={date:k,seconds:0,hen:0,count:0};m[k].seconds+=s.seconds;m[k].hen+=s.hen;m[k].count++;});return Object.values(m).sort((a,b)=>b.date.localeCompare(a.date));}
-function l7(ss){const r=[],t=new Date();for(let i=6;i>=0;i--){const d=new Date(t.getFullYear(),t.getMonth(),t.getDate()-i);const k=ld(d);const dn=["日","月","火","水","木","金","土"][d.getDay()];const dd=ss.filter(s=>tdk(s.date)===k);r.push({key:k,dayName:dn,hen:dd.reduce((a,s)=>a+s.hen,0)});}return r;}
+function last7(ss){const r=[],t=new Date();for(let i=6;i>=0;i--){const d=new Date(t.getFullYear(),t.getMonth(),t.getDate()-i);const k=ld(d);const dn=["日","月","火","水","木","金","土"][d.getDay()];const dd=ss.filter(s=>tdk(s.date)===k);r.push({key:k,dayName:dn,hen:dd.reduce((a,s)=>a+s.hen,0),has:dd.length>0});}return r;}
 function todH(ss){const k=ld(new Date());return ss.filter(s=>tdk(s.date)===k).reduce((a,s)=>a+s.hen,0);}
 function stk(ss){if(!ss.length)return 0;const days=new Set(ss.map(s=>tdk(s.date)));let c=0;const d=new Date();while(days.has(ld(d))){c++;d.setDate(d.getDate()-1);}return c;}
-// 応援メッセージ
-function cheers(hen,streak){
-  if(hen===0)return"さあ、今日も唱題しよう！";
-  if(streak>=7)return`${streak}日連続！素晴らしい持続力です🔥`;
-  if(hen>=10000)return"1万遍突破！この勢いで！";
-  if(hen>=1000)return"いい調子！積み重ねが力になる💪";
-  return"今日も頑張っていますね！";
-}
+function cheers(hen,sk){if(!hen)return"さあ、今日も唱題しよう！🙏";if(sk>=30)return sk+"日連続！圧倒的🏆";if(sk>=14)return sk+"日連続！素晴らしい🔥";if(sk>=7)return sk+"日連続！最高✨";if(sk>=3)return sk+"日連続！💪";if(hen>=50000)return"5万遍突破🐷✨";if(hen>=10000)return"1万遍突破🎯";if(hen>=5000)return"5千遍超え💎";if(hen>=1000)return"いい調子💪";return"頑張っていますね🌸";}
+function vibrate(){try{navigator.vibrate&&navigator.vibrate([100,50,100]);}catch{}}
 
-// ─── Firebase: Global Stats ───
-function useGlobal(){
-  const[s,setS]=useState({totalHen:0,totalSessions:0,totalSeconds:0});
-  useEffect(()=>{if(!db)return;const ref=db.ref("global-stats");const h=ref.on("value",sn=>{const v=sn.val();if(v)setS({totalHen:v.totalHen||0,totalSessions:v.totalSessions||0,totalSeconds:v.totalSeconds||0});},e=>console.error("gs read:",e));return()=>ref.off("value",h);},[]);
-  return s;
-}
+// Firebase
+function useGlobal(){const[s,setS]=useState({totalHen:0,totalSessions:0,totalSeconds:0,ok:false});useEffect(()=>{if(!db)return;const ref=db.ref("global-stats");const h=ref.on("value",sn=>{const v=sn.val();if(v)setS({totalHen:v.totalHen||0,totalSessions:v.totalSessions||0,totalSeconds:v.totalSeconds||0,ok:true});},()=>{});const cr=db.ref(".info/connected");const ch=cr.on("value",sn=>setS(p=>({...p,ok:!!sn.val()})));return()=>{ref.off("value",h);cr.off("value",ch);};},[]);return s;}
 function addG(hen,sec){if(!db)return;db.ref("global-stats/totalHen").transaction(c=>(c||0)+hen).catch(()=>{});db.ref("global-stats/totalSessions").transaction(c=>(c||0)+1).catch(()=>{});db.ref("global-stats/totalSeconds").transaction(c=>(c||0)+sec).catch(()=>{});}
 function subG(hen,sec){if(!db)return;db.ref("global-stats/totalHen").transaction(c=>Math.max((c||0)-hen,0)).catch(()=>{});db.ref("global-stats/totalSessions").transaction(c=>Math.max((c||0)-1,0)).catch(()=>{});db.ref("global-stats/totalSeconds").transaction(c=>Math.max((c||0)-sec,0)).catch(()=>{});}
-
-// ─── Firebase: Active Chanting (人数＋名前リスト) ───
-function useActive(uid,uname,isRun){
-  const[data,setData]=useState({count:0,names:[]});
-  // リスナー
-  useEffect(()=>{if(!db)return;const ref=db.ref("active-chanting");const h=ref.on("value",sn=>{const v=sn.val();if(v){const entries=Object.values(v);setData({count:entries.length,names:entries.map(e=>e.name||"匿名")});}else{setData({count:0,names:[]});}},e=>console.error("ac read:",e));return()=>ref.off("value",h);},[]);
-  // 自分の状態
-  useEffect(()=>{if(!db||!uid)return;const ref=db.ref("active-chanting/"+uid);
-    if(isRun){ref.set({name:uname||"匿名",since:firebase.database.ServerValue.TIMESTAMP}).catch(e=>console.error("ac set:",e));ref.onDisconnect().remove();}
-    else{ref.remove().catch(()=>{});ref.onDisconnect().cancel();}
-    return()=>{ref.remove().catch(()=>{});ref.onDisconnect().cancel();};
-  },[isRun,uid,uname]);
-  return data;
-}
-
-// ─── Firebase: Shared Prayers ───
+function useActive(uid,uname,isRun){const[data,setData]=useState({count:0,names:[]});useEffect(()=>{if(!db)return;const ref=db.ref("active-chanting");const h=ref.on("value",sn=>{const v=sn.val();if(v){const e=Object.values(v);setData({count:e.length,names:e.map(x=>x.name||"匿名")});}else setData({count:0,names:[]});},()=>{});return()=>ref.off("value",h);},[]);useEffect(()=>{if(!db||!uid)return;const ref=db.ref("active-chanting/"+uid);if(isRun){ref.set({name:uname||"匿名",since:firebase.database.ServerValue.TIMESTAMP}).catch(()=>{});ref.onDisconnect().remove();}else{ref.remove().catch(()=>{});ref.onDisconnect().cancel();}return()=>{ref.remove().catch(()=>{});ref.onDisconnect().cancel();};},[isRun,uid,uname]);return data;}
 function useSP(){const[p,setP]=useState([]);useEffect(()=>{if(!db)return;const ref=db.ref("shared-prayers");const h=ref.on("value",sn=>{const v=sn.val();setP(v?Object.values(v).sort((a,b)=>(b.hearts||0)-(a.hearts||0)):[]);});return()=>ref.off("value",h);},[]);return p;}
 function aspf(p){if(db)db.ref("shared-prayers/"+p.id).set(p).catch(()=>{});}
 function uspf(id,u){if(db)db.ref("shared-prayers/"+id).update(u).catch(()=>{});}
 function dspf(id){if(db)db.ref("shared-prayers/"+id).remove().catch(()=>{});}
 function hspf(id){if(db)db.ref("shared-prayers/"+id+"/hearts").transaction(c=>(c||0)+1).catch(()=>{});}
 
-// ─── Confetti ───
-function Confetti({show}){if(!show)return null;const cols=[C.crimson,C.gold,"#e74c6f","#4caf50","#ff9800",C.goldLight];
-  return(<div style={{position:"fixed",top:0,left:0,right:0,height:"100vh",pointerEvents:"none",zIndex:300}}>
-    {Array.from({length:24}).map((_,i)=>(<div key={i} className="cp" style={{left:`${5+Math.random()*90}%`,top:`${Math.random()*20}%`,width:Math.random()*10+4,height:Math.random()*10+4,background:cols[i%cols.length],animationDelay:`${Math.random()*0.5}s`,borderRadius:Math.random()>.5?"50%":"2px"}}/>))}
-  </div>);
-}
+function Confetti({show}){if(!show)return null;const cols=[C.crimson,C.gold,"#e74c6f","#4caf50","#ff9800"];return(<div style={{position:"fixed",top:0,left:0,right:0,height:"100vh",pointerEvents:"none",zIndex:300}}>{Array.from({length:20}).map((_,i)=>(<div key={i} className="cp" style={{left:(5+Math.random()*90)+"%",top:(Math.random()*20)+"%",width:Math.random()*10+4,height:Math.random()*10+4,background:cols[i%5],animationDelay:Math.random()*0.5+"s",borderRadius:Math.random()>.5?"50%":"2px"}}/>))}</div>);}
 
-// ─── NameSetup ───
-function NameSetup({onDone}){const[n,setN]=useState("");
-  return(<div style={{position:"fixed",inset:0,background:C.dark,zIndex:200,display:"flex",alignItems:"center",justifyContent:"center"}}>
-    <div style={{textAlign:"center",padding:32,maxWidth:360,animation:"fadeIn .5s ease"}}>
-      <div style={{fontSize:48,marginBottom:16}}>🙏</div>
-      <div style={{fontSize:22,fontWeight:900,color:C.goldLight,fontFamily:"'Noto Serif JP',serif",marginBottom:4}}>題目<span style={{color:C.white}}>フロイデ</span></div>
-      <div style={{fontSize:10,color:C.gold,marginBottom:24,letterSpacing:".1em"}}>世田谷ユースアクションフェス 2026.11.29</div>
-      <div style={{fontSize:14,color:C.cream,marginBottom:16}}>表示名を入力してください</div>
-      <input value={n} onChange={e=>setN(e.target.value)} placeholder="例：せたがや太郎"
-        style={{...S.input,background:"rgba(255,255,255,.1)",color:"#fff",border:`1px solid ${C.gold}`,textAlign:"center",fontSize:16,padding:14}}
-        onKeyDown={e=>{if(e.key==="Enter"&&n.trim())onDone(n.trim());}}/>
-      <button onClick={()=>{if(n.trim())onDone(n.trim());}} disabled={!n.trim()}
-        style={{...S.btnMain,width:"100%",marginTop:16,opacity:n.trim()?1:.4}}>はじめる</button>
-    </div>
-  </div>);
-}
-
-// ─── Settings ───
-function SettingsPanel({P,setP,onClose}){
-  const[pr,setPr]=useState(()=>{const p=SPEED_PRESETS.find(p=>p.perMin===P.daimokuPerMin);return p?p.label:"カスタム";});
-  const[cs,setCs]=useState(String(P.daimokuPerMin));const[sr,setSr]=useState(false);const[en,setEn]=useState(P.userName);const[rst,setRst]=useState(false);
-  const cur=pr==="カスタム"?(parseInt(cs)||40):(SPEED_PRESETS.find(p=>p.label===pr)?.perMin||40);
-  const chg=cur!==P.daimokuPerMin;
-  const apply=(rc)=>{let ns=P.sessions;if(rc)ns=rcAll(P.sessions,cur);const t=rec(ns);const nd={...P,daimokuPerMin:cur,sessions:ns,...t};setP(nd);saveL(nd);setSr(false);onClose();};
-  const sn=()=>{if(en.trim()){const nd={...P,userName:en.trim()};setP(nd);saveL(nd);}};
-  const doRst=()=>{if(P.totalHen>0)subG(P.totalHen,P.totalSeconds);const nd={...P,totalSeconds:0,totalHen:0,sessions:[]};setP(nd);saveL(nd);setRst(false);onClose();};
-  return(<div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.5)",zIndex:100,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={e=>{if(e.target===e.currentTarget)onClose();}}>
-    <div style={{width:"100%",maxWidth:430,background:C.cream,borderRadius:"20px 20px 0 0",padding:20,maxHeight:"85vh",overflowY:"auto"}}>
-      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16}}>
-        <h2 style={{margin:0,fontSize:17,fontWeight:800,color:C.text,fontFamily:"'Noto Serif JP',serif"}}>⚙ 設定</h2>
-        <button onClick={onClose} style={{border:"none",background:"transparent",fontSize:22,color:C.muted,cursor:"pointer",padding:4}}>✕</button>
-      </div>
-      <div style={{fontSize:14,fontWeight:700,color:C.text,marginBottom:8,fontFamily:"'Noto Serif JP',serif"}}>表示名</div>
-      <div style={{display:"flex",gap:8,marginBottom:20}}><input value={en} onChange={e=>setEn(e.target.value)} style={{...S.input,flex:1}}/><button onClick={sn} style={{...S.btnMain,padding:"8px 16px",fontSize:13}}>保存</button></div>
-      <div style={{fontSize:14,fontWeight:700,color:C.text,marginBottom:8,fontFamily:"'Noto Serif JP',serif"}}>唱題スピード</div>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:6,marginBottom:12}}>
-        {SPEED_PRESETS.map(p=>{const a=pr===p.label;return(<button key={p.label} onClick={()=>{setPr(p.label);if(p.perMin)setCs(String(p.perMin));}}
-          style={{padding:"10px 4px",borderRadius:8,cursor:"pointer",textAlign:"center",border:a?`2px solid ${C.crimson}`:`1px solid ${C.goldPale}`,background:a?`${C.crimson}10`:C.white}}>
-          <div style={{fontSize:12,fontWeight:700,color:a?C.crimson:C.text}}>{p.label}</div>
-          {p.perMin&&<div style={{fontSize:10,color:C.muted}}>{p.perMin}/分</div>}
-        </button>);})}
-      </div>
-      {pr==="カスタム"&&<div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12}}><input type="range" min="10" max="80" value={cs} onChange={e=>setCs(e.target.value)} style={{flex:1,accentColor:C.crimson}}/><input type="number" value={cs} onChange={e=>setCs(e.target.value)} style={{...S.input,width:60,textAlign:"center",padding:6}}/></div>}
-      <div style={{background:C.goldPale,borderRadius:8,padding:"8px 14px",marginBottom:16,fontSize:12,color:C.muted}}>
-        10分=<b style={{color:C.crimson}}>{cH(600,cur).toLocaleString()}</b>遍 / 1時間=<b style={{color:C.crimson}}>{cH(3600,cur).toLocaleString()}</b>遍
-        {chg&&<div style={{color:C.crimson,marginTop:4}}>{P.daimokuPerMin}→{cur}遍/分</div>}
-      </div>
-      {chg&&!sr&&<button onClick={()=>setSr(true)} style={{...S.btnMain,width:"100%",marginBottom:8,fontSize:13}}>変更する</button>}
-      {sr&&<div style={{...S.card,border:`2px solid ${C.gold}`,marginBottom:12}}><div style={{fontSize:13,fontWeight:700,marginBottom:8}}>過去も再計算？</div><div style={{display:"flex",gap:8}}><button onClick={()=>apply(false)} style={{...S.btnSec,flex:1}}>今後のみ</button><button onClick={()=>apply(true)} style={{...S.btnMain,flex:1,fontSize:13}}>全て再計算</button></div></div>}
-      <div style={{borderTop:`1px solid ${C.goldPale}`,marginTop:16,paddingTop:16}}>
-        <div style={{fontSize:14,fontWeight:700,color:C.text,marginBottom:8,fontFamily:"'Noto Serif JP',serif"}}>データリセット</div>
-        {!rst?<button onClick={()=>setRst(true)} style={{...S.btnSec,width:"100%",color:C.crimson,borderColor:C.crimson}}>唱題記録をリセット</button>
-        :<div style={{...S.card,border:`2px solid ${C.crimson}`,background:"#fff5f5"}}><div style={{fontSize:13,fontWeight:700,color:C.crimson,marginBottom:8}}>⚠ 本当にリセットしますか？</div><p style={{fontSize:12,color:C.muted,marginBottom:12}}>唱題時間・遍数・履歴が全削除されます。御祈念と目標は残ります。</p><div style={{display:"flex",gap:8}}><button onClick={()=>setRst(false)} style={{...S.btnSec,flex:1}}>キャンセル</button><button onClick={doRst} style={{...S.btnMain,flex:1,fontSize:13,background:"linear-gradient(135deg,#c62828,#b71c1c)"}}>リセット</button></div></div>}
-      </div>
-      {!chg&&!rst&&<button onClick={onClose} style={{...S.btnSec,width:"100%",marginTop:12}}>閉じる</button>}
-    </div>
-  </div>);
-}
-
-// ─── Stopwatch (タイマー状態はApp側で管理→タブ切替でも止まらない) ───
-function StopwatchTab({P,setP,gs,active,elapsed,running,setRunning,onSave}){
-  const th=todH(P.sessions);const sk=stk(P.sessions);const msg=cheers(th,sk);
-  return(<div style={{padding:"0 16px",animation:"fadeIn .3s ease"}}>
-    {/* 世田谷全体 */}
-    <div style={{background:`linear-gradient(135deg,${C.dark},#2d1a0a)`,borderRadius:10,padding:"12px 14px",marginBottom:8,color:"#fff"}}>
-      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-        <div><div style={{fontSize:9,letterSpacing:".1em",color:C.goldLight,marginBottom:2}}>🌍 世田谷みんなの唱題</div>
-          <div style={{fontSize:22,fontWeight:900,fontFamily:"'Noto Serif JP',serif"}}>{gs.totalHen.toLocaleString()} <span style={{fontSize:11,fontWeight:400,opacity:.7}}>遍</span></div></div>
-        <div style={{textAlign:"right"}}>
-          <div style={{display:"flex",alignItems:"center",gap:4,marginBottom:2}}>
-            <span style={{width:7,height:7,borderRadius:"50%",background:active.count>0?"#76ff03":"#888",boxShadow:active.count>0?"0 0 8px #76ff03":"none",display:"inline-block",animation:active.count>0?"pulse 1.5s infinite":"none"}}/>
-            <span style={{fontSize:10,color:"rgba(255,255,255,.7)"}}>唱題中</span></div>
-          <div style={{fontSize:18,fontWeight:800}}>{active.count} <span style={{fontSize:10,fontWeight:400,opacity:.7}}>人</span></div>
-        </div>
-      </div>
-      {/* 唱題中メンバーの名前 */}
-      {active.count>0&&<div style={{marginTop:8,paddingTop:8,borderTop:"1px solid rgba(255,255,255,.1)",display:"flex",flexWrap:"wrap",gap:4}}>
-        {active.names.map((n,i)=>(<span key={i} style={{background:"rgba(255,255,255,.12)",borderRadius:12,padding:"2px 10px",fontSize:10,color:C.goldLight}}>{n}</span>))}
-      </div>}
-    </div>
-
-    {/* Today / Streak / Total */}
-    <div style={{display:"flex",gap:6,marginBottom:6}}>
-      <div style={{...S.card,flex:1,textAlign:"center",marginBottom:0,padding:8}}><div style={{fontSize:9,color:C.muted}}>今日</div><div style={{fontSize:18,fontWeight:800,color:C.crimson,fontFamily:"'Noto Serif JP',serif"}}>{th.toLocaleString()}</div><div style={{fontSize:8,color:C.muted}}>遍</div></div>
-      <div style={{...S.card,flex:1,textAlign:"center",marginBottom:0,padding:8}}><div style={{fontSize:9,color:C.muted}}>連続</div><div style={{fontSize:18,fontWeight:800,color:C.gold,fontFamily:"'Noto Serif JP',serif"}}>{sk}</div><div style={{fontSize:8,color:C.muted}}>日🔥</div></div>
-      <div style={{...S.card,flex:1,textAlign:"center",marginBottom:0,padding:8}}><div style={{fontSize:9,color:C.muted}}>累計</div><div style={{fontSize:18,fontWeight:800,color:C.navy,fontFamily:"'Noto Serif JP',serif"}}>{P.totalHen.toLocaleString()}</div><div style={{fontSize:8,color:C.muted}}>遍</div></div>
-    </div>
-    {/* 応援メッセージ */}
-    <div style={{fontSize:11,color:C.muted,textAlign:"center",marginBottom:8,fontStyle:"italic"}}>{msg}</div>
-
-    {/* Timer */}
-    <div style={{display:"flex",justifyContent:"center",margin:"4px 0"}}>
-      <div style={{position:"relative",width:220,height:220}}>
-        {(()=>{const r=100,c=2*Math.PI*r,p=Math.min(elapsed/3600,1);return(
-        <svg width="220" height="220" viewBox="0 0 220 220">
-          <circle cx="110" cy="110" r={r} fill="none" stroke={C.goldPale} strokeWidth="7"/>
-          <circle cx="110" cy="110" r={r} fill="none" stroke="url(#cg)" strokeWidth="7" strokeLinecap="round" strokeDasharray={c} strokeDashoffset={c*(1-p)} transform="rotate(-90 110 110)" style={{transition:"stroke-dashoffset .3s"}}/>
-          <defs><linearGradient id="cg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor={C.crimson}/><stop offset="100%" stopColor={C.gold}/></linearGradient></defs>
-        </svg>);})()}
-        <div style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",textAlign:"center"}}>
-          <div style={{fontSize:32,fontWeight:800,fontFamily:"'Noto Serif JP',serif",letterSpacing:2,color:C.dark}}>{fmt(elapsed)}</div>
-          <div style={{fontSize:14,color:C.crimson,fontWeight:700,marginTop:2}}>{cH(elapsed,P.daimokuPerMin).toLocaleString()} 遍</div>
-          <div style={{fontSize:9,color:C.muted,marginTop:1}}>{P.daimokuPerMin}遍/分</div>
-        </div>
-      </div>
-    </div>
-    <div style={{display:"flex",gap:10,justifyContent:"center",margin:"8px 0 12px"}}>
-      <button onClick={()=>{setRunning("reset");}} style={S.btnSec}>リセット</button>
-      {running?(<button onClick={()=>setRunning(false)} style={{...S.btnMain,background:`linear-gradient(135deg,${C.navy},${C.navyDark})`,animation:"glow 2s infinite"}}>一時停止</button>)
-      :(<button onClick={()=>setRunning(true)} style={S.btnMain}>{elapsed>0?"再開":"スタート"}</button>)}
-      <button onClick={onSave} disabled={elapsed<=0} style={{...S.btnSec,opacity:elapsed>0?1:.4}}>保存する</button>
-    </div>
-  </div>);
-}
-
-// ─── Record ───
-function RecordTab({P,setP}){
-  const[v,setV]=useState("daily");const[am,setAm]=useState("");const[ad,setAd]=useState(()=>ld(new Date()));
-  const dy=dsum(P.sessions),d7=l7(P.sessions),mx=Math.max(...d7.map(d=>d.hen),1);
-  const addM=()=>{const m=parseInt(am);if(!m||m<=0)return;const sec=m*60,h=cH(sec,P.daimokuPerMin);const s={id:gid(),date:new Date(`${ad}T12:00:00+09:00`).toISOString(),seconds:sec,hen:h};const ns=[...P.sessions,s];const t=rec(ns);const nd={...P,...t,sessions:ns};setP(nd);saveL(nd);addG(h,sec);setAm("");setV("daily");};
-  const del=(sid)=>{const s=P.sessions.find(x=>x.id===sid);if(!s)return;subG(s.hen,s.seconds);const ns=P.sessions.filter(x=>x.id!==sid);const t=rec(ns);const nd={...P,...t,sessions:ns};setP(nd);saveL(nd);};
-  return(<div style={{padding:"0 16px",animation:"fadeIn .3s ease"}}>
-    <div style={S.cumCard}><div style={{fontSize:11,letterSpacing:".1em",opacity:.7,marginBottom:2}}>わたしの累計</div><div style={{display:"flex",justifyContent:"center",gap:24}}><div><div style={{fontSize:28,fontWeight:900,fontFamily:"'Noto Serif JP',serif"}}>{P.totalHen.toLocaleString()}</div><div style={{fontSize:10,opacity:.7}}>遍</div></div><div style={{borderLeft:"1px solid rgba(255,255,255,.2)",paddingLeft:24}}><div style={{fontSize:28,fontWeight:900,fontFamily:"'Noto Serif JP',serif"}}>{Math.floor(P.totalSeconds/3600)}:{String(Math.floor((P.totalSeconds%3600)/60)).padStart(2,"0")}</div><div style={{fontSize:10,opacity:.7}}>時間:分</div></div></div></div>
-    <div style={{...S.card,marginTop:16}}><div style={{fontSize:13,fontWeight:700,color:C.text,marginBottom:12,fontFamily:"'Noto Serif JP',serif"}}>直近7日間</div><div style={{display:"flex",alignItems:"flex-end",gap:6,height:80}}>{d7.map(d=>{const isT=d.key===ld(new Date());return(<div key={d.key} style={{flex:1,textAlign:"center"}}><div style={{fontSize:8,color:C.muted,marginBottom:4}}>{d.hen>0?d.hen.toLocaleString():""}</div><div style={{height:d.hen>0?Math.max((d.hen/mx)*60,4):4,background:isT?`linear-gradient(180deg,${C.crimson},${C.crimsonDark})`:C.goldPale,borderRadius:3}}/><div style={{fontSize:10,color:C.muted,marginTop:4}}>{d.dayName}</div></div>);})}</div></div>
-    <div style={{display:"flex",marginTop:16,borderBottom:`2px solid ${C.goldPale}`}}>{[["daily","日別"],["sessions","全件"],["add","＋追加"]].map(([k,l])=>(<button key={k} onClick={()=>setV(k)} style={{...S.subTab,...(v===k?{color:C.crimson,fontWeight:700,borderBottomColor:C.crimson}:{})}}>{l}</button>))}</div>
-    {v==="daily"&&<div style={{marginTop:12}}>{dy.length===0&&<p style={{color:C.muted,fontSize:13,padding:20,textAlign:"center"}}>まだ記録がありません</p>}{dy.map(d=>(<div key={d.date} style={{...S.card,display:"flex",justifyContent:"space-between",alignItems:"center"}}><div><div style={{fontWeight:700,fontSize:14}}>{d.date.replace(/-/g,"/")}</div><div style={{fontSize:11,color:C.muted}}>{d.count}回</div></div><div style={{textAlign:"right"}}><div style={{fontWeight:800,fontSize:16,color:C.crimson}}>{d.hen.toLocaleString()} <span style={{fontSize:11,fontWeight:400}}>遍</span></div><div style={{fontSize:11,color:C.muted}}>{Math.floor(d.seconds/60)}分</div></div></div>))}</div>}
-    {v==="sessions"&&<div style={{marginTop:12}}>{P.sessions.length===0&&<p style={{color:C.muted,fontSize:13,padding:20,textAlign:"center"}}>まだ記録がありません</p>}{[...P.sessions].reverse().map(s=>(<div key={s.id} style={{...S.card,display:"flex",justifyContent:"space-between",alignItems:"center"}}><div><div style={{fontSize:13,fontWeight:600}}>{jdt(s.date)}</div><div style={{fontSize:11,color:C.muted}}>{fmt(s.seconds)}</div></div><div style={{display:"flex",alignItems:"center",gap:12}}><div style={{fontWeight:700,fontSize:15,color:C.crimson}}>{s.hen.toLocaleString()}</div><button onClick={()=>del(s.id)} style={{border:"none",background:"transparent",color:C.muted,fontSize:16,cursor:"pointer"}}>×</button></div></div>))}</div>}
-    {v==="add"&&<div style={{...S.card,marginTop:12}}><div style={{fontSize:13,fontWeight:700,marginBottom:12,fontFamily:"'Noto Serif JP',serif"}}>過去のお題目を追加</div><label style={{fontSize:12,color:C.muted,display:"block",marginBottom:4}}>日付</label><input type="date" value={ad} onChange={e=>setAd(e.target.value)} style={S.input}/><label style={{fontSize:12,color:C.muted,display:"block",marginBottom:4,marginTop:12}}>唱題時間（分）</label><input type="number" value={am} onChange={e=>setAm(e.target.value)} placeholder="30" style={S.input}/><div style={{fontSize:11,color:C.muted,marginTop:6}}>≈ {am?cH(parseInt(am||"0")*60,P.daimokuPerMin).toLocaleString():0} 遍</div><button onClick={addM} style={{...S.btnMain,width:"100%",marginTop:16}}>追加する</button></div>}
-  </div>);
-}
-
-// ─── Prayer ───
-function PrayerTab({P,setP,sp}){
-  const[tab,setTab]=useState("mine");const[np,setNp]=useState("");const[eid,setEid]=useState(null);const[et,setEt]=useState("");
-  const aPriv=()=>{if(!np.trim())return;const nd={...P,privatePrayers:[...P.privatePrayers,{id:gid(),text:np}]};setP(nd);saveL(nd);setNp("");};
-  const aPub=()=>{if(!np.trim())return;aspf({id:gid(),text:np,authorId:P.userId,authorName:P.userName,hearts:0,createdAt:new Date().toISOString()});setNp("");};
-  const ePriv=(id)=>{const nd={...P,privatePrayers:P.privatePrayers.map(p=>p.id===id?{...p,text:et}:p)};setP(nd);saveL(nd);setEid(null);};
-  const dPriv=(id)=>{const nd={...P,privatePrayers:P.privatePrayers.filter(p=>p.id!==id)};setP(nd);saveL(nd);};
-  const doH=(pid)=>{if(P.heartedIds.includes(pid))return;hspf(pid);const nd={...P,heartedIds:[...P.heartedIds,pid]};setP(nd);saveL(nd);};
-  const myPub=sp.filter(p=>p.authorId===P.userId);
-  return(<div style={{padding:"0 16px",animation:"fadeIn .3s ease"}}>
-    <div style={{display:"flex",borderBottom:`2px solid ${C.goldPale}`}}>{[["mine","自分の祈念"],["public","みんなの祈念"]].map(([k,l])=>(<button key={k} onClick={()=>setTab(k)} style={{...S.subTab,...(tab===k?{color:C.crimson,fontWeight:700,borderBottomColor:C.crimson}:{})}}>{l}</button>))}</div>
-    {tab==="mine"&&<div style={{marginTop:12}}>
-      <div style={{...S.card,marginBottom:12}}><textarea value={np} onChange={e=>setNp(e.target.value)} placeholder="御祈念項目を入力..." style={S.textarea}/><div style={{display:"flex",gap:8,marginTop:8}}><button onClick={aPriv} style={{...S.btnSec,flex:1,fontSize:12}}>🔒 非公開</button><button onClick={aPub} style={{...S.btnMain,flex:1,fontSize:12,padding:"8px 12px"}}>🌍 公開</button></div></div>
-      {P.privatePrayers.length===0&&myPub.length===0&&<p style={{color:C.muted,fontSize:13,textAlign:"center",padding:16}}>御祈念項目を追加しましょう</p>}
-      {P.privatePrayers.map(p=>(<div key={p.id} style={S.card}>{eid===p.id?(<><textarea value={et} onChange={e=>setEt(e.target.value)} style={S.textarea}/><div style={{display:"flex",gap:8,marginTop:8}}><button onClick={()=>setEid(null)} style={{...S.btnSec,flex:1,fontSize:12}}>取消</button><button onClick={()=>ePriv(p.id)} style={{...S.btnMain,flex:1,fontSize:12,padding:"8px 12px"}}>保存</button></div></>):(<><p style={{margin:0,fontSize:13,lineHeight:1.7}}>{p.text}</p><div style={{display:"flex",justifyContent:"space-between",marginTop:8}}><span style={{fontSize:11,color:C.muted}}>🔒</span><div style={{display:"flex",gap:8}}><button onClick={()=>{setEid(p.id);setEt(p.text);}} style={{border:"none",background:"transparent",fontSize:12,color:C.crimson,cursor:"pointer"}}>編集</button><button onClick={()=>dPriv(p.id)} style={{border:"none",background:"transparent",fontSize:12,color:C.muted,cursor:"pointer"}}>削除</button></div></div></>)}</div>))}
-      {myPub.map(p=>(<div key={p.id} style={{...S.card,border:`1px solid ${C.goldPale}`}}>{eid===p.id?(<><textarea value={et} onChange={e=>setEt(e.target.value)} style={S.textarea}/><div style={{display:"flex",gap:8,marginTop:8}}><button onClick={()=>setEid(null)} style={{...S.btnSec,flex:1,fontSize:12}}>取消</button><button onClick={()=>{uspf(p.id,{text:et});setEid(null);}} style={{...S.btnMain,flex:1,fontSize:12,padding:"8px 12px"}}>保存</button></div></>):(<><p style={{margin:0,fontSize:13,lineHeight:1.7}}>{p.text}</p><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:8}}><span style={{fontSize:11,color:C.crimson}}>🌍 公開 · ♥{p.hearts||0}</span><div style={{display:"flex",gap:8}}><button onClick={()=>{setEid(p.id);setEt(p.text);}} style={{border:"none",background:"transparent",fontSize:12,color:C.crimson,cursor:"pointer"}}>編集</button><button onClick={()=>dspf(p.id)} style={{border:"none",background:"transparent",fontSize:12,color:C.muted,cursor:"pointer"}}>削除</button></div></div></>)}</div>))}
-    </div>}
-    {tab==="public"&&<div style={{marginTop:12}}>
-      {sp.length===0&&<p style={{color:C.muted,fontSize:13,textAlign:"center",padding:20}}>まだ公開された祈念がありません</p>}
-      {sp.map(p=>{const own=p.authorId===P.userId;const hd=P.heartedIds.includes(p.id);return(<div key={p.id} style={S.card}>
-        <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}><div style={{width:34,height:34,borderRadius:"50%",background:`linear-gradient(135deg,${C.crimson},${C.gold})`,display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontSize:13,fontWeight:700,flexShrink:0}}>{(p.authorName||"?")[0]}</div><div style={{flex:1}}><div style={{fontWeight:600,fontSize:13}}>{p.authorName||"匿名"}{own&&<span style={{fontSize:10,color:C.crimson,marginLeft:4}}>（自分）</span>}</div></div></div>
-        <p style={{margin:0,fontSize:13,lineHeight:1.7}}>{p.text}</p>
-        <div style={{marginTop:10}}><button onClick={()=>doH(p.id)} disabled={hd||own} style={{display:"flex",alignItems:"center",gap:6,border:`1px solid ${hd?C.crimson:C.goldPale}`,borderRadius:20,padding:"6px 16px",cursor:hd||own?"default":"pointer",background:hd?`${C.crimson}12`:C.white,fontSize:13,color:hd?C.crimson:C.muted,fontWeight:hd?700:400}}><span style={{fontSize:16}}>{hd?"♥":"♡"}</span>祈りました{(p.hearts||0)>0&&<span style={{fontWeight:700,marginLeft:4}}>{p.hearts}</span>}</button></div>
-      </div>);})}
-    </div>}
-  </div>);
-}
-
-// ─── Goals ───
-function GoalsTab({P,setP,gs}){
-  const[sa,setSa]=useState(false);const[nl,setNl]=useState("");const[nt,setNt]=useState("");
-  const[egId,setEgId]=useState(null);const[eTarget,setETarget]=useState("");
-  const aG=()=>{const tv=parseInt(nt);if(!nl||isNaN(tv)||tv<=0)return;const nd={...P,goals:[...P.goals,{id:gid(),label:nl,target:tv}]};setP(nd);saveL(nd);setNl("");setNt("");setSa(false);};
-  const dG=(id)=>{const nd={...P,goals:P.goals.filter(g=>g.id!==id)};setP(nd);saveL(nd);};
-  const sT=(id)=>{const tv=parseInt(eTarget);if(isNaN(tv)||tv<=0)return;const nd={...P,goals:P.goals.map(g=>g.id===id?{...g,target:tv}:g)};setP(nd);saveL(nd);setEgId(null);};
-  return(<div style={{padding:"0 16px",animation:"fadeIn .3s ease"}}>
-    <div style={{background:`linear-gradient(135deg,${C.dark},#2d1a0a)`,borderRadius:10,padding:"14px 16px",marginBottom:12,color:"#fff",marginTop:8}}>
-      <div style={{fontSize:10,letterSpacing:".1em",color:C.goldLight,marginBottom:6}}>🌍 世田谷みんなのチャレンジ</div>
-      <div style={{fontSize:22,fontWeight:900,fontFamily:"'Noto Serif JP',serif"}}>{gs.totalHen.toLocaleString()} <span style={{fontSize:11,fontWeight:400,opacity:.7}}>遍</span></div>
-      <div style={{height:8,background:"rgba(255,255,255,.12)",borderRadius:4,overflow:"hidden",marginTop:8}}><div style={{height:"100%",borderRadius:4,background:`linear-gradient(90deg,${C.gold},${C.goldLight})`,width:`${Math.min((gs.totalHen/10000000)*100,100)}%`,transition:"width .5s"}}/></div>
-      <div style={{display:"flex",justifyContent:"space-between",marginTop:4,fontSize:10,color:"rgba(255,255,255,.5)"}}><span>{gs.totalSessions.toLocaleString()}セッション</span><span>目標: 1,000万遍</span></div>
-    </div>
-    {P.goals.map(g=>{const sf=g.target>0?g.target:1;const pct=Math.min((P.totalHen/sf)*100,100);const rm=Math.max(g.target-P.totalHen,0);return(<div key={g.id} style={{...S.card,marginTop:8}}>
-      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}><div style={{fontWeight:700,fontSize:15,fontFamily:"'Noto Serif JP',serif"}}>🎯 {g.label}</div><button onClick={()=>dG(g.id)} style={{border:"none",background:"transparent",color:C.muted,fontSize:14,cursor:"pointer"}}>×</button></div>
-      {egId===g.id?(<div style={{marginTop:10}}><div style={{fontSize:12,color:C.muted,marginBottom:6}}>目標遍数を変更:</div><div style={{display:"flex",flexWrap:"wrap",gap:6,marginBottom:8}}>{GOAL_PRESETS.map(n=>(<button key={n} onClick={()=>setETarget(String(n*10000))} style={{padding:"6px 12px",borderRadius:16,border:`1px solid ${parseInt(eTarget)===n*10000?C.crimson:C.goldPale}`,background:parseInt(eTarget)===n*10000?`${C.crimson}10`:C.white,fontSize:12,color:parseInt(eTarget)===n*10000?C.crimson:C.text,cursor:"pointer"}}>{n}万遍</button>))}</div><input type="number" value={eTarget} onChange={e=>setETarget(e.target.value)} placeholder="自由入力" style={S.input}/><div style={{display:"flex",gap:8,marginTop:10}}><button onClick={()=>setEgId(null)} style={{...S.btnSec,flex:1,fontSize:12}}>取消</button><button onClick={()=>sT(g.id)} style={{...S.btnMain,flex:1,fontSize:12,padding:"8px 12px"}}>変更</button></div></div>)
-      :(<><div style={{display:"flex",justifyContent:"space-between",marginTop:10,marginBottom:6}}><span style={{fontSize:12,color:C.muted}}>{P.totalHen.toLocaleString()} / {g.target.toLocaleString()}</span><span style={{fontSize:13,fontWeight:800,color:C.crimson}}>{pct.toFixed(1)}%</span></div><div style={{height:12,background:C.goldPale,borderRadius:6,overflow:"hidden"}}><div style={{height:"100%",borderRadius:6,background:`linear-gradient(90deg,${C.crimson},${C.gold})`,width:`${pct}%`,transition:"width .5s"}}/></div><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:8}}><div style={{fontSize:11,color:C.muted}}>あと <b style={{color:C.crimson}}>{rm.toLocaleString()}</b> 遍</div><button onClick={()=>{setEgId(g.id);setETarget(String(g.target));}} style={{border:"none",background:"transparent",fontSize:12,color:C.crimson,cursor:"pointer"}}>目標を変更</button></div></>)}
-    </div>);})}
-    {sa?(<div style={{...S.card,marginTop:16}}><input value={nl} onChange={e=>setNl(e.target.value)} placeholder="目標名" style={S.input}/><div style={{display:"flex",flexWrap:"wrap",gap:6,marginTop:10}}>{GOAL_PRESETS.map(n=>(<button key={n} onClick={()=>setNt(String(n*10000))} style={{padding:"6px 12px",borderRadius:16,border:`1px solid ${parseInt(nt)===n*10000?C.crimson:C.goldPale}`,background:parseInt(nt)===n*10000?`${C.crimson}10`:C.white,fontSize:12,cursor:"pointer",color:parseInt(nt)===n*10000?C.crimson:C.text}}>{n}万遍</button>))}</div><input type="number" value={nt} onChange={e=>setNt(e.target.value)} placeholder="自由入力（遍数）" style={{...S.input,marginTop:8}}/><div style={{display:"flex",gap:8,marginTop:12}}><button onClick={()=>setSa(false)} style={S.btnSec}>取消</button><button onClick={aG} style={{...S.btnMain,padding:"8px 20px",fontSize:13}}>追加</button></div></div>)
-    :(<button onClick={()=>setSa(true)} style={{...S.btnMain,width:"100%",marginTop:16}}>＋ 新しい目標を追加</button>)}
-    <div style={{...S.cumCard,marginTop:24}}><div style={{fontSize:32,marginBottom:4}}>🐷</div><div style={{fontSize:11,opacity:.7,letterSpacing:".1em"}}>わたしの福運貯金</div><div style={{fontSize:30,fontWeight:900,fontFamily:"'Noto Serif JP',serif",marginTop:4}}>{P.totalHen.toLocaleString()} <span style={{fontSize:13,fontWeight:400}}>遍</span></div><div style={{fontSize:11,opacity:.6,marginTop:4}}>{Math.floor(P.totalSeconds/3600)}時間{Math.floor((P.totalSeconds%3600)/60)}分</div></div>
-  </div>);
-}
-
-// ═══════ App (タイマー状態をここで管理) ═══════
-function App(){
-  const[tab,setTab]=useState("home");
-  const[P,setP]=useState(null);
-  const[loading,setLoading]=useState(true);
-  const[needsName,setNeedsName]=useState(false);
-  const[showSet,setShowSet]=useState(false);
-  // ⏱ タイマー状態をApp本体で管理（タブ切替しても止まらない）
-  const[running,setRunningRaw]=useState(false);
-  const[elapsed,setElapsed]=useState(0);
-  const[startTime,setStartTime]=useState(null);
-  const[showConf,setShowConf]=useState(false);
-  const[savedMsg,setSavedMsg]=useState("");
-  const timerRef=useRef(null);
-
-  // タイマーロジック
-  useEffect(()=>{
-    if(running&&startTime){
-      timerRef.current=setInterval(()=>{setElapsed(Math.floor((Date.now()-startTime)/1000));},250);
-    }else{if(timerRef.current)clearInterval(timerRef.current);}
-    return()=>{if(timerRef.current)clearInterval(timerRef.current);};
-  },[running,startTime]);
-
-  const setRunning=(v)=>{
-    if(v==="reset"){setRunningRaw(false);setElapsed(0);setStartTime(null);return;}
-    if(v){setRunningRaw(true);setStartTime(Date.now()-elapsed*1000);}
-    else{setRunningRaw(false);}
+function AudioBar(){
+  const[playing,setPlaying]=useState(false);
+  const[speed,setSpeed]=useState(1);
+  const speeds=[0.75,1,1.25];
+  const toggle=()=>{
+    if(!window.ytPlayer||!window.ytReady)return;
+    if(playing){window.ytPlayer.pauseVideo();setPlaying(false);}
+    else{window.ytPlayer.playVideo();setPlaying(true);}
   };
-
-  const gs=useGlobal();
-  const sp=useSP();
-  const active=useActive(P?.userId,P?.userName,running);
-
-  useEffect(()=>{const p=loadL();if(p){const d=defP();const m={...d,...p,sessions:p.sessions||[],privatePrayers:p.privatePrayers||[],goals:p.goals||d.goals,heartedIds:p.heartedIds||[]};const t=rec(m.sessions);setP({...m,...t});}else{setP(defP());setNeedsName(true);}setLoading(false);},[]);
-  useEffect(()=>{if(P&&!P.userName)setNeedsName(true);},[P]);
-
-  const handleName=(n)=>{const nd={...P,userName:n};setP(nd);saveL(nd);setNeedsName(false);};
-
-  const onSave=()=>{
-    if(elapsed<=0||!P)return;
-    const h=cH(elapsed,P.daimokuPerMin);
-    const s={id:gid(),date:new Date().toISOString(),seconds:elapsed,hen:h};
-    const ns=[...P.sessions,s];const t=rec(ns);
-    const nd={...P,...t,sessions:ns};setP(nd);saveL(nd);
-    addG(h,elapsed);
-    setRunning("reset");
-    setShowConf(true);setSavedMsg(`${h.toLocaleString()}遍を記録！`);
-    setTimeout(()=>{setShowConf(false);setSavedMsg("");},2500);
+  const cycleSpeed=()=>{
+    if(!window.ytPlayer||!window.ytReady)return;
+    const next=speeds[(speeds.indexOf(speed)+1)%speeds.length];
+    window.ytPlayer.setPlaybackRate(next);setSpeed(next);
   };
-
-  if(loading)return(<div style={{...S.app,display:"flex",alignItems:"center",justifyContent:"center",background:C.dark}}><div style={{textAlign:"center",color:C.goldLight}}><div style={{fontSize:48,marginBottom:16}}>🙏</div><div style={{fontSize:16,fontFamily:"'Noto Serif JP',serif"}}>読み込み中...</div></div></div>);
-  if(needsName)return <NameSetup onDone={handleName}/>;
-
-  const dL=Math.max(0,Math.ceil((new Date("2026-11-29T00:00:00+09:00").getTime()-Date.now())/86400000));
-
-  return(<div style={S.app}>
-    <Confetti show={showConf}/>
-    {savedMsg&&<div style={{position:"fixed",top:80,left:"50%",transform:"translateX(-50%)",background:`linear-gradient(135deg,${C.green},#1b5e20)`,color:"#fff",borderRadius:20,padding:"8px 20px",fontSize:14,fontWeight:700,zIndex:200,animation:"popIn .3s ease",boxShadow:"0 4px 20px rgba(0,0,0,.3)"}}>🎉 {savedMsg}</div>}
-
-    <div style={S.header}><div style={S.headerInner}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-      <a href={MAIN_SITE} style={{fontSize:10,color:C.goldLight,textDecoration:"none",opacity:.8,whiteSpace:"nowrap"}}>◀ 練習サイト</a>
-      <div style={{textAlign:"center",flex:1}}>
-        <div style={{fontSize:17,fontWeight:900,fontFamily:"'Noto Serif JP',serif",letterSpacing:".08em"}}>題目<span style={{color:C.goldLight}}>フロイデ</span></div>
-      </div>
-      <button onClick={()=>setShowSet(true)} style={{border:"none",background:"transparent",color:C.goldLight,fontSize:16,cursor:"pointer",padding:4}}>⚙</button>
-    </div></div></div>
-    <div style={S.countdown}><div style={S.cdBg}/><div style={{position:"relative",zIndex:1,display:"flex",alignItems:"center",justifyContent:"center",gap:10}}>
-      <span style={{fontSize:10,letterSpacing:".1em",color:"rgba(255,255,255,.7)"}}>Re:Freudeまで</span>
-      <span style={{fontSize:26,fontWeight:900,fontFamily:"'Noto Serif JP',serif"}}>{dL}</span><span style={{fontSize:10,opacity:.7}}>日</span>
-    </div></div>
-
-    <div style={S.content}>
-      {tab==="home"&&<StopwatchTab P={P} setP={setP} gs={gs} active={active} elapsed={elapsed} running={running} setRunning={setRunning} onSave={onSave}/>}
-      {tab==="record"&&<RecordTab P={P} setP={setP}/>}
-      {tab==="prayer"&&<PrayerTab P={P} setP={setP} sp={sp}/>}
-      {tab==="goals"&&<GoalsTab P={P} setP={setP} gs={gs}/>}
+  return(<div style={{display:"flex",alignItems:"center",gap:8,background:C.dark,borderRadius:8,padding:"8px 12px",marginBottom:8}}>
+    <button onClick={toggle} style={{border:"none",background:playing?C.crimson:"rgba(255,255,255,.15)",color:"#fff",width:36,height:36,borderRadius:"50%",fontSize:16,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{playing?"⏸":"▶"}</button>
+    <div style={{flex:1}}>
+      <div style={{fontSize:12,color:C.goldLight,fontWeight:700}}>南無妙法蓮華経</div>
+      <div style={{fontSize:9,color:"rgba(255,255,255,.4)"}}>{playing?"再生中…":"タップで題目の音声を再生"}</div>
     </div>
-    <div style={S.tabBar}>{TABS.map(t=>{
-      const isActive=tab===t.id;
-      const showDot=t.id==="home"&&running&&tab!=="home";
-      return(<button key={t.id} onClick={()=>setTab(t.id)} style={{...S.tabBtn,...(isActive?S.tabBtnAct:{})}}>
-        <span style={{fontSize:20,position:"relative"}}>{t.icon}{showDot&&<span style={{position:"absolute",top:-2,right:-6,width:7,height:7,borderRadius:"50%",background:C.crimson}}/>}</span>
-        <span style={{fontSize:9,marginTop:1}}>{t.label}</span>
-      </button>);
-    })}</div>
-    {showSet&&<SettingsPanel P={P} setP={setP} onClose={()=>setShowSet(false)}/>}
+    <button onClick={cycleSpeed} style={{border:"1px solid rgba(255,255,255,.2)",background:"rgba(255,255,255,.08)",color:C.goldLight,borderRadius:16,padding:"4px 10px",fontSize:11,cursor:"pointer",fontWeight:700,minHeight:28}}>{speed}x</button>
   </div>);
 }
+function NameSetup({onDone}){const[n,setN]=useState("");return(<div style={{position:"fixed",inset:0,background:C.dark,zIndex:200,display:"flex",alignItems:"center",justifyContent:"center"}}><div style={{textAlign:"center",padding:32,maxWidth:360,animation:"fadeIn .5s ease"}}><div style={{fontSize:48,marginBottom:16}}>🙏</div><div style={{fontSize:22,fontWeight:900,color:C.goldLight,fontFamily:"'Noto Serif JP',serif",marginBottom:4}}>題目<span style={{color:C.white}}>フロイデ</span></div><div style={{fontSize:10,color:C.gold,marginBottom:24,letterSpacing:".1em"}}>世田谷ユースアクションフェス 2026.11.29</div><div style={{fontSize:14,color:C.cream,marginBottom:16}}>表示名を入力してください</div><input value={n} onChange={e=>setN(e.target.value)} placeholder="例：せたがや太郎" style={{...S.input,background:"rgba(255,255,255,.1)",color:"#fff",border:"1px solid "+C.gold,textAlign:"center",fontSize:16,padding:14}} onKeyDown={e=>{if(e.key==="Enter"&&n.trim())onDone(n.trim());}}/><button onClick={()=>{if(n.trim())onDone(n.trim());}} disabled={!n.trim()} style={{...S.btnMain,width:"100%",marginTop:16,opacity:n.trim()?1:.4}}>はじめる</button></div></div>);}
 
-const S={
-  app:{maxWidth:430,margin:"0 auto",height:"100%",background:C.cream,fontFamily:"'Noto Sans JP',sans-serif",color:C.text,display:"flex",flexDirection:"column",overflow:"hidden"},
-  header:{background:`linear-gradient(135deg,${C.dark} 0%,#2d1a0a 50%,${C.dark} 100%)`,color:"#fff",position:"sticky",top:0,zIndex:10,borderBottom:`1px solid rgba(201,150,58,.3)`,flexShrink:0},
-  headerInner:{padding:"8px 12px 6px"},
-  countdown:{background:`linear-gradient(135deg,${C.crimsonDark},${C.crimson})`,color:"#fff",textAlign:"center",padding:"6px 16px",position:"relative",overflow:"hidden",flexShrink:0},
-  cdBg:{position:"absolute",inset:0,background:"repeating-linear-gradient(-45deg,transparent,transparent 8px,rgba(255,255,255,.04) 8px,rgba(255,255,255,.04) 9px)"},
-  content:{flex:1,paddingTop:8,paddingBottom:64,overflowY:"auto",WebkitOverflowScrolling:"touch"},
-  tabBar:{position:"fixed",bottom:0,left:"50%",transform:"translateX(-50%)",width:"100%",maxWidth:430,display:"flex",background:"#fff",borderTop:`1px solid ${C.goldPale}`,padding:"3px 0 env(safe-area-inset-bottom,5px)",zIndex:20},
-  tabBtn:{flex:1,display:"flex",flexDirection:"column",alignItems:"center",border:"none",background:"transparent",padding:"3px 0",color:C.muted,cursor:"pointer"},
-  tabBtnAct:{color:C.crimson},
-  card:{background:C.cardBg,borderRadius:8,padding:14,boxShadow:"0 1px 4px rgba(0,0,0,.05)",marginBottom:10,border:"1px solid rgba(0,0,0,.05)"},
-  cumCard:{background:`linear-gradient(135deg,${C.crimsonDark},${C.crimson})`,color:"#fff",borderRadius:10,padding:"16px",textAlign:"center"},
-  cumSub:{background:"rgba(255,255,255,.12)",borderRadius:6,padding:"6px 14px"},
-  btnMain:{padding:"12px 24px",border:"none",borderRadius:50,background:`linear-gradient(135deg,${C.crimson},${C.crimsonDark})`,color:"#fff",fontSize:15,fontWeight:700,cursor:"pointer",boxShadow:"0 4px 14px rgba(155,27,48,.3)"},
-  btnSec:{padding:"10px 18px",border:`1px solid ${C.goldPale}`,borderRadius:50,background:C.cardBg,color:C.muted,fontSize:12,cursor:"pointer"},
-  subTab:{flex:1,padding:"10px 0",border:"none",background:"transparent",fontSize:13,color:C.muted,cursor:"pointer",borderBottom:"2px solid transparent",marginBottom:-2},
-  textarea:{width:"100%",padding:12,border:`1px solid ${C.goldPale}`,borderRadius:8,fontSize:13,resize:"vertical",minHeight:70,fontFamily:"inherit",boxSizing:"border-box",background:C.cream},
-  input:{width:"100%",padding:10,border:`1px solid ${C.goldPale}`,borderRadius:8,fontSize:13,fontFamily:"inherit",boxSizing:"border-box",background:C.cream},
-};
+function SettingsPanel({P,setP,onClose}){const[pr,setPr]=useState(()=>{const p=SPEEDS.find(p=>p.v===P.daimokuPerMin);return p?p.label:"カスタム";});const[cs,setCs]=useState(String(P.daimokuPerMin));const[sr,setSr]=useState(false);const[en,setEn]=useState(P.userName);const[rst,setRst]=useState(false);const cur=pr==="カスタム"?(parseInt(cs)||40):(SPEEDS.find(p=>p.label===pr)?.v||40);const chg=cur!==P.daimokuPerMin;const apply=(rc)=>{let ns=P.sessions;if(rc)ns=rcAll(P.sessions,cur);const t=recomp(ns);const nd={...P,daimokuPerMin:cur,sessions:ns,...t};setP(nd);saveL(nd);setSr(false);onClose();};const sn=()=>{if(en.trim()){const nd={...P,userName:en.trim()};setP(nd);saveL(nd);}};const doRst=()=>{if(P.totalHen>0)subG(P.totalHen,P.totalSeconds);const nd={...P,totalSeconds:0,totalHen:0,sessions:[]};setP(nd);saveL(nd);setRst(false);onClose();};
+return(<div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.5)",zIndex:100,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={e=>{if(e.target===e.currentTarget)onClose();}}><div style={{width:"100%",maxWidth:430,background:C.cream,borderRadius:"20px 20px 0 0",padding:20,maxHeight:"85vh",overflowY:"auto"}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16}}><h2 style={{margin:0,fontSize:17,fontWeight:800,color:C.text,fontFamily:"'Noto Serif JP',serif"}}>⚙ 設定</h2><button onClick={onClose} style={{border:"none",background:"transparent",fontSize:22,color:C.muted,cursor:"pointer",padding:8}}>✕</button></div>
+<div style={{fontSize:14,fontWeight:700,color:C.text,marginBottom:8,fontFamily:"'Noto Serif JP',serif"}}>表示名</div><div style={{display:"flex",gap:8,marginBottom:20}}><input value={en} onChange={e=>setEn(e.target.value)} style={{...S.input,flex:1}}/><button onClick={sn} style={{...S.btnMain,padding:"8px 16px",fontSize:13}}>保存</button></div>
+<div style={{fontSize:14,fontWeight:700,color:C.text,marginBottom:8,fontFamily:"'Noto Serif JP',serif"}}>唱題スピード</div><div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:6,marginBottom:12}}>{SPEEDS.map(p=>{const a=pr===p.label;return(<button key={p.label} onClick={()=>{setPr(p.label);if(p.v)setCs(String(p.v));}} style={{padding:"10px 4px",borderRadius:8,cursor:"pointer",textAlign:"center",border:a?"2px solid "+C.crimson:"1px solid "+C.goldPale,background:a?C.crimson+"10":C.white,minHeight:44}}><div style={{fontSize:12,fontWeight:700,color:a?C.crimson:C.text}}>{p.label}</div>{p.v&&<div style={{fontSize:10,color:C.muted}}>{p.v}/分</div>}</button>);})}</div>
+{pr==="カスタム"&&<div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12}}><input type="range" min="10" max="80" value={cs} onChange={e=>setCs(e.target.value)} style={{flex:1,accentColor:C.crimson}}/><input type="number" value={cs} onChange={e=>setCs(e.target.value)} style={{...S.input,width:60,textAlign:"center",padding:6}}/></div>}
+<div style={{background:C.goldPale,borderRadius:8,padding:"8px 14px",marginBottom:16,fontSize:12,color:C.muted}}>10分=<b style={{color:C.crimson}}>{cH(600,cur).toLocaleString()}</b>遍 / 1時間=<b style={{color:C.crimson}}>{cH(3600,cur).toLocaleString()}</b>遍{chg&&<div style={{color:C.crimson,marginTop:4}}>{P.daimokuPerMin}→{cur}遍/分</div>}</div>
+{chg&&!sr&&<button onClick={()=>setSr(true)} style={{...S.btnMain,width:"100%",marginBottom:8,fontSize:13,minHeight:44}}>変更する</button>}
+{sr&&<div style={{...S.card,border:"2px solid "+C.gold,marginBottom:12}}><div style={{fontSize:13,fontWeight:700,marginBottom:8}}>過去も再計算？</div><div style={{display:"flex",gap:8}}><button onClick={()=>apply(false)} style={{...S.btnSec,flex:1,minHeight:44}}>今後のみ</button><button onClick={()=>apply(true)} style={{...S.btnMain,flex:1,fontSize:13,minHeight:44}}>全て再計算</button></div></div>}
+<div style={{borderTop:"1px solid "+C.goldPale,marginTop:16,paddingTop:16}}><div style={{fontSize:14,fontWeight:700,color:C.text,marginBottom:8,fontFamily:"'Noto Serif JP',serif"}}>データ管理</div><button onClick={()=>exportData(P)} style={{...S.btnSec,width:"100%",marginBottom:8,minHeight:44}}>📥 バックアップ保存</button>
+{!rst?<button onClick={()=>setRst(true)} style={{...S.btnSec,width:"100%",color:C.crimson,borderColor:C.crimson,minHeight:44}}>唱題記録をリセット</button>:<div style={{...S.card,border:"2px solid "+C.crimson,background:"#fff5f5"}}><div style={{fontSize:13,fontWeight:700,color:C.crimson,marginBottom:8}}>⚠ 本当にリセットしますか？</div><p style={{fontSize:12,color:C.muted,marginBottom:12}}>唱題時間・遍数・履歴が全削除されます。</p><div style={{display:"flex",gap:8}}><button onClick={()=>setRst(false)} style={{...S.btnSec,flex:1,minHeight:44}}>キャンセル</button><button onClick={doRst} style={{...S.btnMain,flex:1,fontSize:13,background:G.rst,minHeight:44}}>リセット</button></div></div>}</div>
+{!chg&&!rst&&<button onClick={onClose} style={{...S.btnSec,width:"100%",marginTop:12,minHeight:44}}>閉じる</button>}
+</div></div>);}
 
+function StopwatchTab({P,gs,active,elapsed,running,setRunning,onSave,saving}){const th=todH(P.sessions),sk=stk(P.sessions),msg=cheers(th,sk);
+return(<div style={{padding:"0 16px",animation:"fadeIn .3s ease"}}>
+<div style={{background:G.dk,borderRadius:10,padding:"12px 14px",marginBottom:8,color:"#fff"}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}><div><div style={{fontSize:9,letterSpacing:".1em",color:C.goldLight,marginBottom:2,display:"flex",alignItems:"center",gap:4}}>🌍 世田谷みんなの唱題{gs.ok?<span style={{width:5,height:5,borderRadius:"50%",background:"#76ff03",display:"inline-block"}}/>:<span style={{fontSize:8,color:"#ff9800"}}>（接続中…）</span>}</div><div style={{fontSize:22,fontWeight:900,fontFamily:"'Noto Serif JP',serif"}}>{gs.totalHen.toLocaleString()} <span style={{fontSize:11,fontWeight:400,opacity:.7}}>遍</span></div><div style={{fontSize:10,opacity:.5,marginTop:1}}>{fmtH(gs.totalSeconds)} · {gs.totalSessions.toLocaleString()}セッション</div></div><div style={{textAlign:"right"}}><div style={{display:"flex",alignItems:"center",gap:4,marginBottom:2}}><span style={{width:7,height:7,borderRadius:"50%",background:active.count>0?"#76ff03":"#555",boxShadow:active.count>0?"0 0 8px #76ff03":"none",display:"inline-block",animation:active.count>0?"pulse 1.5s infinite":"none"}}/><span style={{fontSize:10,color:"rgba(255,255,255,.7)"}}>唱題中</span></div><div style={{fontSize:18,fontWeight:800}}>{active.count} <span style={{fontSize:10,fontWeight:400,opacity:.7}}>人</span></div></div></div>
+{active.count>0&&<div style={{marginTop:8,paddingTop:8,borderTop:"1px solid rgba(255,255,255,.1)",display:"flex",flexWrap:"wrap",gap:4}}>{active.names.map((n,i)=>(<span key={i} style={{background:"rgba(255,255,255,.12)",borderRadius:12,padding:"2px 10px",fontSize:10,color:C.goldLight}}>{n}</span>))}</div>}</div>
+<AudioBar/>
+<div style={{display:"flex",gap:6,marginBottom:6}}>{[["今日",th.toLocaleString(),"遍",C.crimson],["連続",sk,"日🔥",C.gold],["累計",P.totalHen.toLocaleString(),"遍",C.navy]].map(([l,v,u,c],i)=>(<div key={i} style={{...S.card,flex:1,textAlign:"center",marginBottom:0,padding:8}}><div style={{fontSize:9,color:C.muted}}>{l}</div><div style={{fontSize:18,fontWeight:800,color:c,fontFamily:"'Noto Serif JP',serif"}}>{v}</div><div style={{fontSize:8,color:C.muted}}>{u}</div></div>))}</div>
+<div style={{fontSize:11,color:C.muted,textAlign:"center",marginBottom:8}}>{msg}</div>
+<div style={{display:"flex",justifyContent:"center",margin:"4px 0"}}><div style={{position:"relative",width:220,height:220}}>{(()=>{const r=100,c=2*Math.PI*r,p=Math.min(elapsed/3600,1);return(<svg width="220" height="220" viewBox="0 0 220 220"><circle cx="110" cy="110" r={r} fill="none" stroke={C.goldPale} strokeWidth="7"/><circle cx="110" cy="110" r={r} fill="none" stroke="url(#cg)" strokeWidth="7" strokeLinecap="round" strokeDasharray={c} strokeDashoffset={c*(1-p)} transform="rotate(-90 110 110)" style={{transition:"stroke-dashoffset .3s"}}/><defs><linearGradient id="cg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor={C.crimson}/><stop offset="100%" stopColor={C.gold}/></linearGradient></defs></svg>);})()}<div style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",textAlign:"center"}}><div style={{fontSize:32,fontWeight:800,fontFamily:"'Noto Serif JP',serif",letterSpacing:2,color:C.dark}}>{fmt(elapsed)}</div><div style={{fontSize:14,color:C.crimson,fontWeight:700,marginTop:2}}>{cH(elapsed,P.daimokuPerMin).toLocaleString()} 遍</div><div style={{fontSize:9,color:C.muted,marginTop:1}}>{P.daimokuPerMin}遍/分</div></div></div></div>
+<div style={{display:"flex",gap:10,justifyContent:"center",margin:"8px 0 12px"}}><button onClick={()=>setRunning("reset")} style={{...S.btnSec,minHeight:44}}>リセット</button>{running?(<button onClick={()=>setRunning(false)} style={{...S.btnMain,background:G.navy,animation:"glow 2s infinite",minHeight:44}}>一時停止</button>):(<button onClick={()=>setRunning(true)} style={{...S.btnMain,minHeight:44}}>{elapsed>0?"再開":"スタート"}</button>)}<button onClick={onSave} disabled={elapsed<=0||saving} style={{...S.btnSec,opacity:elapsed>0&&!saving?1:.4,minHeight:44}}>{saving?"保存中…":"保存する"}</button></div>
+{P.sessions.length===0&&!running&&elapsed===0&&<div style={{textAlign:"center",padding:"8px 16px",fontSize:12,color:C.muted,lineHeight:1.6}}>「スタート」を押して唱題開始。終わったら「保存する」で記録。</div>}
+</div>);}
+
+function RecordTab({P,setP}){const[v,setV]=useState("daily");const[am,setAm]=useState("");const[ad,setAd]=useState(()=>ld(new Date()));const[cdel,setCdel]=useState(null);const today=ld(new Date());const dy=dsum(P.sessions),d7=last7(P.sessions),mx=Math.max(...d7.map(x=>x.hen),1);
+const addM=()=>{const m=parseInt(am);if(!m||m<=0)return;const sec=m*60,hen=cH(sec,P.daimokuPerMin);const s={id:gid(),date:new Date(ad+"T12:00:00+09:00").toISOString(),seconds:sec,hen};const ns=[...P.sessions,s];const t=recomp(ns);const nd={...P,...t,sessions:ns};setP(nd);saveL(nd);addG(hen,sec);setAm("");setV("daily");};
+const del=(sid)=>{const s=P.sessions.find(x=>x.id===sid);if(!s)return;subG(s.hen,s.seconds);const ns=P.sessions.filter(x=>x.id!==sid);const t=recomp(ns);const nd={...P,...t,sessions:ns};setP(nd);saveL(nd);setCdel(null);};
+return(<div style={{padding:"0 16px",animation:"fadeIn .3s ease"}}>
+<div style={S.cumCard}><div style={{fontSize:11,letterSpacing:".1em",opacity:.7,marginBottom:2}}>わたしの累計</div><div style={{display:"flex",justifyContent:"center",gap:24}}><div><div style={{fontSize:28,fontWeight:900,fontFamily:"'Noto Serif JP',serif"}}>{P.totalHen.toLocaleString()}</div><div style={{fontSize:10,opacity:.7}}>遍</div></div><div style={{borderLeft:"1px solid rgba(255,255,255,.2)",paddingLeft:24}}><div style={{fontSize:28,fontWeight:900,fontFamily:"'Noto Serif JP',serif"}}>{Math.floor(P.totalSeconds/3600)}:{String(Math.floor((P.totalSeconds%3600)/60)).padStart(2,"0")}</div><div style={{fontSize:10,opacity:.7}}>時間:分</div></div></div></div>
+<div style={{...S.card,marginTop:16}}><div style={{fontSize:13,fontWeight:700,color:C.text,marginBottom:12,fontFamily:"'Noto Serif JP',serif"}}>直近7日間</div><div style={{display:"flex",alignItems:"flex-end",gap:6,height:80}}>{d7.map(d=>{const isT=d.key===today;const barH=d.hen>0?Math.max((d.hen/mx)*60,6):0;return(<div key={d.key} style={{flex:1,textAlign:"center"}}><div style={{fontSize:8,color:C.muted,marginBottom:4}}>{d.hen>0?d.hen.toLocaleString():""}</div>{d.has?<div style={{height:barH||4,background:isT?G.todBar:C.goldPale,borderRadius:3,minHeight:4}}/>:<div style={{fontSize:8,color:"#ccc"}}>-</div>}<div style={{fontSize:10,color:isT?C.crimson:C.muted,marginTop:4,fontWeight:isT?700:400}}>{d.dayName}</div></div>);})}</div></div>
+<div style={{display:"flex",marginTop:16,borderBottom:"2px solid "+C.goldPale}}>{[["daily","日別"],["sessions","全件"],["add","＋追加"]].map(([k,l])=>(<button key={k} onClick={()=>setV(k)} style={{...S.subTab,...(v===k?{color:C.crimson,fontWeight:700,borderBottomColor:C.crimson}:{}),minHeight:40}}>{l}</button>))}</div>
+{v==="daily"&&<div style={{marginTop:12}}>{dy.length===0&&<p style={{color:C.muted,fontSize:13,padding:20,textAlign:"center"}}>まだ記録がありません</p>}{dy.map(d=>(<div key={d.date} style={{...S.card,display:"flex",justifyContent:"space-between",alignItems:"center"}}><div><div style={{fontWeight:700,fontSize:14}}>{d.date.replace(/-/g,"/")}</div><div style={{fontSize:11,color:C.muted}}>{d.count}回</div></div><div style={{textAlign:"right"}}><div style={{fontWeight:800,fontSize:16,color:C.crimson}}>{d.hen.toLocaleString()} 遍</div><div style={{fontSize:11,color:C.muted}}>{Math.floor(d.seconds/60)}分</div></div></div>))}</div>}
+{v==="sessions"&&<div style={{marginTop:12}}>{P.sessions.length===0&&<p style={{color:C.muted,fontSize:13,padding:20,textAlign:"center"}}>まだ記録がありません</p>}{[...P.sessions].reverse().map(s=>(<div key={s.id} style={{...S.card,display:"flex",justifyContent:"space-between",alignItems:"center"}}><div><div style={{fontSize:13,fontWeight:600}}>{jdt(s.date)}</div><div style={{fontSize:11,color:C.muted}}>{fmt(s.seconds)}</div></div><div style={{display:"flex",alignItems:"center",gap:12}}><div style={{fontWeight:700,fontSize:15,color:C.crimson}}>{s.hen.toLocaleString()}</div>{cdel===s.id?<div style={{display:"flex",gap:4}}><button onClick={()=>del(s.id)} style={{border:"1px solid "+C.crimson,background:"#fff5f5",color:C.crimson,borderRadius:4,padding:"2px 8px",fontSize:11,cursor:"pointer"}}>削除</button><button onClick={()=>setCdel(null)} style={{border:"1px solid "+C.goldPale,background:C.white,color:C.muted,borderRadius:4,padding:"2px 8px",fontSize:11,cursor:"pointer"}}>戻す</button></div>:<button onClick={()=>setCdel(s.id)} style={{border:"none",background:"transparent",color:C.muted,fontSize:16,cursor:"pointer",padding:4}}>×</button>}</div></div>))}</div>}
+{v==="add"&&<div style={{...S.card,marginTop:12}}><div style={{fontSize:13,fontWeight:700,marginBottom:12,fontFamily:"'Noto Serif JP',serif"}}>過去のお題目を追加</div><label style={{fontSize:12,color:C.muted,display:"block",marginBottom:4}}>日付</label><input type="date" value={ad} max={today} onChange={e=>setAd(e.target.value)} style={S.input}/><label style={{fontSize:12,color:C.muted,display:"block",marginBottom:4,marginTop:12}}>唱題時間（分）</label><input type="number" value={am} onChange={e=>setAm(e.target.value)} placeholder="30" style={S.input}/><div style={{fontSize:11,color:C.muted,marginTop:6}}>≈ {am?cH(parseInt(am||"0")*60,P.daimokuPerMin).toLocaleString():0} 遍</div><button onClick={addM} style={{...S.btnMain,width:"100%",marginTop:16,minHeight:44}}>追加する</button></div>}
+</div>);}
+
+function PrayerTab({P,setP,sp}){const[tab,setTab]=useState("mine");const[np,setNp]=useState("");const[eidP,setEidP]=useState(null);const[etP,setEtP]=useState("");const[eidS,setEidS]=useState(null);const[etS,setEtS]=useState("");
+const aPriv=()=>{if(!np.trim())return;const nd={...P,privatePrayers:[...P.privatePrayers,{id:gid(),text:np}]};setP(nd);saveL(nd);setNp("");};
+const aPub=()=>{if(!np.trim())return;aspf({id:gid(),text:np,authorId:P.userId,authorName:P.userName,hearts:0,createdAt:new Date().toISOString()});setNp("");};
+const ePriv=(id)=>{const nd={...P,privatePrayers:P.privatePrayers.map(p=>p.id===id?{...p,text:etP}:p)};setP(nd);saveL(nd);setEidP(null);};
+const dPriv=(id)=>{const nd={...P,privatePrayers:P.privatePrayers.filter(p=>p.id!==id)};setP(nd);saveL(nd);};
+const doH=(pid)=>{if(P.heartedIds.includes(pid))return;hspf(pid);const nd={...P,heartedIds:[...P.heartedIds,pid]};setP(nd);saveL(nd);};
+const myPub=sp.filter(p=>p.authorId===P.userId);
+return(<div style={{padding:"0 16px",animation:"fadeIn .3s ease"}}>
+<div style={{display:"flex",borderBottom:"2px solid "+C.goldPale}}>{[["mine","自分の祈念"],["public","みんなの祈念"]].map(([k,l])=>(<button key={k} onClick={()=>setTab(k)} style={{...S.subTab,...(tab===k?{color:C.crimson,fontWeight:700,borderBottomColor:C.crimson}:{}),minHeight:40}}>{l}</button>))}</div>
+{tab==="mine"&&<div style={{marginTop:12}}>
+<div style={{...S.card,marginBottom:12}}><textarea value={np} onChange={e=>setNp(e.target.value)} placeholder="御祈念項目を入力..." style={S.textarea}/><div style={{display:"flex",gap:8,marginTop:8}}><button onClick={aPriv} style={{...S.btnSec,flex:1,fontSize:12,minHeight:40}}>🔒 非公開</button><button onClick={aPub} style={{...S.btnMain,flex:1,fontSize:12,padding:"8px 12px",minHeight:40}}>🌍 公開</button></div></div>
+{P.privatePrayers.length===0&&myPub.length===0&&<p style={{color:C.muted,fontSize:13,textAlign:"center",padding:16}}>御祈念項目を追加しましょう</p>}
+{P.privatePrayers.map(p=>(<div key={p.id} style={S.card}>{eidP===p.id?(<><textarea value={etP} onChange={e=>setEtP(e.target.value)} style={S.textarea}/><div style={{display:"flex",gap:8,marginTop:8}}><button onClick={()=>setEidP(null)} style={{...S.btnSec,flex:1,fontSize:12,minHeight:40}}>取消</button><button onClick={()=>ePriv(p.id)} style={{...S.btnMain,flex:1,fontSize:12,padding:"8px 12px",minHeight:40}}>保存</button></div></>):(<><p style={{margin:0,fontSize:13,lineHeight:1.7}}>{p.text}</p><div style={{display:"flex",justifyContent:"space-between",marginTop:8}}><span style={{fontSize:11,color:C.muted}}>🔒</span><div style={{display:"flex",gap:12}}><button onClick={()=>{setEidP(p.id);setEtP(p.text);}} style={{border:"none",background:"transparent",fontSize:12,color:C.crimson,cursor:"pointer",padding:4}}>編集</button><button onClick={()=>dPriv(p.id)} style={{border:"none",background:"transparent",fontSize:12,color:C.muted,cursor:"pointer",padding:4}}>削除</button></div></div></>)}</div>))}
+{myPub.map(p=>(<div key={p.id} style={{...S.card,border:"1px solid "+C.goldPale}}>{eidS===p.id?(<><textarea value={etS} onChange={e=>setEtS(e.target.value)} style={S.textarea}/><div style={{display:"flex",gap:8,marginTop:8}}><button onClick={()=>setEidS(null)} style={{...S.btnSec,flex:1,fontSize:12,minHeight:40}}>取消</button><button onClick={()=>{uspf(p.id,{text:etS});setEidS(null);}} style={{...S.btnMain,flex:1,fontSize:12,padding:"8px 12px",minHeight:40}}>保存</button></div></>):(<><p style={{margin:0,fontSize:13,lineHeight:1.7}}>{p.text}</p><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:8}}><span style={{fontSize:11,color:C.crimson}}>🌍 公開 · ♥{p.hearts||0}</span><div style={{display:"flex",gap:12}}><button onClick={()=>{setEidS(p.id);setEtS(p.text);}} style={{border:"none",background:"transparent",fontSize:12,color:C.crimson,cursor:"pointer",padding:4}}>編集</button><button onClick={()=>dspf(p.id)} style={{border:"none",background:"transparent",fontSize:12,color:C.muted,cursor:"pointer",padding:4}}>削除</button></div></div></>)}</div>))}
+</div>}
+{tab==="public"&&<div style={{marginTop:12}}>{sp.length===0&&<p style={{color:C.muted,fontSize:13,textAlign:"center",padding:20}}>まだ公開された祈念がありません</p>}{sp.map(p=>{const own=p.authorId===P.userId,hd=P.heartedIds.includes(p.id);return(<div key={p.id} style={S.card}><div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}><div style={{width:34,height:34,borderRadius:"50%",background:G.avatar,display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontSize:13,fontWeight:700,flexShrink:0}}>{(p.authorName||"?")[0]}</div><div style={{flex:1}}><div style={{fontWeight:600,fontSize:13}}>{p.authorName||"匿名"}{own&&<span style={{fontSize:10,color:C.crimson,marginLeft:4}}>（自分）</span>}</div></div></div><p style={{margin:0,fontSize:13,lineHeight:1.7}}>{p.text}</p><div style={{marginTop:10}}><button onClick={()=>doH(p.id)} disabled={hd||own} style={{display:"flex",alignItems:"center",gap:6,border:"1px solid "+(hd?C.crimson:C.goldPale),borderRadius:20,padding:"6px 16px",cursor:hd||own?"default":"pointer",background:hd?C.crimson+"12":C.white,fontSize:13,color:hd?C.crimson:C.muted,fontWeight:hd?700:400,minHeight:40}}><span style={{fontSize:16}}>{hd?"♥":"♡"}</span>祈りました{(p.hearts||0)>0&&<span style={{fontWeight:700,marginLeft:4}}>{p.hearts}</span>}</button></div></div>);})}</div>}
+</div>);}
+
+function GoalsTab({P,setP,gs}){const[editing,setEditing]=useState(false);const[et,setEt]=useState(String(P.goalTarget));const presets=[{n:5,l:"5万"},{n:10,l:"10万"},{n:30,l:"30万"},{n:50,l:"50万"},{n:100,l:"100万"}];
+const saveTgt=()=>{const tv=parseInt(et);if(isNaN(tv)||tv<=0)return;const nd={...P,goalTarget:tv};setP(nd);saveL(nd);setEditing(false);};
+const pct=Math.min((P.totalHen/(P.goalTarget||1))*100,100),rem=Math.max((P.goalTarget||0)-P.totalHen,0);
+return(<div style={{padding:"0 16px",animation:"fadeIn .3s ease"}}>
+<div style={{background:G.dk,borderRadius:10,padding:"14px 16px",marginBottom:12,color:"#fff",marginTop:8}}><div style={{fontSize:10,letterSpacing:".1em",color:C.goldLight,marginBottom:6}}>🌍 世田谷みんなのチャレンジ</div><div style={{fontSize:22,fontWeight:900,fontFamily:"'Noto Serif JP',serif"}}>{gs.totalHen.toLocaleString()} <span style={{fontSize:11,fontWeight:400,opacity:.7}}>遍</span></div><div style={{fontSize:10,opacity:.5,marginTop:2}}>{fmtH(gs.totalSeconds)} · {gs.totalSessions.toLocaleString()}セッション</div><div style={{height:8,background:"rgba(255,255,255,.12)",borderRadius:4,overflow:"hidden",marginTop:8}}><div style={{height:"100%",borderRadius:4,background:G.goldBar,width:Math.min((gs.totalHen/100000000)*100,100)+"%",transition:"width .5s"}}/></div><div style={{fontSize:10,color:"rgba(255,255,255,.4)",marginTop:4,textAlign:"right"}}>目標: 1億遍</div></div>
+<div style={{...S.card,marginTop:4}}><div style={{fontSize:15,fontWeight:700,fontFamily:"'Noto Serif JP',serif",marginBottom:12}}>🎯 わたしの目標</div>
+{editing?(<div><div style={{fontSize:13,color:C.text,marginBottom:10}}>目標遍数を選んでください：</div><div style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:12}}>{presets.map(p=>(<button key={p.n} onClick={()=>setEt(String(p.n*10000))} style={{padding:"10px 16px",borderRadius:20,border:(parseInt(et)===p.n*10000?"2px solid "+C.crimson:"1px solid "+C.goldPale),background:parseInt(et)===p.n*10000?C.crimson+"10":C.white,fontSize:14,color:parseInt(et)===p.n*10000?C.crimson:C.text,cursor:"pointer",fontWeight:parseInt(et)===p.n*10000?700:400,minHeight:44}}>{p.l}遍</button>))}</div><div style={{fontSize:12,color:C.muted,marginBottom:6}}>または自由に入力：</div><div style={{display:"flex",gap:8,alignItems:"center",marginBottom:12}}><input type="number" value={et} onChange={e=>setEt(e.target.value)} style={{...S.input,flex:1,fontSize:16,textAlign:"center",padding:12}}/><span style={{fontSize:13,color:C.muted}}>遍</span></div><div style={{display:"flex",gap:8}}><button onClick={()=>setEditing(false)} style={{...S.btnSec,flex:1,minHeight:44}}>キャンセル</button><button onClick={saveTgt} style={{...S.btnMain,flex:1,fontSize:14,minHeight:44}}>決定</button></div></div>)
+:(<div><div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:8}}><div style={{fontSize:24,fontWeight:900,color:C.crimson,fontFamily:"'Noto Serif JP',serif"}}>{P.totalHen.toLocaleString()}</div><div style={{fontSize:14,color:C.muted}}>/ {(P.goalTarget||0).toLocaleString()} 遍</div></div><div style={{height:16,background:C.goldPale,borderRadius:8,overflow:"hidden",marginBottom:8}}><div style={{height:"100%",borderRadius:8,background:G.crimBar,width:pct+"%",transition:"width .5s"}}/></div><div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}><div style={{fontSize:13,color:C.muted}}>達成率 <b style={{color:C.crimson,fontSize:16}}>{pct.toFixed(1)}%</b>{rem>0&&<span> · あと <b style={{color:C.crimson}}>{rem.toLocaleString()}</b>遍</span>}{rem===0&&<span style={{color:C.green,fontWeight:700}}> 🎉 達成！</span>}</div><button onClick={()=>{setEditing(true);setEt(String(P.goalTarget));}} style={{border:"1px solid "+C.crimson,background:C.white,color:C.crimson,borderRadius:20,padding:"6px 14px",fontSize:12,cursor:"pointer",minHeight:36}}>目標を変更</button></div></div>)}</div>
+<div style={{...S.cumCard,marginTop:20}}><div style={{fontSize:32,marginBottom:4}}>🐷</div><div style={{fontSize:11,opacity:.7,letterSpacing:".1em"}}>わたしの福運貯金</div><div style={{fontSize:30,fontWeight:900,fontFamily:"'Noto Serif JP',serif",marginTop:4}}>{P.totalHen.toLocaleString()} <span style={{fontSize:13,fontWeight:400}}>遍</span></div><div style={{fontSize:11,opacity:.6,marginTop:4}}>{fmtH(P.totalSeconds)} · {P.sessions.length}セッション</div></div>
+</div>);}
+
+function App(){const[tab,setTab]=useState("home");const[P,setP]=useState(null);const[loading,setLoading]=useState(true);const[needsName,setNeedsName]=useState(false);const[showSet,setShowSet]=useState(false);const[running,setRunningRaw]=useState(false);const[elapsed,setElapsed]=useState(0);const[startTime,setStartTime]=useState(null);const[showConf,setShowConf]=useState(false);const[savedMsg,setSavedMsg]=useState("");const[saving,setSaving]=useState(false);
+const TGT=new Date("2026-11-29T13:00:00+09:00").getTime();const[cd,setCd]=useState(()=>Math.max(0,TGT-Date.now()));
+useEffect(()=>{const iv=setInterval(()=>setCd(Math.max(0,TGT-Date.now())),1000);return()=>clearInterval(iv);},[]);
+const cdD=Math.floor(cd/864e5),cdH=Math.floor((cd%864e5)/36e5),cdM=Math.floor((cd%36e5)/6e4),cdS=Math.floor((cd%6e4)/1e3);
+const timerRef=useRef(null),stRef=useRef(null);
+useEffect(()=>{if(running&&startTime){stRef.current=startTime;timerRef.current=setInterval(()=>setElapsed(Math.floor((Date.now()-startTime)/1000)),250);}else{if(timerRef.current)clearInterval(timerRef.current);}return()=>{if(timerRef.current)clearInterval(timerRef.current);};},[running,startTime]);
+useEffect(()=>{const fn=()=>{if(document.visibilityState==="visible"&&stRef.current&&running)setElapsed(Math.floor((Date.now()-stRef.current)/1000));};document.addEventListener("visibilitychange",fn);return()=>document.removeEventListener("visibilitychange",fn);},[running]);
+const setRunning=(v)=>{if(v==="reset"){setRunningRaw(false);setElapsed(0);setStartTime(null);stRef.current=null;return;}if(v){setRunningRaw(true);const st=Date.now()-elapsed*1000;setStartTime(st);stRef.current=st;}else setRunningRaw(false);};
+const gs=useGlobal(),sp=useSP(),active=useActive(P?.userId,P?.userName,running);
+useEffect(()=>{const raw=loadL();if(raw){const m=migrate(raw);setP(m);if(!m.userName)setNeedsName(true);}else{setP(defP());setNeedsName(true);}setLoading(false);const splash=document.getElementById("splash");if(splash){splash.style.opacity="0";setTimeout(()=>splash.remove(),300);};},[]);
+useEffect(()=>{if(P&&!P.userName)setNeedsName(true);},[P]);
+const handleName=(n)=>{const nd={...P,userName:n};setP(nd);saveL(nd);setNeedsName(false);};
+const onSave=()=>{if(elapsed<=0||!P||saving)return;setSaving(true);vibrate();const hen=cH(elapsed,P.daimokuPerMin);const s={id:gid(),date:new Date().toISOString(),seconds:elapsed,hen};const ns=[...P.sessions,s];const t=recomp(ns);const nd={...P,...t,sessions:ns};setP(nd);saveL(nd);addG(hen,elapsed);setRunning("reset");setShowConf(true);setSavedMsg(hen.toLocaleString()+"遍を記録！");setTimeout(()=>{setShowConf(false);setSavedMsg("");setSaving(false);},2500);};
+if(loading)return(<div style={{...S.app,display:"flex",alignItems:"center",justifyContent:"center",background:C.dark}}><div style={{textAlign:"center",color:C.goldLight}}><div style={{fontSize:48,marginBottom:16}}>🙏</div><div style={{fontSize:16,fontFamily:"'Noto Serif JP',serif"}}>読み込み中...</div></div></div>);
+if(needsName)return <NameSetup onDone={handleName}/>;
+return(<div style={S.app}><Confetti show={showConf}/>
+{savedMsg&&<div style={{position:"fixed",top:80,left:"50%",transform:"translateX(-50%)",background:G.grn,color:"#fff",borderRadius:20,padding:"8px 20px",fontSize:14,fontWeight:700,zIndex:200,animation:"popIn .3s ease",boxShadow:"0 4px 20px rgba(0,0,0,.3)",whiteSpace:"nowrap"}}>🎉 {savedMsg}</div>}
+<div style={S.header}><div style={S.headerInner}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+<a href={MAIN} style={{fontSize:11,color:C.goldLight,textDecoration:"none",background:"rgba(255,255,255,.08)",borderRadius:6,padding:"5px 10px",display:"flex",alignItems:"center",gap:4}}>◀ <span style={{fontSize:10}}>練習サイト</span></a>
+<div style={{textAlign:"center",flex:1}}><div style={{fontSize:17,fontWeight:900,fontFamily:"'Noto Serif JP',serif",letterSpacing:".08em"}}>題目<span style={{color:C.goldLight}}>フロイデ</span></div></div>
+<button onClick={()=>setShowSet(true)} style={{border:"none",background:"rgba(255,255,255,.08)",color:C.goldLight,fontSize:10,cursor:"pointer",borderRadius:6,padding:"5px 10px",display:"flex",flexDirection:"column",alignItems:"center",gap:1}}><span style={{fontSize:14}}>⚙</span>設定</button>
+</div></div></div>
+<div style={S.countdown}><div style={S.cdBg}/><div style={{position:"relative",zIndex:1,padding:"6px 0"}}>
+<div style={{fontSize:11,letterSpacing:".15em",color:"rgba(255,255,255,.7)",marginBottom:10}}>🎵 本番まであと</div>
+<div style={{display:"flex",justifyContent:"center",alignItems:"baseline",gap:4}}>
+<div style={{textAlign:"center"}}><div style={{fontSize:36,fontWeight:900,fontFamily:"'Noto Serif JP',serif",lineHeight:1}}>{cdD}</div><div style={{fontSize:9,letterSpacing:".1em",color:"rgba(255,255,255,.6)",marginTop:4}}>日</div></div>
+<span style={{fontSize:28,opacity:.3,margin:"0 4px",alignSelf:"flex-start",paddingTop:4}}>·</span>
+<div style={{textAlign:"center"}}><div style={{fontSize:36,fontWeight:900,fontFamily:"'Noto Serif JP',serif",lineHeight:1}}>{String(cdH).padStart(2,"0")}</div><div style={{fontSize:9,letterSpacing:".1em",color:"rgba(255,255,255,.6)",marginTop:4}}>時間</div></div>
+<span style={{fontSize:28,opacity:.3,margin:"0 4px",alignSelf:"flex-start",paddingTop:4}}>·</span>
+<div style={{textAlign:"center"}}><div style={{fontSize:36,fontWeight:900,fontFamily:"'Noto Serif JP',serif",lineHeight:1}}>{String(cdM).padStart(2,"0")}</div><div style={{fontSize:9,letterSpacing:".1em",color:"rgba(255,255,255,.6)",marginTop:4}}>分</div></div>
+<span style={{fontSize:28,opacity:.3,margin:"0 4px",alignSelf:"flex-start",paddingTop:4}}>·</span>
+<div style={{textAlign:"center"}}><div style={{fontSize:36,fontWeight:900,fontFamily:"'Noto Serif JP',serif",lineHeight:1,color:C.goldLight}}>{String(cdS).padStart(2,"0")}</div><div style={{fontSize:9,letterSpacing:".1em",color:"rgba(255,255,255,.6)",marginTop:4}}>秒</div></div>
+</div>
+<div style={{fontSize:10,color:"rgba(255,255,255,.5)",marginTop:10,letterSpacing:".05em"}}>2026年11月29日（日）世田谷ユースアクションフェス本番</div>
+</div></div>
+<div style={S.content}>
+{tab==="home"&&<StopwatchTab P={P} gs={gs} active={active} elapsed={elapsed} running={running} setRunning={setRunning} onSave={onSave} saving={saving}/>}
+{tab==="record"&&<RecordTab P={P} setP={setP}/>}
+{tab==="prayer"&&<PrayerTab P={P} setP={setP} sp={sp}/>}
+{tab==="goals"&&<GoalsTab P={P} setP={setP} gs={gs}/>}
+</div>
+<div style={S.tabBar}>{TABS.map(t=>{const isA=tab===t.id,dot=t.id==="home"&&running&&tab!=="home";return(<button key={t.id} onClick={()=>setTab(t.id)} style={{...S.tabBtn,...(isA?S.tabBtnAct:{}),minHeight:44}}><span style={{fontSize:20,position:"relative"}}>{t.icon}{dot&&<span style={{position:"absolute",top:-2,right:-6,width:7,height:7,borderRadius:"50%",background:C.crimson}}/>}</span><span style={{fontSize:9,marginTop:1}}>{t.label}</span></button>);})}</div>
+{showSet&&<SettingsPanel P={P} setP={setP} onClose={()=>setShowSet(false)}/>}
+</div>);}
+
+const S={app:{maxWidth:430,margin:"0 auto",height:"100%",background:C.cream,fontFamily:"'Noto Sans JP',sans-serif",color:C.text,display:"flex",flexDirection:"column",overflow:"hidden"},header:{background:G.hdr,color:"#fff",position:"sticky",top:0,zIndex:10,borderBottom:"1px solid rgba(201,150,58,.3)",flexShrink:0},headerInner:{padding:"8px 10px 6px"},countdown:{background:G.crim,color:"#fff",textAlign:"center",padding:"14px 16px",position:"relative",overflow:"hidden",flexShrink:0},cdBg:{position:"absolute",inset:0,background:"repeating-linear-gradient(-45deg,transparent,transparent 8px,rgba(255,255,255,.04) 8px,rgba(255,255,255,.04) 9px)"},content:{flex:1,paddingTop:8,paddingBottom:64,overflowY:"auto",WebkitOverflowScrolling:"touch"},tabBar:{position:"fixed",bottom:0,left:"50%",transform:"translateX(-50%)",width:"100%",maxWidth:430,display:"flex",background:"#fff",borderTop:"1px solid "+C.goldPale,padding:"3px 0 env(safe-area-inset-bottom,5px)",zIndex:20},tabBtn:{flex:1,display:"flex",flexDirection:"column",alignItems:"center",border:"none",background:"transparent",padding:"3px 0",color:C.muted,cursor:"pointer"},tabBtnAct:{color:C.crimson},card:{background:C.cardBg,borderRadius:8,padding:14,boxShadow:"0 1px 4px rgba(0,0,0,.05)",marginBottom:10,border:"1px solid rgba(0,0,0,.05)"},cumCard:{background:G.crim,color:"#fff",borderRadius:10,padding:"16px",textAlign:"center"},btnMain:{padding:"12px 24px",border:"none",borderRadius:50,background:G.btn,color:"#fff",fontSize:15,fontWeight:700,cursor:"pointer",boxShadow:"0 4px 14px rgba(155,27,48,.3)"},btnSec:{padding:"10px 18px",border:"1px solid "+C.goldPale,borderRadius:50,background:C.cardBg,color:C.muted,fontSize:12,cursor:"pointer"},subTab:{flex:1,padding:"10px 0",border:"none",background:"transparent",fontSize:13,color:C.muted,cursor:"pointer",borderBottom:"2px solid transparent",marginBottom:-2},textarea:{width:"100%",padding:12,border:"1px solid "+C.goldPale,borderRadius:8,fontSize:13,resize:"vertical",minHeight:70,fontFamily:"inherit",boxSizing:"border-box",background:C.cream},input:{width:"100%",padding:10,border:"1px solid "+C.goldPale,borderRadius:8,fontSize:13,fontFamily:"inherit",boxSizing:"border-box",background:C.cream}};
 ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
 </script>
 </body>
