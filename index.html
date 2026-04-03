@@ -249,6 +249,47 @@ main{max-width:900px;margin:0 auto;padding:0 16px 80px}
 footer{background:var(--dark);color:rgba(255,255,255,.4);text-align:center;padding:26px 16px;font-size:12px;letter-spacing:.05em}
 footer strong{color:var(--gold-light);font-weight:400}
 
+/* ── マイパート設定 ── */
+.mypart-banner{
+  background:linear-gradient(135deg,#1a3a5c,#0d2035);
+  border-radius:8px;padding:16px 18px;margin-bottom:16px;
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+}
+.mypart-banner-icon{font-size:28px;flex-shrink:0}
+.mypart-banner-info{flex:1}
+.mypart-banner-label{font-size:11px;letter-spacing:.15em;color:rgba(255,255,255,.6);margin-bottom:4px}
+.mypart-banner-name{font-family:'Noto Serif JP',serif;font-size:18px;font-weight:700;color:#fff}
+.mypart-banner-sub{font-size:12px;color:rgba(255,255,255,.65);margin-top:2px}
+.mypart-go-btn{
+  background:var(--gold);color:var(--dark);border:none;
+  border-radius:4px;padding:10px 18px;font-size:13px;font-weight:700;
+  cursor:pointer;font-family:'Noto Sans JP',sans-serif;white-space:nowrap;
+  transition:all .2s;
+}
+.mypart-go-btn:hover{background:var(--gold-light);}
+.mypart-change{font-size:11px;color:rgba(255,255,255,.5);text-decoration:underline;cursor:pointer;display:block;margin-top:6px;}
+.mypart-change:hover{color:rgba(255,255,255,.8)}
+
+.part-select-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:8px}
+.part-select-card{
+  border-radius:8px;overflow:hidden;cursor:pointer;
+  transition:transform .2s,box-shadow .2s,outline .15s;
+  border:3px solid transparent;
+}
+.part-select-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.part-select-card.selected{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,150,58,.4)}
+.part-select-inner{padding:20px 16px;position:relative;text-align:left}
+.part-select-inner::after{content:'→';position:absolute;right:14px;bottom:12px;font-size:16px;color:rgba(255,255,255,.5)}
+.part-select-card.selected .part-select-inner::after{content:'✓';color:var(--gold-light);font-size:18px}
+.part-select-label{font-family:'Noto Serif JP',serif;font-size:20px;font-weight:700;color:white;display:block;margin-bottom:3px}
+.part-select-sub{font-size:11px;color:rgba(255,255,255,.7);letter-spacing:.1em}
+.ps-s .part-select-inner{background:linear-gradient(135deg,#c0392b,#922b21)}
+.ps-a .part-select-inner{background:linear-gradient(135deg,#8e44ad,#6c3483)}
+.ps-t .part-select-inner{background:linear-gradient(135deg,#2471a3,#1a5276)}
+.ps-b .part-select-inner{background:linear-gradient(135deg,#1e8449,#145a32)}
+
+.mypart-set-note{font-size:12px;color:var(--muted);text-align:center;margin-top:8px}
+
 /* ── LINE SHARE ── */
 .line-share-bar{background:linear-gradient(135deg,#06C755,#00a040);padding:16px 20px;text-align:center}
 .line-share-bar p{color:rgba(255,255,255,.85);font-size:12px;margin-bottom:10px;letter-spacing:.05em}
@@ -367,8 +408,61 @@ footer strong{color:var(--gold-light);font-weight:400}
     </div>
   </div>
 
-  <div class="slabel"><div class="licon">🎬</div>練習動画・音声（パート別）</div>
-  <div class="parts-grid">
+  <!-- 題目バナー -->
+  <a href="https://setagaya2026.github.io/setagaya-daiku/daimoku/" target="_blank"
+    style="display:block;text-decoration:none;margin-bottom:8px">
+    <div style="background:linear-gradient(135deg,#4a1010,#8B1a1a);border-radius:8px;padding:18px 20px;display:flex;align-items:center;gap:14px;transition:opacity .2s">
+      <div style="font-size:34px;flex-shrink:0">🙏</div>
+      <div style="flex:1">
+        <div style="font-family:'Noto Serif JP',serif;font-size:16px;font-weight:700;color:#fff;margin-bottom:4px">みんなで題目をあげよう！</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.7);line-height:1.6">一人一人の祈りが本番の歓喜につながる。<br>さあ、フロイデに向けて共に唱題！</div>
+      </div>
+      <div style="background:rgba(255,255,255,.15);color:#fff;padding:8px 14px;border-radius:4px;font-size:12px;font-weight:700;white-space:nowrap;flex-shrink:0">開く →</div>
+    </div>
+  </a>
+
+  <div class="slabel"><div class="licon">🎬</div>練習動画（パート別）</div>
+
+  <!-- マイパートバナー（設定済みの場合に表示） -->
+  <div id="mypart-banner" style="display:none">
+    <div class="mypart-banner">
+      <div class="mypart-banner-icon" id="mypart-icon">🎤</div>
+      <div class="mypart-banner-info">
+        <div class="mypart-banner-label">MY PART</div>
+        <div class="mypart-banner-name" id="mypart-name">ソプラノ</div>
+        <div class="mypart-banner-sub">タップして練習動画を開く</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+        <button class="mypart-go-btn" id="mypart-go-btn">練習動画へ →</button>
+        <span class="mypart-change" onclick="resetMyPart()">パートを変更する</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- パート選択（未設定の場合に表示） -->
+  <div id="mypart-select">
+    <p style="font-size:13px;color:var(--muted);margin-bottom:12px">
+      🎤 自分のパートを選ぶと次回から自動でそのページが開きます！
+    </p>
+    <div class="part-select-grid">
+      <div class="part-select-card ps-s" onclick="selectPart('soprano','ソプラノ','🎤')">
+        <div class="part-select-inner"><span class="part-select-label">ソプラノ</span><span class="part-select-sub">Soprano</span></div>
+      </div>
+      <div class="part-select-card ps-a" onclick="selectPart('alto','アルト','🎤')">
+        <div class="part-select-inner"><span class="part-select-label">アルト</span><span class="part-select-sub">Alto</span></div>
+      </div>
+      <div class="part-select-card ps-t" onclick="selectPart('tenor','テノール','🎤')">
+        <div class="part-select-inner"><span class="part-select-label">テノール</span><span class="part-select-sub">Tenor</span></div>
+      </div>
+      <div class="part-select-card ps-b" onclick="selectPart('bass','バス','🎤')">
+        <div class="part-select-inner"><span class="part-select-label">バス</span><span class="part-select-sub">Bass</span></div>
+      </div>
+    </div>
+    <p class="mypart-set-note">📱 このサイトを閉じても次回から自動で覚えています</p>
+  </div>
+
+  <!-- 全パート一覧（常に表示） -->
+  <div class="parts-grid" style="margin-top:16px">
     <a class="pcard cs" onclick="showSection('soprano',null)"><div class="pci"><span class="plabel">ソプラノ</span><span class="psub">Soprano</span></div></a>
     <a class="pcard ca" onclick="showSection('alto',null)"><div class="pci"><span class="plabel">アルト</span><span class="psub">Alto</span></div></a>
     <a class="pcard ct" onclick="showSection('tenor',null)"><div class="pci"><span class="plabel">テノール</span><span class="psub">Tenor</span></div></a>
@@ -450,20 +544,11 @@ footer strong{color:var(--gold-light);font-weight:400}
       <span class="ctitle">わたしたちの歓喜の歌 ～世田谷第九合唱祭 2011～</span>
     </div>
     <div class="cbody">
-      <!-- ★ 2011年世田谷映像のYouTube IDを入れてください -->
-      <div class="eplace" style="height:240px">
-        <div class="icon">🎬</div>
-        <div style="text-align:center">
-          2011年 世田谷第九合唱祭の映像<br>
-          <span style="font-size:11px;opacity:.7">YouTubeのURLを取得して以下のiframeに差し替えてください</span>
-        </div>
-      </div>
-      <!--
       <div class="yt-wrap">
-        <iframe src="https://www.youtube.com/embed/【2011年世田谷のYouTube ID】" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/3YpVNQF4E3E" allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+        </iframe>
       </div>
-      -->
-      <p class="enote">💡 映像URLが決まったら: &lt;iframe src="https://www.youtube.com/embed/【ID】" allowfullscreen&gt;&lt;/iframe&gt; で差し替え</p>
     </div>
   </div>
   <div class="cblock" style="background:#fffbf0;border-color:rgba(201,150,58,.3)">
@@ -724,6 +809,59 @@ function buildSch(){
 }
 buildSch();
 
+// ── マイパート設定 ──
+const PART_INFO = {
+  soprano: {name:'ソプラノ', icon:'🎤', color:'#c0392b'},
+  alto:    {name:'アルト',   icon:'🎤', color:'#8e44ad'},
+  tenor:   {name:'テノール', icon:'🎤', color:'#2471a3'},
+  bass:    {name:'バス',     icon:'🎤', color:'#1e8449'},
+};
+
+function initMyPart(){
+  const saved = localStorage.getItem('mypart');
+  if(saved && PART_INFO[saved]){
+    showMyPartBanner(saved);
+    // 初回アクセス時はマイパートページへ自動ジャンプ
+    if(!sessionStorage.getItem('visited')){
+      sessionStorage.setItem('visited','1');
+      setTimeout(()=>showSection(saved, null), 400);
+    }
+  }
+}
+
+function showMyPartBanner(part){
+  const info = PART_INFO[part];
+  document.getElementById('mypart-banner').style.display = 'block';
+  document.getElementById('mypart-select').style.display = 'none';
+  document.getElementById('mypart-icon').textContent = info.icon;
+  document.getElementById('mypart-name').textContent = info.name;
+  // ボタンの色をパートカラーに
+  const btn = document.getElementById('mypart-go-btn');
+  btn.style.background = info.color;
+  btn.style.color = 'white';
+  btn.onclick = () => showSection(part, null);
+  // 選択済みカードにselectedクラス
+  document.querySelectorAll('.part-select-card').forEach(c => c.classList.remove('selected'));
+}
+
+function selectPart(part, name, icon){
+  localStorage.setItem('mypart', part);
+  showMyPartBanner(part);
+  // 選んだカードを光らせる演出
+  document.querySelectorAll('.part-select-card').forEach(c => c.classList.remove('selected'));
+  const cards = {'soprano':0,'alto':1,'tenor':2,'bass':3};
+  document.querySelectorAll('.part-select-card')[cards[part]].classList.add('selected');
+  // 0.5秒後にそのパートへジャンプ
+  setTimeout(() => showSection(part, null), 500);
+}
+
+function resetMyPart(){
+  localStorage.removeItem('mypart');
+  document.getElementById('mypart-banner').style.display = 'none';
+  document.getElementById('mypart-select').style.display = 'block';
+  document.querySelectorAll('.part-select-card').forEach(c => c.classList.remove('selected'));
+}
+
 // ── NAV ──
 function showSection(name,link){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
@@ -857,6 +995,7 @@ function updateQNav(){
   document.getElementById('prog-lbl').textContent='Part '+(curPart+1)+' / '+FPARTS.length;
 }
 buildFreude();
+initMyPart();
 
 // ── 新・人間革命 ──
 // ★ PDFファイルをGoogleドライブ等に公開してURLを取得し、
