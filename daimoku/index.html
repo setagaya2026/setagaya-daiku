@@ -80,7 +80,7 @@ function NameSetup({onDone}){
       <div style={{fontSize:20,fontWeight:900,color:C.goldLight,fontFamily:"'Noto Serif JP',serif",marginBottom:4}}>題目<span style={{color:C.white}}>フロイデ</span></div>
       <div style={{fontSize:11,color:"rgba(255,255,255,.5)",marginBottom:28}}>Re:Freude ～わたしたちの新しい歓喜の歌～</div>
       <div style={{fontSize:14,color:C.cream,marginBottom:16}}>あなたの表示名を入力してください</div>
-      <input value={name} onChange={e=>setName(e.target.value)} placeholder="例：比留間"
+      <input value={name} onChange={e=>setName(e.target.value)} placeholder="例：せたがや"
         style={{...S.input,background:"rgba(255,255,255,.1)",color:"#fff",border:`1px solid ${C.gold}`,textAlign:"center",fontSize:16,padding:14}}
         onKeyDown={e=>{if(e.key==="Enter"&&name.trim())onDone(name.trim())}}/>
       <button onClick={()=>{if(name.trim())onDone(name.trim())}} disabled={!name.trim()}
