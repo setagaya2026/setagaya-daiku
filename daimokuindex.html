@@ -29,23 +29,11 @@ button{touch-action:manipulation}
 <body>
 <div id="splash"><div style="text-align:center;color:#e8c06a"><div style="font-size:48px;margin-bottom:16px">🙏</div><div style="font-size:20px;font-weight:900;font-family:'Noto Serif JP',serif">題目<span style="color:#fff">フロイデ</span></div><div style="font-size:11px;margin-top:8px;opacity:.5">読み込み中...</div></div></div>
 <div id="root"></div>
-<div id="yt-player" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"></div>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-<script>
-// YouTube IFrame API
-var ytPlayer=null,ytReady=false;
-var tag=document.createElement('script');tag.src="https://www.youtube.com/iframe_api";document.head.appendChild(tag);
-function onYouTubeIframeAPIReady(){
-  ytPlayer=new YT.Player('yt-player',{height:'1',width:'1',videoId:'650WAvcZokA',
-    playerVars:{autoplay:0,loop:1,playlist:'650WAvcZokA',controls:0},
-    events:{onReady:function(){ytReady=true;}}
-  });
-}
-</script>
 <script type="text/babel">
 const{useState,useEffect,useRef}=React;
 const FBC={apiKey:"AIzaSyACCr1WZwQZL6DXR9QPG5EX4vZz9BJaYBw",authDomain:"daimoku-freude.firebaseapp.com",databaseURL:"https://daimoku-freude-default-rtdb.firebaseio.com",projectId:"daimoku-freude",storageBucket:"daimoku-freude.firebasestorage.app",messagingSenderId:"637502572501",appId:"1:637502572501:web:c00b0f7e3f47b1ce21df5c"};
@@ -53,7 +41,7 @@ let db=null;try{firebase.initializeApp(FBC);db=firebase.database();}catch(e){con
 const MAIN="https://setagaya2026.github.io/setagaya-daiku/";
 const C={crimson:"#9B1B30",crimsonDark:"#6d1220",gold:"#C9963A",goldLight:"#e8c06a",goldPale:"#f5e6c8",cream:"#FAF6EF",dark:"#1a1208",text:"#2d1f0f",muted:"#7a6a55",navy:"#1a3a5c",navyDark:"#0d2035",white:"#fff",cardBg:"#fff",green:"#2e7d32"};
 const G={hdr:`linear-gradient(135deg,${C.dark} 0%,#2d1a0a 50%,${C.dark} 100%)`,crim:`linear-gradient(135deg,${C.crimsonDark},${C.crimson})`,btn:`linear-gradient(135deg,${C.crimson},${C.crimsonDark})`,navy:`linear-gradient(135deg,${C.navy},${C.navyDark})`,dk:`linear-gradient(135deg,${C.dark},#2d1a0a)`,goldBar:`linear-gradient(90deg,${C.gold},${C.goldLight})`,crimBar:`linear-gradient(90deg,${C.crimson},${C.gold})`,todBar:`linear-gradient(180deg,${C.crimson},${C.crimsonDark})`,avatar:`linear-gradient(135deg,${C.crimson},${C.gold})`,rst:"linear-gradient(135deg,#c62828,#b71c1c)",grn:`linear-gradient(135deg,${C.green},#1b5e20)`};
-const TABS=[{id:"home",label:"唱題",icon:"⏱"},{id:"record",label:"記録",icon:"📊"},{id:"prayer",label:"御祈念",icon:"🙏"},{id:"goals",label:"目標",icon:"🎯"}];
+const TABS=[{id:"home",label:"唱題",icon:"⏱"},{id:"record",label:"記録",icon:"📊"},{id:"prayer",label:"御祈念",icon:"🙏"},{id:"goals",label:"目標",icon:"🎯"},{id:"board",label:"ひろば",icon:"💬"}];
 const SPEEDS=[{label:"ゆっくり",v:25},{label:"ふつう",v:40},{label:"はやい",v:55},{label:"カスタム",v:null}];
 
 // ■ データ永続化（全バージョン互換）
@@ -93,29 +81,77 @@ function uspf(id,u){if(db)db.ref("shared-prayers/"+id).update(u).catch(()=>{});}
 function dspf(id){if(db)db.ref("shared-prayers/"+id).remove().catch(()=>{});}
 function hspf(id){if(db)db.ref("shared-prayers/"+id+"/hearts").transaction(c=>(c||0)+1).catch(()=>{});}
 
+// ─── Firebase: タイムライン（ひろば）───
+const CATEGORIES=["決意","体験","自由"];
+function useTimeline(){const[posts,setPosts]=useState([]);useEffect(()=>{if(!db)return;const ref=db.ref("timeline").orderByChild("createdAt").limitToLast(100);const h=ref.on("value",sn=>{const v=sn.val();setPosts(v?Object.values(v).sort((a,b)=>b.createdAt.localeCompare(a.createdAt)):[]);});return()=>ref.off("value",h);},[]);return posts;}
+function addPost(p){if(db)db.ref("timeline/"+p.id).set(p).catch(()=>{});}
+function delPost(id){if(db)db.ref("timeline/"+id).remove().catch(()=>{});}
+
+function BoardTab({P}){
+  const posts=useTimeline();
+  const[cat,setCat]=useState("決意");
+  const[text,setText]=useState("");
+  const[showRules,setShowRules]=useState(false);
+  const[posting,setPosting]=useState(false);
+  const filtered=posts.filter(p=>p.category===cat);
+  const doPost=()=>{if(!text.trim()||posting)return;setPosting(true);addPost({id:gid(),authorId:P.userId,authorName:P.userName,text:text.trim(),category:cat,createdAt:new Date().toISOString()});setText("");setTimeout(()=>setPosting(false),500);};
+  const ago=(iso)=>{const d=Math.floor((Date.now()-new Date(iso).getTime())/60000);if(d<1)return"今";if(d<60)return d+"分前";if(d<1440)return Math.floor(d/60)+"時間前";return Math.floor(d/1440)+"日前";};
+  return(<div style={{padding:"0 16px",animation:"fadeIn .3s ease"}}>
+    {/* 投稿フォーム */}
+    <div style={{...S.card,marginTop:8}}>
+      <div style={{display:"flex",gap:6,marginBottom:10}}>{CATEGORIES.map(c=>(<button key={c} onClick={()=>setCat(c)} style={{flex:1,padding:"8px 4px",borderRadius:20,border:cat===c?"2px solid "+C.crimson:"1px solid "+C.goldPale,background:cat===c?C.crimson+"10":C.white,fontSize:13,color:cat===c?C.crimson:C.text,cursor:"pointer",fontWeight:cat===c?700:400,minHeight:38}}>{c}</button>))}</div>
+      <textarea value={text} onChange={e=>setText(e.target.value)} placeholder={"「"+cat+"」を投稿..."} style={S.textarea} maxLength={300}/>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:8}}>
+        <button onClick={()=>setShowRules(true)} style={{border:"none",background:"transparent",fontSize:11,color:C.muted,cursor:"pointer",padding:4}}>⚠ 投稿ルール</button>
+        <div style={{display:"flex",alignItems:"center",gap:8}}>
+          <span style={{fontSize:11,color:C.muted}}>{text.length}/300</span>
+          <button onClick={doPost} disabled={!text.trim()||posting} style={{...S.btnMain,padding:"8px 20px",fontSize:13,opacity:text.trim()&&!posting?1:.4,minHeight:38}}>{posting?"投稿中…":"投稿"}</button>
+        </div>
+      </div>
+    </div>
+
+    {/* 投稿一覧 */}
+    <div style={{fontSize:13,fontWeight:700,color:C.text,marginTop:16,marginBottom:8,fontFamily:"'Noto Serif JP',serif"}}>💬 みんなの{cat}（{filtered.length}件）</div>
+    {filtered.length===0&&<div style={{...S.card,textAlign:"center",color:C.muted,fontSize:13,padding:24}}>まだ投稿がありません。最初の投稿をしてみましょう！</div>}
+    {filtered.map(p=>{const isOwn=p.authorId===P.userId;return(<div key={p.id} style={S.card}>
+      <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:6}}>
+        <div style={{width:30,height:30,borderRadius:"50%",background:G.avatar,display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontSize:12,fontWeight:700,flexShrink:0}}>{(p.authorName||"?")[0]}</div>
+        <div style={{flex:1}}><div style={{fontWeight:600,fontSize:12}}>{p.authorName||"匿名"}{isOwn&&<span style={{fontSize:10,color:C.crimson,marginLeft:4}}>（自分）</span>}</div><div style={{fontSize:10,color:C.muted}}>{ago(p.createdAt)}</div></div>
+        {isOwn&&<button onClick={()=>delPost(p.id)} style={{border:"none",background:"transparent",color:C.muted,fontSize:14,cursor:"pointer",padding:4}}>×</button>}
+      </div>
+      <p style={{margin:0,fontSize:13,lineHeight:1.7,whiteSpace:"pre-wrap"}}>{p.text}</p>
+    </div>);})}
+
+    {/* ルールモーダル */}
+    {showRules&&<div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.5)",zIndex:100,display:"flex",alignItems:"center",justifyContent:"center",padding:24}} onClick={()=>setShowRules(false)}>
+      <div style={{background:C.white,borderRadius:16,padding:24,maxWidth:340,width:"100%"}} onClick={e=>e.stopPropagation()}>
+        <div style={{fontSize:13,fontWeight:700,textAlign:"center",marginBottom:12}}>※全ユーザーに表示されています。</div>
+        <div style={{fontSize:12,color:C.text,lineHeight:1.8,textAlign:"center"}}>
+          ・ここはみんなで励まし合う場所です。<br/>
+          ・投稿は誰でも読める公開の場です。<br/>個人情報の共有には十分ご注意ください。<br/>
+          ・議論よりも、応援・共感を心がけましょう。<br/>
+          ・相手を傷つける言葉、暴力的な発言、<br/>誹謗中傷、対立をあおる投稿は通報対象です。
+        </div>
+        <button onClick={()=>setShowRules(false)} style={{...S.btnMain,width:"100%",marginTop:16,fontSize:14,minHeight:44}}>OK</button>
+      </div>
+    </div>}
+  </div>);
+}
+
 function Confetti({show}){if(!show)return null;const cols=[C.crimson,C.gold,"#e74c6f","#4caf50","#ff9800"];return(<div style={{position:"fixed",top:0,left:0,right:0,height:"100vh",pointerEvents:"none",zIndex:300}}>{Array.from({length:20}).map((_,i)=>(<div key={i} className="cp" style={{left:(5+Math.random()*90)+"%",top:(Math.random()*20)+"%",width:Math.random()*10+4,height:Math.random()*10+4,background:cols[i%5],animationDelay:Math.random()*0.5+"s",borderRadius:Math.random()>.5?"50%":"2px"}}/>))}</div>);}
 
 function AudioBar(){
-  const[playing,setPlaying]=useState(false);
-  const[speed,setSpeed]=useState(1);
-  const speeds=[0.75,1,1.25];
-  const toggle=()=>{
-    if(!window.ytPlayer||!window.ytReady)return;
-    if(playing){window.ytPlayer.pauseVideo();setPlaying(false);}
-    else{window.ytPlayer.playVideo();setPlaying(true);}
-  };
-  const cycleSpeed=()=>{
-    if(!window.ytPlayer||!window.ytReady)return;
-    const next=speeds[(speeds.indexOf(speed)+1)%speeds.length];
-    window.ytPlayer.setPlaybackRate(next);setSpeed(next);
-  };
-  return(<div style={{display:"flex",alignItems:"center",gap:8,background:C.dark,borderRadius:8,padding:"8px 12px",marginBottom:8}}>
-    <button onClick={toggle} style={{border:"none",background:playing?C.crimson:"rgba(255,255,255,.15)",color:"#fff",width:36,height:36,borderRadius:"50%",fontSize:16,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{playing?"⏸":"▶"}</button>
-    <div style={{flex:1}}>
-      <div style={{fontSize:12,color:C.goldLight,fontWeight:700}}>南無妙法蓮華経</div>
-      <div style={{fontSize:9,color:"rgba(255,255,255,.4)"}}>{playing?"再生中…":"タップで題目の音声を再生"}</div>
-    </div>
-    <button onClick={cycleSpeed} style={{border:"1px solid rgba(255,255,255,.2)",background:"rgba(255,255,255,.08)",color:C.goldLight,borderRadius:16,padding:"4px 10px",fontSize:11,cursor:"pointer",fontWeight:700,minHeight:28}}>{speed}x</button>
+  const[open,setOpen]=useState(false);
+  return(<div style={{marginBottom:8}}>
+    <button onClick={()=>setOpen(!open)} style={{display:"flex",alignItems:"center",gap:8,width:"100%",background:C.dark,borderRadius:open?"8px 8px 0 0":8,padding:"10px 12px",border:"none",cursor:"pointer"}}>
+      <span style={{fontSize:20,flexShrink:0}}>{open?"🔊":"🔈"}</span>
+      <div style={{flex:1,textAlign:"left"}}><div style={{fontSize:12,color:C.goldLight,fontWeight:700}}>お題目の音声</div><div style={{fontSize:9,color:"rgba(255,255,255,.4)"}}>{open?"▲ 閉じる":"▼ タップして再生"}</div></div>
+    </button>
+    {open&&<div style={{background:C.dark,borderRadius:"0 0 8px 8px",padding:"8px 12px"}}>
+      <audio controls loop preload="none" style={{width:"100%",height:36,borderRadius:4}}>
+        <source src="./chanting.mp3" type="audio/mpeg"/>お使いのブラウザは音声再生に対応していません。
+      </audio>
+    </div>}
   </div>);
 }
 function NameSetup({onDone}){const[n,setN]=useState("");return(<div style={{position:"fixed",inset:0,background:C.dark,zIndex:200,display:"flex",alignItems:"center",justifyContent:"center"}}><div style={{textAlign:"center",padding:32,maxWidth:360,animation:"fadeIn .5s ease"}}><div style={{fontSize:48,marginBottom:16}}>🙏</div><div style={{fontSize:22,fontWeight:900,color:C.goldLight,fontFamily:"'Noto Serif JP',serif",marginBottom:4}}>題目<span style={{color:C.white}}>フロイデ</span></div><div style={{fontSize:10,color:C.gold,marginBottom:24,letterSpacing:".1em"}}>世田谷ユースアクションフェス 2026.11.29</div><div style={{fontSize:14,color:C.cream,marginBottom:16}}>表示名を入力してください</div><input value={n} onChange={e=>setN(e.target.value)} placeholder="例：せたがや太郎" style={{...S.input,background:"rgba(255,255,255,.1)",color:"#fff",border:"1px solid "+C.gold,textAlign:"center",fontSize:16,padding:14}} onKeyDown={e=>{if(e.key==="Enter"&&n.trim())onDone(n.trim());}}/><button onClick={()=>{if(n.trim())onDone(n.trim());}} disabled={!n.trim()} style={{...S.btnMain,width:"100%",marginTop:16,opacity:n.trim()?1:.4}}>はじめる</button></div></div>);}
@@ -226,6 +262,7 @@ return(<div style={S.app}><Confetti show={showConf}/>
 {tab==="record"&&<RecordTab P={P} setP={setP}/>}
 {tab==="prayer"&&<PrayerTab P={P} setP={setP} sp={sp}/>}
 {tab==="goals"&&<GoalsTab P={P} setP={setP} gs={gs}/>}
+{tab==="board"&&<BoardTab P={P}/>}
 </div>
 <div style={S.tabBar}>{TABS.map(t=>{const isA=tab===t.id,dot=t.id==="home"&&running&&tab!=="home";return(<button key={t.id} onClick={()=>setTab(t.id)} style={{...S.tabBtn,...(isA?S.tabBtnAct:{}),minHeight:44}}><span style={{fontSize:20,position:"relative"}}>{t.icon}{dot&&<span style={{position:"absolute",top:-2,right:-6,width:7,height:7,borderRadius:"50%",background:C.crimson}}/>}</span><span style={{fontSize:9,marginTop:1}}>{t.label}</span></button>);})}</div>
 {showSet&&<SettingsPanel P={P} setP={setP} onClose={()=>setShowSet(false)}/>}
