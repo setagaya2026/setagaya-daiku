@@ -1,0 +1,26 @@
+{
+  "name": "題目フロイデ｜Re:Freude 世田谷 2026",
+  "short_name": "題目フロイデ",
+  "description": "世田谷ユースアクションフェス Re:Freude 2026 唱題記録アプリ",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1a1208",
+  "theme_color": "#6d1220",
+  "lang": "ja",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
