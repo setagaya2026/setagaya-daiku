@@ -61,6 +61,18 @@ const ADMIN_KEY="df-admin";
 function isAdmin(){try{return localStorage.getItem(ADMIN_KEY)==="1";}catch{return false;}}
 function setAdmin(v){try{if(v)localStorage.setItem(ADMIN_KEY,"1");else localStorage.removeItem(ADMIN_KEY);}catch{}}
 
+// 世田谷随筆（聖教新聞社 許諾済）
+// ※ body に正確な原文を貼り付けてください（改行は \n で）
+const ESSAYS=[
+  {id:"e1997",date:"1997年6月22日",title:"平和と文化の大城に凱歌あれ",subtitle:"大東京をリードする世田谷の友に贈る",author:"山本伸一",publication:"聖教新聞",summary:"昭和29年の第一回青年部体育大会「世紀の祭典」の感動から始まる随筆。世田谷区の日大グラウンドで行われた文化祭の情景、鼓笛隊の颯爽とした姿、そして青年への大きな期待が綴られている。",body:"大東京をリードする世田谷の友に贈る\n平和と文化の大城に　凱歌あれ\n山本伸一\n\n　御聖訓に\n　「一切の人は\n　　にくまば　にくめ」\n　日蓮は\n　「いまだ　こりず候」\n　　　\n　我らの信奉する\n　大聖人の悠然たる確信\n　それを思うと\n　わが学会の難は\n　いまだ小さい\n　　　\n　島国根性の\n　嫉妬と策略と陰謀の数々\n　売らんがための作り話で\n　世間を撹乱する　卑しい輩\n　これを　悪世末法というか\n　　　\n　世田谷と聞くと\n　私の脳裏には\n　昭和二十九年の\n　あの秋の十一月七日が蘇る\n　　　\n　第一回の青年部体育大会が\n　「世紀の祭典」と\n　銘打って　行われた\n　世田谷区の\n　日大グラウンドである\n　　　\n　この世紀の大会は\n　三年間　連続で開かれた\n　会場も　同じであった\n　恩師である戸田先生は\n　三回とも　出席してくださった\n　　　\n　その意義は　大きかった\n　わが学会は\n　文化の伝統を創りゆけという\n　深き思いがあったことを\n　私は　知っていた\n　　　\n　青年は　成長する\n　青年は　頼もしい\n　青年には　未来がある\n　青年は　賢い\n　そして\n　青年は　恐れない！\n　　　\n　この青年たちを\n　広宣流布という\n　大文化運動\n　大平和運動の主人公として\n　活躍させることは\n　私の夢であり\n　恩師の夢であった\n　　\n　颯爽と\n　平和の天使　鼓笛隊が\n　文化祭に　初登場したのも\n　ここ　世田谷の会場であった\n　　　\n　青年たちは\n　伸び伸びと\n　また　あらゆる苦労をしながら\n　この文化祭を通して\n　たくましく成長した\n　　　\n　この文化祭を\n　発案したのは　私である\n　多くの先輩たちは\n　こぞって　反対した\n　しかし　戸田先生は\n　深い遠い　展望を考えたとき\n　絶対　必要と\n　ただ一人　賛成された\n　　　\n　その時の青年たちが\n　土台となり\n　今日の　東京第一の\n　世田谷の舞台が　できあがった\n　　　\n　世田谷は\n　文化の街であり\n　教育の街であり\n　東京の模範的な\n　水準の高い街々である\n　　　\n　やがて　世田谷に\n　宝城が完成\n　創立六十周年を\n　記念する会合も　もたれた\n　　　\n　多くの同志が\n　丹精こめて作りあげた\n　華やかな　気品あふれる\n　菊花の競演\n　これも\n　文化運動の一つであった\n　それは　それは\n　素晴らしい　文化の薫りで\n　世田谷城を包んでいた\n　　　\n　私は　深く思った\n　初代会長　二代会長に\n　この晴れの姿を　見せたいと\n　　　\n　そして\n　私は　詠み贈った\n　「創立に\n　　　　勝利の宴や\n　　　　　　　菊花城」\n　　　\n　世田谷の\n　偉大なる先駆者の方々よ！\n　父たちよ　母たちよ！\n\n\n　あまりにも\n　苦しい法戦であったことも\n　よく　私は知っている\n　皆さま方は\n　よく　烈風に耐えた\n　皆さま方は\n　黒い非難　中傷に耐えた\n　　　\n　これが　五濁悪世の姿であると\n　御本仏は　賞賛してくださる\n　　　\n　御聖訓にいわく\n　「日蓮は　日本第一の\n　　ゑせ（僻）ものなり」――\n　日蓮ほど　日本において\n　悪名を流した者はない\n　　　\n　何たる　転倒の世か！\n　何たる　命濁の世か！\n　何たる　狂気の社会か！\n　　　\n　正しいからこそ\n　難を受ける\n　大悪を破るからこそ\n　大善となる"},
+  {id:"e2001",date:"2001年5月13日",title:"前進！勇気なくして勝利なし！",subtitle:"随筆 新・人間革命 213 / 新世紀の旗手・世田谷",author:"法悟空",publication:"聖教新聞",summary:"フランス革命のバスチーユの歴史を引きながら、勇気を持って立ち上がることの重要性を訴える随筆。世田谷文化会館の歴史を振り返り、「前進！勇気なくして勝利なし！」との不朽のメッセージが込められている。",body:"新世紀の旗手・世田谷\n前進！　勇気なくして勝利なし！\n\n　われらは勝った！\n　いよいよ、新しき旅立ちの鐘が高らかに鳴った。\n　活発な魂のわれらは、風を頼らない。順風が吹こうが、逆風があろうが、学会は学会らしく、威風堂々、偉大なる目的地に向かって進む。\n　前進！　そこに広宣流布の闘士の魂がある。\n　私は、あの狂乱の「第一次宗門問題」の嵐が吹き荒れた二十余年前も、鉄の鎖を引きずるように、迫害の暴風を突いて前へ進んだ。\n　学会本部にいても、あるいは、第二東京の立川文化会館等にいても、じっとしていられず、時間を見つけては都内を回った。\n　世田谷にも、何度も、何度も足を運んだ。「東京よ、負けるな！　世田谷よ、立ち上がれ！」と祈りながら。\n　特に忘れられないのは、長編詩「青年よ　二十一世紀の広布の山を登れ」を発表して間もない、一九八一年（昭和五十六年）暮れのことである。\n　私は、当時よく利用した学会本部のバスに乗り、皆が喜ぶ顔を思いながら、赤堤の世田谷文化会館へ走った。\n　会館では、年末の“餅つき大会”が行われるという話であったが、私の来訪を聞かれてか、集まった同志は八百人に膨れ上がっていた。\n　お母さんに連れられた子どもたちも、百数十人いただろうか。なんと明るく、にぎやかだったことか！\n　“世田谷家族万歳！　世田谷の未来万歳！”と、皆で記念写真に納まった。\n　　\n　逞しく\n　　　この地　護らむ\n　　　　　拓かんと\n　　世田谷健児の\n　　　　歴史を讃えむ\n　　\n　私が、友に詠み贈った歌である。\n　以来二十年、あの時の子どもたちも凛々しき青年に成長しているにちがいない。\n　　　　　　◇\n　一度、世田谷・用賀の東京記念講堂で本部幹部会を開催したことがあった。\n　一九八九年（平成元年）の七月十四日のことである。\n　確か諸般の事情から、急に“本幹”のメーン会場になったと記憶する。\n　今の衛星中継が始まる前のことで、記念講堂には、世田谷のブロック長、ブロック担当員の皆様方が、音声による“本幹”の中継を聞くために集っておられた。\n　そこへ、突然、私が入ってきたのである。場内を揺るがす拍手と歓声が轟き、後方の人は総立ちになった。\n　地域の最前線で意気揚々と戦う、わが使命の同志の心は熱かった。その響きは、わき上がる民衆革命のどよめきのように思えた。\n　この日は、「フランス革命二百年」の記念日。\n　私は、革命の発端となった「バスチーユ牢獄の襲撃」について語った。\n　一七八九年のその日、民衆がバスチーユを攻撃した時、囚人はわずか七人。しかも、革命の指導者が捕らわれていたわけでもない。\n　しかし、この「バスチーユ襲撃」から、怒濤の大革命が始まったのだ。なぜか。\n　それは、民衆の心が一変したからであった。専制政治の象徴たるバスチーユ打倒は、権力に屈従していた民衆自身の臆病な「心の壁」をも打倒したのである。\n　大勇を奮って「内なる壁」を破った時、一気に自由の舞台が広がっていったのだ。\n　私は強く訴えた。\n　勇気なくして前進なし！\n　勇気なくして勝利なし！\n　日蓮門下は臆病であっては絶対にならない、と。\n　広宣流布とは、正義の永遠闘争である。\n　一つの山を越えれば、また次の新しき山がある。\n　フランスの文豪ロマン・ロランは、有名な革命劇「七月十四日」で叫んだ。\n　「バスチーユは落ちたが、まだ他にもバスチーユはあるんだ。突撃だ！　虚偽を攻撃するんだ！　『闇夜』を攻撃するんだ！　『精神』が『暴力』を征服するんだ」（宮本正清訳）\n　戸田先生も、生涯の最後に獅子吼された。\n　「追撃の手をゆるめるな！」\n　この闘争心があるかぎり、学会は前進し続ける。\n　　　　　　◇\n　四十七年前（一九五四年）の秋、青年部の初の体育大会「世紀の祭典」が、下高井戸の日大グラウンドで盛大に行われたことは、大いなる歴史である。\n　私の提案で始まったが、当初、先輩幹部は全員反対であった。戸田先生だけが賛成してくださり、第一回から三回連続で出席し、青年を励ましてくださった。\n　師匠の慈愛に包まれ、若き弟子の力が躍動した祭典は、やがて文化祭運動の大河に広がった。\n　新しき歴史と文化を拓く、若獅子たちの大舞台――それが、わが世田谷である。\n　「創価」の二字は、現実の荒波のなかで、懸命に生き抜く民衆の勝鬨となった。\n　それは、気取った流行などに流されることのない、真剣勝負の生命の触発のみが放つ、人間の真実の光彩だ。\n　そこには無限の力がある。\n　人間よ、燃えて輝け！\n　われらは、その人間復興の大運動の先頭に君臨しているのだ。\n　アメリカの哲人エマソンは言った。\n　「もしも魂がいきいきしていて強力なら、あらゆる方面でその境界をいっきに突破し、大海原に新たな軌道を広げる」（酒本雅之訳）\n　その通りだ。\n　さあ、新しき前進だ。拡大だ。開拓だ！\n　勇敢に、汝自身の新しき扉を開くのだ！\n　進もう、世田谷の友よ！\n　新世紀の光輝ある旗手よ！"},
+  {id:"e2005",date:"2005年6月16日",title:"創価は太陽！君よ誇り高く輝け！",subtitle:"随筆 人間世紀の光 85 / 世田谷の人材の大城",author:"山本伸一",publication:"聖教新聞",summary:"「青年こそ新世紀を創る英雄」とのテーマで世田谷の人材の大城を讃える随筆。牧口先生・戸田先生と世田谷の深い関わり、そして「勝利の智慧と力は『勇気』の二字から！」との力強いメッセージ。",body:"随筆　人間世紀の光　８５　山本伸一\n青年こそ新世紀を創る英雄\n\n　「百の理論よりも一の実行が尊い」\n　これは、平和のため、世界へ行動を広げた新渡戸稲造博士の信念であった。牧口先生とも深い交友の方である。\n　仏法も行動だ。現実の行動こそが命だ。\n　勇気の一歩を、踏み出せ！\n　そこに、本当の智慧も力も出る。そこに、大勝利の突破口も開けるのだ。\n　　　　　　◇\n　若き日、私は、恩師・戸田先生の命を受けて、世田谷区の成城を訪ねたことがある。\n　昭和二十九年の一月、著名な民俗学者・柳田国男氏のお宅に、牧口先生の『価値論』を届けるためであった。\n　柳田氏は、牧口先生の長年の知己である。\n　『創価教育学体系』第一巻には、「行詰まった現代教育界を打開するに足る」一書として、期待あふるる推奨の序文も寄せてくださった。\n　牧口先生は、柳田氏に仏法の真髄を教えたいと、折伏もされていたようだ。\n　傲慢な軍国日本と戦われた牧口先生は、その後、国賊の烙印を押され、冷たい牢獄で生涯を閉じた。\n　「いったい誰が、牧口先生を殺したのだ！　この仇を取らずにおくものか！」\n　戸田先生は、獄中で慟哭した。激怒した。\n　しかも、その師の獄死に接しながら、牧口門下の誰も本気で怒らなかったことが、さらに許せなかった。\n　「学会に、腰抜けの人間はいらない。\n　悪への怒りなき者は去れ！\n　私は、最後の一人になっても戦う！」\n　牧口先生の十回忌（昭和二十八年十一月）に、戸田先生は、師の『価値論』を補訂・再版して世に問われた。\n　「この『価値論』を世界の大学に送りなさい！　世の学者に読ませるのだ！\n　牧口先生の偉大さを、必ず全世界に認めさせるのだ！」\n　事実、先生は、英文の解説も添えて、世界四百以上の大学へ、この『価値論』を送られたのである。\n　“見よ、世界よ！　見よ、学者たちよ！　これが、私の偉大な師匠だ！”と、戸田先生は誇り高かった。\n　私も、深く深く決意した。弟子が、必ず師匠の正義と真実を、全世界に宣揚しきることだ、と。\n　まさに、その時、戸田先生の名代として、若き私は、世田谷区の柳田宅を訪ねたのである。\n　あいにく柳田氏は不在であったが、誠意を尽くし、家人に『価値論』を託した。\n　戸田先生に報告すると、小さく頷いて言われた。\n　「そうか」―その一言に、私は、師の深い期待を感じ取っていた。\n　“大作、戦いは始まったばかりだ。一生涯、創価の正義を世界に示せ！”\n　　　　　　◇\n　戸田先生は、よく言われた。\n　「人生は種々なる苦難の峠である。生命力の弱き者は、絶えず泣きながら、苦しみながら、人生をわたるのである。生命力のたくましき者は、楽しみながら、わたるのである」\n　私は、どこへ出ようが、相手が誰であろうが、恐れるものは何もなかった。\n　一閻浮提第一の日蓮仏法を信奉しているからだ！\n　広宣流布の師・戸田先生の直弟子であるからだ！\n　この師弟不二の大道を貫き通す青年は、世界一の幸福者であり、最高の青春を生き抜く勝利者である。\n　「新しき世紀」を創る若き英雄なのである。\n　　\n　この同じ昭和二十九年の秋十一月七日――。\n　晴天であった。あまりにも青空が美事であった。\n　私が中心となり、世田谷の日大グラウンドで、「青年よ、世界に羽ばたけ！　青年よ、世界で戦い勝て！」との熱き思いで、第一回の青年部体育大会を開催した。\n　この日のことを、今もって、私は誇りとしている。\n　男女青年部の躍動の行動は、まるで「傑作の絵画」であり、「おとぎの世界」であった。\n　誇り高き青年の「勝利の乱舞」は、まさに、私たちが掲げた通り、「世紀の祭典」となった。\n　わが青年部は、足並みそろえて、全世界への第一歩を踏んだのだ。\n　いずこの学校の運動会や、大学の学園祭よりも、新しい未来を見つめゆく、若者らしい創意工夫が光っていた。すべてが新しい劇であった。行動であった。演技であった。\n　多数の参加者が驚嘆し、賞讃してくださった。\n　来賓として出席した人びとも、「さすが創価だ！　さすが創価だ！」と、ため息をつくほどであった。\n\n戸田先生は、心から喜んでくださった。\n　これで、創価の青年が厳然と、日本はおろか、世界広布の断固たる確信をもって、行進し始めていったことを！\n　先生は、一日中、世田谷の天地で、堂々と羽ばたく攻防戦に声援を送り、励ましてくださった。\n　白熱の競技、競走には、手を叩き、立ち上がって応援してくださったのである。\n　嬉しそうであった。\n　楽しそうであった。\n　そして「この青年たちが、未来の大創価学会を築いてくれるんだよ！」と、多くの方々に、意気揚々と語りかけられていた。\n　師は、「これでよし！　未来の学会は決まった」と思っていたにちがいない。\n　この日、大拍手のもと、戸田先生はあいさつされた。\n　「かくも若き人々が、事実のうえにおいても、りっぱに集まったことは、私自身の心からの喜びであり、これからの国家は今後、諸君に頼む以外にないと、私は確信する」\n　これは、わが師の、私たち青年への遺言となったのである。\n　あの世田谷のグラウンドに燃えた若き闘魂は、今もって我が生命から消えない。\n　　　　　　◇\n　戸田先生は指導された。\n　「青年の心を揺さぶるものは、青年の叫びである」と。\n　どこの誰が無責任に何を言おうが、下らぬ中傷批判など歯牙にもかけるな！　いな、木っ端微塵に打ち砕け！\n　京王線「芦花公園駅」に名を残す、世田谷ゆかりの作家・徳冨蘆花は、トルストイの影響を受けた。\n　そのトルストイは喝破している。\n　「（自分の）罪の弁護をするのは悪魔の所業である」\n　デマや讒言をまき散らし、何ら悪びれない輩は、まさに悪魔だ。ゆえに戦え！\n　「善心は恵みであり、喜悦であるのみならず、また同時に闘争の武器でもある」\n　その通りだ。\n　邪悪を責め続けてこそ、学会は「善の中の善」となり、「正義の中の正義」となった。\n　若き諸君は、それを断じて忘れてはならない。\n　また、戸田先生は叫ばれた。\n　「御書を拝さず、学会の信心指導を受けず、学会に迷惑をかける者は、断固、追放せよ」\n　　　　　　◇\n　戸田先生は、こうも言い遺された。\n　「派手な存在ではなく、地味な存在で、水の流れる如き信心の方々を最大に大事にすることである」と。\n　世田谷区は、東京二十三区第一の人口八十三万（推計）を擁する巨大都市である。ことに三十万もの青年が暮らし、未来性に富んでいる。\n　山の手の閑静な住宅街もあれば、下町の風情もある。若者で賑わう街もある。\n　この我が町・世田谷で、創価の人材群は、銀河の如く輝き、大河の如く社会を潤す。皆、人柄が良い。「後輩を自分以上の人材に！」という、麗しい気風があふれている。\n　なかでも、「仏教大学校」をはじめ、多彩な人材グループが、二十一世紀の今日まで、豊かな価値創造の人間大河を広げてきた。\n　壮年部の「洋々会」。\n　婦人部の「春光会」「香輝会」「桜香塾」。\n　男子部の「飛翔会」。\n　女子部の「誓光会」。\n　新会員育成のための、毎月の「ルネサンス大学校」も賑やかだ。\n　さらに「世田谷兄弟会」は二十周年を迎えた。\n　今春の記念総会には、全国から三千人以上もの懐かしき“世田谷家族”が晴れ晴れと集い合われている。\n　御聖訓には、「桜梅桃李の己己の当体を改めずして」（御書七八四ページ）と仰せである。\n　多様性は力だ。\n　「異体同心」の大世田谷よ！\n　多士済々の我が同志が心を合わせ、勇気の行動を結合していけば、不可能はない。\n　必ず偉大な勝利の歴史は築かれる。\n　　　　　　◇\n　私も、この世田谷に、平和と文化の「勝利の虹」を懸けるため、走り続けてきた。\n　桜丘の東京農業大学のキャンパスでの“農業展”に出席した折に、わが世田谷の同志と行った記念撮影は、まことに思い出深い。\n　また、駒沢の功労者宅への訪問。\n　赤堤の世田谷文化会館での「もちつき大会」。\n　砧の東宝撮影所の視察。玉川文化会館での懇談……。\n　用賀の東京池田記念講堂にも何度も足を運んだ。色とりどりの鉢植えや菊花を飾って迎えてくださった真心も、忘れられない。\n　奥沢の閑静な住宅街を訪ねたこともあった。私が十八歳の時に勤めた小さな印刷会社の社長宅である。\n　温かい心の社長であった。結核で苦しみながら働く私を励ましてくれた。\n　退職後、めったにお会いできなかったが、再会した瞬間に、時間の隙間は埋まった。喜びが心を満たした。\n　世田谷には、金の思い出が星のように光っている。\n　　　　　　◇\n　私は、世田谷にお住まいであった作家の井上靖氏と、昭和五十年春から一年間、書簡を交わした。\n　七月にお送りした書簡で、私は師の思い出を綴った。\n　「戸田先生は権力にも権威にもこびず、貧しい人の、苦労している民衆の味方でした。庶民の足下の問題を、膝をまじえつつ語り合う時、路地から路地へと一軒一軒、訪ねている時が、最もうれしそうでした。それに青年をこよなく愛された……」\n　恩師が出獄した昭和二十年の七月三日から、三十周年を迎えた時であった。\n　氏は返書で「たいへん心を打たれました」と、師弟の絆を賞讃してくださった。\n　今年は戸田先生の出獄から六十年。民衆の幸福と勝利こそ恩師の悲願であった。\n　井上氏は、「烈日」という言葉がお好きだった。\n　烈しく照りつける太陽のように、「烈しく何事かを為そうとした気持だけが、生きたということの証し」であると記されていた。\n　私も小説『人間革命』で、恩師の第二代会長就任を描いた章を、「烈日」と題した。\n　日々、太陽の如く全生命を完全燃焼させる！　それが、「太陽の仏法」を奉じた、わが創価の生き方だ。\n　太陽に停滞はない。太陽に諦めは絶対にない。\n　風が吹こうが、雲が出ようが、雨が降ろうが――\n　太陽の勇気で！\n　太陽の執念で！\n　太陽の慈愛で！\n　世田谷の太陽の同志よ！　わが友を励ますのだ。友の心に届くまで、対話の光を送るのだ。\n　誰が何と言おうが、自信満々と、君よ輝け！\n　日蓮大聖人は仰せである。\n　「始より終りまで弥信心をいたすべし・さなくして後悔やあらんずらん」（同一四四〇ページ）\n　「いかに強敵重なるとも・ゆめゆめ退する心なかれ恐るる心なかれ」（同五〇四ページ）\n　負けるな！　断じて負けるな！\n　世田谷の友よ！　完璧な団結で突き進め！\n　戸田先生は、青年を励まされた。\n　「山道を大きな石がふさいで前に進めない。しかし、どうしても行かなくてはいけない。どうするか、その時こそ、『勇気』を奮い起こし、『智慧』を発揮していくところに、信心の本当の深さがある」\n　おお、世田谷から、二十一世紀の広宣流布の旭日は昇りゆく。\n　おお、共に振れ！\n　新世紀の完勝の旗を！"},
+  {id:"e2009",date:"2009年5月15日",title:"最前線から波動を起こせ",subtitle:"池田先生と東京・世田谷区 あの日あの時 IV⑦",author:"池田大作先生",publication:"聖教新聞",summary:"「あの日あの時」シリーズ。世田谷区での活動の思い出や牛込での部長会の情景、「冬は必ず春となる」の御書を胸に戦った同志の姿が綴られている。",body:""}
+];
+const ESSAY_NOTES_KEY="df-essay-notes";
+function loadEssayNotes(){try{return JSON.parse(localStorage.getItem(ESSAY_NOTES_KEY)||"{}");}catch{return{};}}
+function saveEssayNotes(n){try{localStorage.setItem(ESSAY_NOTES_KEY,JSON.stringify(n));}catch{}}
+
 // ■ データ永続化（全バージョン互換）
 const SK="daimoku-freude";
 const OLD=["df-personal-v4","df-personal-v3","df-personal-v2","daimoku-freude-v1"];
@@ -174,10 +186,10 @@ return(<div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.5)",zIndex:
 {!rst?<button onClick={()=>setRst(true)} style={{...S.btnSec,width:"100%",color:C.crimson,borderColor:C.crimson,minHeight:44}}>唱題記録をリセット</button>
 :<div style={{...S.card,border:"2px solid "+C.crimson,background:"#fff5f5"}}><div style={{fontSize:13,fontWeight:700,color:C.crimson,marginBottom:8}}>⚠ 本当にリセットしますか？</div><p style={{fontSize:12,color:C.muted,marginBottom:12}}>唱題時間・遍数・履歴が全削除されます。</p><div style={{display:"flex",gap:8}}><button onClick={()=>setRst(false)} style={{...S.btnSec,flex:1,minHeight:44}}>キャンセル</button><button onClick={doRst} style={{...S.btnMain,flex:1,fontSize:13,background:G.rst,minHeight:44}}>リセット</button></div></div>}</div>
 {!chg&&!rst&&<button onClick={onClose} style={{...S.btnSec,width:"100%",marginTop:12,minHeight:44}}>閉じる</button>}
-<div style={{textAlign:"center",marginTop:16,fontSize:9,color:C.muted,opacity:.5}}>題目フロイデ v1.7 · Re:Freude 世田谷 2026</div>
+<div style={{textAlign:"center",marginTop:16,fontSize:9,color:C.muted,opacity:.5}}>題目フロイデ v1.8 · Re:Freude 世田谷 2026</div>
 </div></div>);}
 
-function StopwatchTab({P,setP,gs,active,elapsed,running,setRunning,onSave,saving,lastSaved}){
+function StopwatchTab({P,setP,gs,active,elapsed,running,setRunning,onSave,saving,lastSaved,openEssays}){
   const th=todH(P.sessions),sk=stk(P.sessions),msg=cheers(th,sk);
   const[showSpeed,setShowSpeed]=useState(false);
   const[confirmReset,setConfirmReset]=useState(false);
@@ -186,6 +198,14 @@ return(<div style={{padding:"0 16px",animation:"fadeIn .3s ease"}}>
 <div style={{background:G.dk,borderRadius:10,padding:"12px 14px",marginBottom:8,color:"#fff"}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}><div><div style={{fontSize:9,letterSpacing:".1em",color:C.goldLight,marginBottom:2,display:"flex",alignItems:"center",gap:4}}>🌍 世田谷みんなの唱題{gs.ok?<span style={{width:5,height:5,borderRadius:"50%",background:"#76ff03",display:"inline-block"}}/>:<span style={{fontSize:8,color:"#ff9800"}}>（接続中…）</span>}</div><div style={{fontSize:22,fontWeight:900,fontFamily:"'Noto Serif JP',serif"}}>{gs.totalHen.toLocaleString()} <span style={{fontSize:11,fontWeight:400,opacity:.7}}>遍</span></div><div style={{fontSize:10,opacity:.5,marginTop:1}}>{fmtH(gs.totalSeconds)} · {gs.totalSessions.toLocaleString()}セッション</div></div><div style={{textAlign:"right"}}><div style={{display:"flex",alignItems:"center",gap:4,marginBottom:2}}><span style={{width:7,height:7,borderRadius:"50%",background:active.count>0?"#76ff03":"#555",boxShadow:active.count>0?"0 0 8px #76ff03":"none",display:"inline-block",animation:active.count>0?"pulse 1.5s infinite":"none"}}/><span style={{fontSize:10,color:"rgba(255,255,255,.7)"}}>唱題中</span></div><div style={{fontSize:18,fontWeight:800}}>{active.count} <span style={{fontSize:10,fontWeight:400,opacity:.7}}>人</span></div></div></div>
 {active.count>0&&<div style={{marginTop:8,paddingTop:8,borderTop:"1px solid rgba(255,255,255,.1)",display:"flex",flexWrap:"wrap",gap:4}}>{active.names.map((n,i)=>(<span key={i} style={{background:"rgba(255,255,255,.12)",borderRadius:12,padding:"2px 10px",fontSize:10,color:C.goldLight}}>{n}</span>))}</div>}</div>
 <AudioBar/>
+<button onClick={openEssays} style={{display:"flex",alignItems:"center",gap:10,width:"100%",background:"linear-gradient(135deg,#1a1208,#2d1a0a)",border:"1px solid rgba(201,150,58,.3)",borderRadius:10,padding:"10px 14px",marginBottom:8,cursor:"pointer",textAlign:"left"}}>
+  <span style={{fontSize:20,flexShrink:0}}>📖</span>
+  <div style={{flex:1}}>
+    <div style={{fontSize:12,fontWeight:700,color:C.goldLight,fontFamily:"'Noto Serif JP',serif"}}>世田谷への御指導</div>
+    <div style={{fontSize:9,color:"rgba(255,255,255,.4)",marginTop:1}}>池田先生が贈られた珠玉の随筆</div>
+  </div>
+  <span style={{fontSize:12,color:C.gold}}>▶</span>
+</button>
 <div style={{display:"flex",gap:6,marginBottom:6}}>{[["今日",th.toLocaleString(),"遍",C.crimson],["連続",sk||"-",sk?"日🔥":"日",C.gold],["累計",P.totalHen.toLocaleString(),"遍",C.navy]].map(([l,v,u,c],i)=>(<div key={i} style={{...S.card,flex:1,textAlign:"center",marginBottom:0,padding:8}}><div style={{fontSize:9,color:C.muted}}>{l}</div><div style={{fontSize:18,fontWeight:800,color:c,fontFamily:"'Noto Serif JP',serif"}}>{v}</div><div style={{fontSize:8,color:C.muted}}>{u}</div></div>))}</div>
 {(()=>{const dl=daysLeft(),rem=Math.max((P.goalTarget||0)-P.totalHen,0),pace=dl>0&&rem>0?Math.ceil(rem/dl):0;if(pace<=0)return null;const todayRem=Math.max(pace-th,0);const pct=Math.min((th/pace)*100,100);return(<div style={{background:C.cardBg,borderRadius:8,padding:"8px 12px",marginBottom:6,border:"1px solid "+C.goldPale}}>
   <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:4}}>
@@ -312,7 +332,59 @@ function BoardTab({P}){
   </div>);
 }
 
-function App(){const[tab,setTab]=useState("home");const[P,setP]=useState(null);const[loading,setLoading]=useState(true);const[needsName,setNeedsName]=useState(false);const[showSet,setShowSet]=useState(false);const[running,setRunningRaw]=useState(false);const[elapsed,setElapsed]=useState(0);const[startTime,setStartTime]=useState(null);const[showConf,setShowConf]=useState(false);const[savedMsg,setSavedMsg]=useState("");const[saving,setSaving]=useState(false);const[restored,setRestored]=useState("");const[lastSaved,setLastSaved]=useState(null);
+function EssaysModal({onClose}){
+  const[notes,setNotes]=useState(()=>loadEssayNotes());
+  const[sel,setSel]=useState(null);
+  const[editNote,setEditNote]=useState("");
+  const[noteSaved,setNoteSaved]=useState(false);
+  const open=(e)=>{setSel(e);setEditNote(notes[e.id]||"");setNoteSaved(false);};
+  const saveNote=()=>{const nn={...notes,[sel.id]:editNote};setNotes(nn);saveEssayNotes(nn);setNoteSaved(true);setTimeout(()=>setNoteSaved(false),2000);};
+  return(<div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.6)",zIndex:150,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={e=>{if(e.target===e.currentTarget)onClose();}}>
+    <div style={{width:"100%",maxWidth:430,background:C.cream,borderRadius:"20px 20px 0 0",maxHeight:"92vh",display:"flex",flexDirection:"column"}}>
+      <div style={{padding:"16px 20px 12px",borderBottom:"1px solid "+C.goldPale,display:"flex",justifyContent:"space-between",alignItems:"center",flexShrink:0}}>
+        <div><h2 style={{margin:0,fontSize:17,fontWeight:800,color:C.crimsonDark,fontFamily:"'Noto Serif JP',serif"}}>📖 世田谷への御指導</h2><div style={{fontSize:10,color:C.muted,marginTop:2}}>池田先生が世田谷に贈られた珠玉の随筆</div></div>
+        <button onClick={sel?()=>setSel(null):onClose} style={{border:"none",background:"transparent",fontSize:22,color:C.muted,cursor:"pointer",padding:4}}>{sel?"◀":"✕"}</button>
+      </div>
+      <div style={{flex:1,overflowY:"auto",padding:20}}>
+        {!sel?<>
+          {ESSAYS.map(e=>(<div key={e.id} onClick={()=>open(e)} style={{...S.card,cursor:"pointer",borderLeft:"3px solid "+C.crimson}}>
+            <div style={{fontSize:10,color:C.gold,fontWeight:700,letterSpacing:".05em",marginBottom:4}}>{e.date} · {e.publication}</div>
+            <div style={{fontSize:15,fontWeight:800,color:C.crimsonDark,fontFamily:"'Noto Serif JP',serif",marginBottom:2,lineHeight:1.4}}>{e.title}</div>
+            <div style={{fontSize:10,color:C.muted,marginBottom:6}}>{e.subtitle}</div>
+            <div style={{fontSize:11,color:C.muted,textAlign:"right"}}>— {e.author}</div>
+            {notes[e.id]&&<div style={{marginTop:8,paddingTop:8,borderTop:"1px dashed "+C.goldPale,fontSize:10,color:C.gold}}>✎ メモあり</div>}
+          </div>))}
+        </>:<>
+          <div style={{marginBottom:16}}>
+            <div style={{fontSize:10,color:C.gold,fontWeight:700,letterSpacing:".05em",marginBottom:6}}>{sel.date} · {sel.publication}</div>
+            <h3 style={{margin:0,fontSize:18,fontWeight:900,color:C.crimsonDark,fontFamily:"'Noto Serif JP',serif",lineHeight:1.4,marginBottom:6}}>{sel.title}</h3>
+            <div style={{fontSize:11,color:C.muted,marginBottom:4}}>{sel.subtitle}</div>
+            <div style={{fontSize:11,color:C.text,textAlign:"right"}}>— {sel.author}</div>
+          </div>
+          <div style={{...S.card,background:"linear-gradient(135deg,#fff,#faf6ef)",borderLeft:"3px solid "+C.gold}}>
+            <div style={{fontSize:11,color:C.gold,fontWeight:700,marginBottom:8,letterSpacing:".05em"}}>📝 紹介</div>
+            <p style={{margin:0,fontSize:13,lineHeight:1.9,color:C.text}}>{sel.summary}</p>
+          </div>
+          {sel.body?<div style={{...S.card,marginTop:12,background:"#fff",borderLeft:"3px solid "+C.crimson}}>
+            <div style={{fontSize:11,color:C.crimson,fontWeight:700,marginBottom:10,letterSpacing:".05em"}}>📖 本文</div>
+            <div style={{fontSize:13,lineHeight:2.2,color:C.text,fontFamily:"'Noto Serif JP',serif",whiteSpace:"pre-wrap"}}>{sel.body}</div>
+            <div style={{fontSize:9,color:C.muted,marginTop:12,paddingTop:8,borderTop:"1px solid "+C.goldPale,textAlign:"right"}}>© 聖教新聞社（許諾転載）</div>
+          </div>:<div style={{padding:"10px 14px",background:C.goldPale+"80",borderRadius:8,fontSize:11,color:C.muted,lineHeight:1.6,marginTop:12}}>
+            ℹ️ 本文は準備中です。HTMLの ESSAYS 配列の body に原文を追加してください。
+          </div>}
+          <div style={{marginTop:20}}>
+            <div style={{fontSize:13,fontWeight:700,color:C.text,marginBottom:6,fontFamily:"'Noto Serif JP',serif"}}>✎ わたしのメモ</div>
+            <div style={{fontSize:10,color:C.muted,marginBottom:8}}>心に残った言葉や決意を記録（端末に保存・他の人には見えません）</div>
+            <textarea value={editNote} onChange={e=>setEditNote(e.target.value)} placeholder="感じたこと、決意など..." style={{...S.textarea,minHeight:100}}/>
+            <button onClick={saveNote} style={{...S.btnMain,width:"100%",marginTop:8,fontSize:13,minHeight:44}}>{noteSaved?"✓ 保存しました":"メモを保存"}</button>
+          </div>
+        </>}
+      </div>
+    </div>
+  </div>);
+}
+
+function App(){const[tab,setTab]=useState("home");const[P,setP]=useState(null);const[loading,setLoading]=useState(true);const[needsName,setNeedsName]=useState(false);const[showSet,setShowSet]=useState(false);const[running,setRunningRaw]=useState(false);const[elapsed,setElapsed]=useState(0);const[startTime,setStartTime]=useState(null);const[showConf,setShowConf]=useState(false);const[savedMsg,setSavedMsg]=useState("");const[saving,setSaving]=useState(false);const[restored,setRestored]=useState("");const[lastSaved,setLastSaved]=useState(null);const[showEssays,setShowEssays]=useState(false);
 const[cd,setCd]=useState(()=>Math.max(0,TARGET_DATE-Date.now()));
 useEffect(()=>{const iv=setInterval(()=>setCd(Math.max(0,TARGET_DATE-Date.now())),1000);return()=>clearInterval(iv);},[]);
 const cdD=Math.floor(cd/864e5),cdH=Math.floor((cd%864e5)/36e5),cdM=Math.floor((cd%36e5)/6e4),cdS=Math.floor((cd%6e4)/1e3);
@@ -360,7 +432,7 @@ return(<div style={S.app}><Confetti show={showConf}/>
 </>)}
 </div></div>
 <div style={S.content}>
-{tab==="home"&&<StopwatchTab P={P} setP={setP} gs={gs} active={active} elapsed={elapsed} running={running} setRunning={setRunning} onSave={onSave} saving={saving} lastSaved={lastSaved}/>}
+{tab==="home"&&<StopwatchTab P={P} setP={setP} gs={gs} active={active} elapsed={elapsed} running={running} setRunning={setRunning} onSave={onSave} saving={saving} lastSaved={lastSaved} openEssays={()=>setShowEssays(true)}/>}
 {tab==="record"&&<RecordTab P={P} setP={setP}/>}
 {tab==="prayer"&&<PrayerTab P={P} setP={setP} sp={sp}/>}
 {tab==="goals"&&<GoalsTab P={P} setP={setP} gs={gs}/>}
@@ -368,6 +440,7 @@ return(<div style={S.app}><Confetti show={showConf}/>
 </div>
 <div style={S.tabBar}>{TABS.map(t=>{const isA=tab===t.id,dot=t.id==="home"&&running&&tab!=="home";return(<button key={t.id} onClick={()=>setTab(t.id)} style={{...S.tabBtn,...(isA?S.tabBtnAct:{}),minHeight:44}}><span style={{fontSize:18,position:"relative"}}>{t.icon}{dot&&<span style={{position:"absolute",top:-2,right:-6,width:7,height:7,borderRadius:"50%",background:C.crimson}}/>}</span><span style={{fontSize:9,marginTop:1}}>{t.label}</span></button>);})}</div>
 {showSet&&<SettingsPanel P={P} setP={setP} onClose={()=>setShowSet(false)}/>}
+{showEssays&&<EssaysModal onClose={()=>setShowEssays(false)}/>}
 </div>);}
 
 const S={app:{maxWidth:430,margin:"0 auto",height:"100%",background:C.cream,fontFamily:"'Noto Sans JP',sans-serif",color:C.text,display:"flex",flexDirection:"column",overflow:"hidden"},header:{background:G.hdr,color:"#fff",position:"sticky",top:0,zIndex:10,borderBottom:"1px solid rgba(201,150,58,.3)",flexShrink:0,paddingTop:"env(safe-area-inset-top,0px)"},headerInner:{padding:"8px 10px 6px"},countdown:{background:G.crim,color:"#fff",textAlign:"center",padding:"14px 16px",position:"relative",overflow:"hidden",flexShrink:0},cdBg:{position:"absolute",inset:0,background:"repeating-linear-gradient(-45deg,transparent,transparent 8px,rgba(255,255,255,.04) 8px,rgba(255,255,255,.04) 9px)"},content:{flex:1,paddingTop:8,paddingBottom:64,overflowY:"auto",WebkitOverflowScrolling:"touch"},tabBar:{position:"fixed",bottom:0,left:"50%",transform:"translateX(-50%)",width:"100%",maxWidth:430,display:"flex",background:"#fff",borderTop:"1px solid "+C.goldPale,padding:"3px 0 env(safe-area-inset-bottom,5px)",zIndex:20},tabBtn:{flex:1,display:"flex",flexDirection:"column",alignItems:"center",border:"none",background:"transparent",padding:"3px 0",color:C.muted,cursor:"pointer"},tabBtnAct:{color:C.crimson},card:{background:C.cardBg,borderRadius:8,padding:14,boxShadow:"0 1px 4px rgba(0,0,0,.05)",marginBottom:10,border:"1px solid rgba(0,0,0,.05)"},cumCard:{background:G.crim,color:"#fff",borderRadius:10,padding:"16px",textAlign:"center"},btnMain:{padding:"12px 24px",border:"none",borderRadius:50,background:G.btn,color:"#fff",fontSize:15,fontWeight:700,cursor:"pointer",boxShadow:"0 4px 14px rgba(155,27,48,.3)"},btnSec:{padding:"10px 18px",border:"1px solid "+C.goldPale,borderRadius:50,background:C.cardBg,color:C.muted,fontSize:12,cursor:"pointer"},subTab:{flex:1,padding:"10px 0",border:"none",background:"transparent",fontSize:13,color:C.muted,cursor:"pointer",borderBottom:"2px solid transparent",marginBottom:-2},textarea:{width:"100%",padding:12,border:"1px solid "+C.goldPale,borderRadius:8,fontSize:13,resize:"vertical",minHeight:70,fontFamily:"inherit",boxSizing:"border-box",background:C.cream},input:{width:"100%",padding:10,border:"1px solid "+C.goldPale,borderRadius:8,fontSize:13,fontFamily:"inherit",boxSizing:"border-box",background:C.cream}};
