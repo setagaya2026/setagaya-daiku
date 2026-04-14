@@ -116,6 +116,21 @@ header h1 span{color:var(--gold-light)}
 .line-share-btn-inline:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.2)}
 .line-share-btn-inline .line-icon{width:22px;height:22px}
 
+/* ── DAIMOKU PROMO CARD（ホーム上のフィーチャーカード） ── */
+.daimoku-promo{background:linear-gradient(135deg,#4a1010 0%,#7a1818 50%,#4a1010 100%);border-radius:12px;padding:24px 24px 18px;margin:8px 0 16px;position:relative;overflow:hidden;border:1px solid rgba(201,150,58,.4);box-shadow:0 6px 22px rgba(74,16,16,.28)}
+.daimoku-promo::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 0%,rgba(201,150,58,.22),transparent 60%),radial-gradient(ellipse at 0% 100%,rgba(255,255,255,.06),transparent 50%);pointer-events:none}
+.daimoku-promo::after{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,transparent,transparent 18px,rgba(201,150,58,1) 18px,rgba(201,150,58,1) 19px);opacity:.05;pointer-events:none}
+.dp-tag{position:relative;display:inline-block;font-size:10px;letter-spacing:.18em;color:var(--gold-light);background:rgba(201,150,58,.15);border:1px solid rgba(201,150,58,.5);padding:4px 12px;border-radius:999px;margin-bottom:14px;font-weight:700}
+.dp-title{position:relative;font-family:'Noto Serif JP',serif;font-size:clamp(18px,4.6vw,22px);font-weight:900;color:#fff;line-height:1.4;margin-bottom:10px;letter-spacing:.02em}
+.dp-desc{position:relative;font-size:13px;color:rgba(255,255,255,.88);line-height:1.85;margin-bottom:18px}
+.dp-desc strong{color:var(--gold-light);font-weight:700}
+.dp-cta{position:relative;display:flex;align-items:center;justify-content:center;gap:10px;background:var(--gold);color:var(--dark);text-decoration:none;font-family:'Noto Sans JP',sans-serif;font-size:14px;font-weight:900;padding:15px 22px;border-radius:8px;letter-spacing:.04em;transition:transform .15s,box-shadow .15s;box-shadow:0 4px 14px rgba(201,150,58,.32)}
+.dp-cta:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(201,150,58,.5)}
+.dp-cta-arrow{font-size:18px;transition:transform .2s;display:inline-block}
+.dp-cta:hover .dp-cta-arrow{transform:translateX(4px)}
+.dp-foot{position:relative;text-align:center;font-size:11px;color:rgba(255,255,255,.65);margin-top:12px;letter-spacing:.03em}
+@media(max-width:480px){.daimoku-promo{padding:22px 20px 16px}}
+
 /* ── DAIMOKU FLOATING BUTTON（題目カウンターへの常設導線） ── */
 .daimoku-fab{position:fixed;right:18px;bottom:22px;z-index:200;background:linear-gradient(135deg,#8B1a1a,#4a1010);color:#fff;border-radius:999px;padding:12px 18px 12px 14px;display:flex;align-items:center;gap:10px;text-decoration:none;box-shadow:0 6px 22px rgba(74,16,16,.5),0 2px 6px rgba(0,0,0,.22);border:1px solid rgba(201,150,58,.45);font-family:'Noto Sans JP',sans-serif;transition:transform .2s,box-shadow .2s}
 .daimoku-fab:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(74,16,16,.6),0 4px 12px rgba(0,0,0,.28)}
@@ -505,6 +520,18 @@ footer strong{color:var(--gold-light);font-weight:400}
       </div>
     </div>
     <p class="mypart-set-note">📱 このサイトを閉じても次回から自動で覚えています</p>
+  </div>
+
+  <!-- 題目カウンターバナー -->
+  <div class="daimoku-promo">
+    <div class="dp-tag">FREUDE 2026 共同企画</div>
+    <h3 class="dp-title">🙏 ムイト・マイス・ダイモク！</h3>
+    <p class="dp-desc">あなたの唱題時間を記録すれば、<strong>世田谷総区全員の祈りがリアルタイムで積み上がります</strong>。一人一人の挑戦が、みんなの励みに。<br>さあ！ムイト・マイス・ダイモク！<span style="opacity:.75">（もっと題目を！）</span></p>
+    <a href="https://setagaya2026.github.io/setagaya-daiku/daimoku/" target="_blank" class="dp-cta">
+      <span>題目カウンターを開く</span>
+      <span class="dp-cta-arrow">→</span>
+    </a>
+    <div class="dp-foot">📱 はじめての方も10秒で登録完了 / スマホでサッと記録</div>
   </div>
 
   <!-- 3. 歓喜の歌声 -->
@@ -901,9 +928,9 @@ function buildSch(){
       <a href="${gcalUrl(ev)}" target="_blank" class="gcal-add-btn" title="Googleカレンダーに追加">📅+</a>
     `;
     c.appendChild(el);
-    if(!past&&!nf){nf=true;document.getElementById('home-next-date').textContent=`${d.getMonth()+1}月${d.getDate()}日（${DOW[d.getDay()]}）${ev.title}`;document.getElementById('home-next-sub').textContent=ev.detail;}
+    if(!past&&!nf){nf=true;document.getElementById('home-next-date').textContent=`${d.getMonth()+1}/${d.getDate()} (${DOW[d.getDay()]}) ${ev.title}`;document.getElementById('home-next-sub').textContent=ev.detail;}
   });
-  if(!nf){document.getElementById('home-next-date').textContent='2026年11月29日（日）本番！';document.getElementById('home-next-sub').textContent='フロイデー！！！';}
+  if(!nf){document.getElementById('home-next-date').textContent='11/29 (日) 本番！';document.getElementById('home-next-sub').textContent='フロイデー！！！';}
 }
 buildSch();
 
