@@ -104,7 +104,7 @@ function last7(ss){const r=[],t=new Date();for(let i=6;i>=0;i--){const d=new Dat
 function todH(ss){const k=ld(new Date());return ss.filter(s=>tdk(s.date)===k).reduce((a,s)=>a+s.hen,0);}
 function stk(ss){if(!ss.length)return 0;const days=new Set(ss.map(s=>tdk(s.date)));let c=0;const d=new Date();while(days.has(ld(d))){c++;d.setDate(d.getDate()-1);}return c;}
 function daysLeft(){return Math.max(0,Math.ceil((TARGET_DATE-Date.now())/86400000));}
-function cheers(hen,sk){if(!hen)return"さあ、今日も唱題しよう！🙏";if(sk>=30)return sk+"日連続！圧倒的🏆";if(sk>=14)return sk+"日連続！素晴らしい🔥";if(sk>=7)return sk+"日連続！最高✨";if(sk>=3)return sk+"日連続！💪";if(hen>=50000)return"5万遍突破🐷✨";if(hen>=10000)return"1万遍突破🎯";if(hen>=5000)return"5千遍超え💎";if(hen>=1000)return"いい調子💪";return"頑張っていますね🌸";}
+function cheers(hen,sk){if(!hen)return"ムイト・マイス・ダイモク！（もっと題目を！）🔥";if(sk>=30)return sk+"日連続！圧倒的🏆";if(sk>=14)return sk+"日連続！素晴らしい🔥";if(sk>=7)return sk+"日連続！最高✨";if(sk>=3)return sk+"日連続！💪";if(hen>=50000)return"5万遍突破！！🎉";if(hen>=10000)return"1万遍突破🎯";if(hen>=5000)return"5千遍超え💎";if(hen>=1000)return"いい調子💪";return"ムイト・マイス・ダイモク！（もっと題目を！）🔥";}
 function vibrate(){try{navigator.vibrate&&navigator.vibrate([100,50,100]);}catch{}}
 function shareText(t){if(navigator.share){navigator.share({text:t}).catch(()=>{});}else{navigator.clipboard&&navigator.clipboard.writeText(t).catch(()=>{});}}
 
