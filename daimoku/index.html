@@ -335,7 +335,7 @@ return(<div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.5)",zIndex:
 </div>}
 </div>
 {!chg&&!rst&&<button onClick={onClose} style={{...S.btnSec,width:"100%",marginTop:12,minHeight:44}}>閉じる</button>}
-<div style={{textAlign:"center",marginTop:16,fontSize:9,color:C.muted,opacity:.5}}>題目フロイデ v2.2 · Re:Freude 世田谷 2026</div>
+<div style={{textAlign:"center",marginTop:16,fontSize:9,color:C.muted,opacity:.5}}>題目フロイデ v2.2.1 · Re:Freude 世田谷 2026</div>
 </div></div>);}
 
 function StopwatchTab({P,setP,gs,active,elapsed,running,setRunning,onSave,saving,lastSaved,openEssays}){
@@ -482,6 +482,7 @@ function BoardTab({P}){
   const posts=useTimeline();
   const[cat,setCat]=useState("決意");const[text,setText]=useState("");const[showRules,setShowRules]=useState(false);const[posting,setPosting]=useState(false);const[cdelPost,setCdelPost]=useState(null);const[confirmPost,setConfirmPost]=useState(false);const[submittedPost,setSubmittedPost]=useState(false);
   const myPendingPosts=useMyPendingPosts(P.userId);
+  const myPendingInCat=myPendingPosts.filter(p=>p.category===cat);
   const[likedIds,setLikedIds]=useState(()=>{try{return JSON.parse(localStorage.getItem("df-liked")||"[]");}catch{return[];}});
   const filtered=posts.filter(p=>p.category===cat);
   const doPost=()=>{if(!text.trim()||posting)return;setPosting(true);submitPendingPost({id:gid(),authorId:P.userId,authorName:P.userName,text:text.trim(),category:cat,createdAt:new Date().toISOString()});setText("");setSubmittedPost(true);setTimeout(()=>{setPosting(false);setSubmittedPost(false);},4000);};
