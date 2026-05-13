@@ -55,11 +55,27 @@ const TABS=[{id:"home",label:"唱題",icon:"⏱"},{id:"record",label:"記録",ic
 const SPEEDS=[{label:"ゆっくり",v:25},{label:"ふつう",v:40},{label:"はやい",v:55},{label:"カスタム",v:null}];
 const TARGET_DATE=new Date("2026-11-29T13:00:00+09:00").getTime();
 
-// 管理者パスコード
-const ADMIN_PASSCODE="setagaya2026";
+// 管理者認証（複数管理者対応：ハッシュの配列）
+// パスコードを追加する場合：echo -n "新しいパスコード" | shasum -a 256
+// 各管理者の名前（ハッシュと同じ順序で対応）
+const ADMIN_HASHES=[
+  "b5d9b7c8fca0669f18b836b227406719302f785df819d5dcf3b90ca5454182fc" // Eguchi（既存）
+];
+const ADMIN_NAMES=["Eguchi"]; // 操作ログ用の管理者名（ハッシュと同じ順序）
 const ADMIN_KEY="df-admin";
+const ADMIN_NAME_KEY="df-admin-name";
 function isAdmin(){try{return localStorage.getItem(ADMIN_KEY)==="1";}catch{return false;}}
-function setAdmin(v){try{if(v)localStorage.setItem(ADMIN_KEY,"1");else localStorage.removeItem(ADMIN_KEY);}catch{}}
+function getAdminName(){try{return localStorage.getItem(ADMIN_NAME_KEY)||"管理者";}catch{return"管理者";}}
+function setAdmin(v,name){try{if(v){localStorage.setItem(ADMIN_KEY,"1");if(name)localStorage.setItem(ADMIN_NAME_KEY,name);}else{localStorage.removeItem(ADMIN_KEY);localStorage.removeItem(ADMIN_NAME_KEY);}}catch{}}
+async function checkAdminPasscode(input){
+  try{
+    const buf=new TextEncoder().encode(input);
+    const hashBuf=await crypto.subtle.digest("SHA-256",buf);
+    const hex=Array.from(new Uint8Array(hashBuf)).map(b=>b.toString(16).padStart(2,"0")).join("");
+    const idx=ADMIN_HASHES.indexOf(hex);
+    return idx>=0?{ok:true,name:ADMIN_NAMES[idx]||"管理者"}:{ok:false};
+  }catch{return{ok:false};}
+}
 
 // 世田谷ゆかりの御指導（聖教新聞社 許諾済）
 // ※ body に正確な原文を貼り付けてください（改行は \n で）
@@ -84,6 +100,34 @@ function gid(){return Date.now().toString(36)+Math.random().toString(36).slice(2
 function defP(){return{userId:gid(),userName:"",daimokuPerMin:40,totalSeconds:0,totalHen:0,sessions:[],privatePrayers:[],goalTarget:100000,heartedIds:[]};}
 function migrate(raw){const d=defP();const m={...d,...raw,sessions:raw.sessions||[],privatePrayers:raw.privatePrayers||[],heartedIds:raw.heartedIds||[]};if(raw.goals&&raw.goals.length>0&&!raw.goalTarget)m.goalTarget=raw.goals[0].target||100000;if(!m.goalTarget)m.goalTarget=100000;const t=recomp(m.sessions);return{...m,...t};}
 function exportData(P){const b=new Blob([JSON.stringify(P,null,2)],{type:"application/json"});const u=URL.createObjectURL(b);const a=document.createElement("a");a.href=u;a.download="daimoku-backup-"+new Date().toISOString().slice(0,10)+".json";a.click();URL.revokeObjectURL(u);}
+function fullDelete(P){
+  // Firebase上の自分のデータを削除
+  if(db&&P){
+    // 公開祈念で自分が作成したもの
+    db.ref("shared-prayers").once("value",sn=>{
+      const v=sn.val()||{};
+      Object.entries(v).forEach(([id,p])=>{if(p.authorId===P.userId)db.ref("shared-prayers/"+id).remove().catch(()=>{});});
+    }).catch(()=>{});
+    // ひろば投稿で自分が作成したもの
+    db.ref("timeline").once("value",sn=>{
+      const v=sn.val()||{};
+      Object.entries(v).forEach(([id,p])=>{if(p.authorId===P.userId)db.ref("timeline/"+id).remove().catch(()=>{});});
+    }).catch(()=>{});
+    // active-chanting自分のエントリ
+    db.ref("active-chanting/"+P.userId).remove().catch(()=>{});
+    // global-statsから自分の累計を減算
+    if(P.totalHen>0)subG(P.totalHen,P.totalSeconds);
+  }
+  // localStorageを完全クリア
+  try{
+    localStorage.removeItem(SK);
+    localStorage.removeItem(TS_KEY);
+    localStorage.removeItem(ESSAY_NOTES_KEY);
+    localStorage.removeItem(ADMIN_KEY);
+    localStorage.removeItem("df-liked");
+    OLD.forEach(k=>localStorage.removeItem(k));
+  }catch{}
+}
 // タイマー永続化
 const TS_KEY="df-timer-state";
 function saveTS(r,st){try{if(r&&st){localStorage.setItem(TS_KEY,JSON.stringify({running:true,startTime:st,savedAt:Date.now()}));}else localStorage.removeItem(TS_KEY);}catch{}}
@@ -114,6 +158,12 @@ function addG(hen,sec){if(!db)return;db.ref("global-stats/totalHen").transaction
 function subG(hen,sec){if(!db)return;db.ref("global-stats/totalHen").transaction(c=>Math.max((c||0)-hen,0)).catch(()=>{});db.ref("global-stats/totalSessions").transaction(c=>Math.max((c||0)-1,0)).catch(()=>{});db.ref("global-stats/totalSeconds").transaction(c=>Math.max((c||0)-sec,0)).catch(()=>{});}
 function useActive(uid,uname,isRun){const[data,setData]=useState({count:0,names:[]});useEffect(()=>{if(!db)return;const ref=db.ref("active-chanting");const h=ref.on("value",sn=>{const v=sn.val();if(v){const e=Object.values(v);setData({count:e.length,names:e.map(x=>x.name||"匿名")});}else setData({count:0,names:[]});},()=>{});return()=>ref.off("value",h);},[]);useEffect(()=>{if(!db||!uid)return;const ref=db.ref("active-chanting/"+uid);if(isRun){ref.set({name:uname||"匿名",since:firebase.database.ServerValue.TIMESTAMP}).catch(()=>{});ref.onDisconnect().remove();}else{ref.remove().catch(()=>{});ref.onDisconnect().cancel();}return()=>{ref.remove().catch(()=>{});ref.onDisconnect().cancel();};},[isRun,uid,uname]);return data;}
 function useSP(){const[p,setP]=useState([]);useEffect(()=>{if(!db)return;const ref=db.ref("shared-prayers");const h=ref.on("value",sn=>{const v=sn.val();setP(v?Object.values(v).sort((a,b)=>(b.hearts||0)-(a.hearts||0)):[]);});return()=>ref.off("value",h);},[]);return p;}
+// 承認待ち（投稿時はここに入る）
+function submitPendingPrayer(p){if(db)db.ref("pending-prayers/"+p.id).set(p).catch(()=>{});}
+// 自分の承認待ち祈念
+function useMyPendingPrayers(userId){const[r,setR]=useState([]);useEffect(()=>{if(!db||!userId)return;const ref=db.ref("pending-prayers");const h=ref.on("value",sn=>{const v=sn.val()||{};setR(Object.values(v).filter(x=>x.authorId===userId));});return()=>ref.off("value",h);},[userId]);return r;}
+// 管理者用：全承認待ち祈念
+function useAllPendingPrayers(active){const[r,setR]=useState([]);useEffect(()=>{if(!db||!active)return;const ref=db.ref("pending-prayers");const h=ref.on("value",sn=>{const v=sn.val()||{};setR(Object.values(v).sort((a,b)=>a.createdAt.localeCompare(b.createdAt)));});return()=>ref.off("value",h);},[active]);return r;}
 function aspf(p){if(db)db.ref("shared-prayers/"+p.id).set(p).catch(()=>{});}
 function uspf(id,u){if(db)db.ref("shared-prayers/"+id).update(u).catch(()=>{});}
 function dspf(id){if(db)db.ref("shared-prayers/"+id).remove().catch(()=>{});}
@@ -122,7 +172,35 @@ function hspf(id){if(db)db.ref("shared-prayers/"+id+"/hearts").transaction(c=>(c
 // ─── Firebase: タイムライン ───
 const CATEGORIES=["決意","体験","自由"];
 function useTimeline(){const[posts,setPosts]=useState([]);useEffect(()=>{if(!db)return;const ref=db.ref("timeline").orderByChild("createdAt").limitToLast(100);const h=ref.on("value",sn=>{const v=sn.val();setPosts(v?Object.values(v).sort((a,b)=>b.createdAt.localeCompare(a.createdAt)):[]);});return()=>ref.off("value",h);},[]);return posts;}
+function submitPendingPost(p){if(db)db.ref("pending-timeline/"+p.id).set(p).catch(()=>{});}
+function useMyPendingPosts(userId){const[r,setR]=useState([]);useEffect(()=>{if(!db||!userId)return;const ref=db.ref("pending-timeline");const h=ref.on("value",sn=>{const v=sn.val()||{};setR(Object.values(v).filter(x=>x.authorId===userId));});return()=>ref.off("value",h);},[userId]);return r;}
+function useAllPendingPosts(active){const[r,setR]=useState([]);useEffect(()=>{if(!db||!active)return;const ref=db.ref("pending-timeline");const h=ref.on("value",sn=>{const v=sn.val()||{};setR(Object.values(v).sort((a,b)=>a.createdAt.localeCompare(b.createdAt)));});return()=>ref.off("value",h);},[active]);return r;}
 function addPost(p){if(db)db.ref("timeline/"+p.id).set(p).catch(()=>{});}
+
+// 承認・却下処理
+async function approvePendingPrayer(p,adminName){
+  if(!db)return;
+  const approved={...p,hearts:0,approvedBy:adminName,approvedAt:new Date().toISOString()};
+  await db.ref("shared-prayers/"+p.id).set(approved).catch(()=>{});
+  await db.ref("pending-prayers/"+p.id).remove().catch(()=>{});
+}
+async function rejectPendingPrayer(p,adminName,reason){
+  if(!db)return;
+  // 操作ログ
+  await db.ref("moderation-log/"+gid()).set({type:"reject-prayer",postId:p.id,authorId:p.authorId,reason:reason||"",adminName,at:new Date().toISOString()}).catch(()=>{});
+  await db.ref("pending-prayers/"+p.id).remove().catch(()=>{});
+}
+async function approvePendingPost(p,adminName){
+  if(!db)return;
+  const approved={...p,likes:0,approvedBy:adminName,approvedAt:new Date().toISOString()};
+  await db.ref("timeline/"+p.id).set(approved).catch(()=>{});
+  await db.ref("pending-timeline/"+p.id).remove().catch(()=>{});
+}
+async function rejectPendingPost(p,adminName,reason){
+  if(!db)return;
+  await db.ref("moderation-log/"+gid()).set({type:"reject-post",postId:p.id,authorId:p.authorId,reason:reason||"",adminName,at:new Date().toISOString()}).catch(()=>{});
+  await db.ref("pending-timeline/"+p.id).remove().catch(()=>{});
+}
 function delPost(id){if(db)db.ref("timeline/"+id).remove().catch(()=>{});}
 function likePost(id){if(db)db.ref("timeline/"+id+"/likes").transaction(c=>(c||0)+1).catch(()=>{});}
 
@@ -144,24 +222,58 @@ function AudioBar(){
     </div>}
   </div>);
 }
-function NameSetup({onDone}){const[n,setN]=useState("");return(<div style={{position:"fixed",inset:0,background:C.dark,zIndex:200,display:"flex",alignItems:"center",justifyContent:"center"}}><div style={{textAlign:"center",padding:32,maxWidth:360,animation:"fadeIn .5s ease"}}><div style={{fontSize:48,marginBottom:16}}>🙏</div><div style={{fontSize:22,fontWeight:900,color:C.goldLight,fontFamily:"'Noto Serif JP',serif",marginBottom:4}}>題目<span style={{color:C.white}}>フロイデ</span></div><div style={{fontSize:10,color:C.gold,marginBottom:24,letterSpacing:".1em"}}>世田谷ユースアクションフェス 2026.11.29</div><div style={{fontSize:14,color:C.cream,marginBottom:16}}>表示名を入力してください</div><input value={n} onChange={e=>setN(e.target.value)} placeholder="例：せたがや太郎" style={{...S.input,background:"rgba(255,255,255,.1)",color:"#fff",border:"1px solid "+C.gold,textAlign:"center",fontSize:16,padding:14}} onKeyDown={e=>{if(e.key==="Enter"&&n.trim())onDone(n.trim());}}/><button onClick={()=>{if(n.trim())onDone(n.trim());}} disabled={!n.trim()} style={{...S.btnMain,width:"100%",marginTop:16,opacity:n.trim()?1:.4}}>はじめる</button></div></div>);}
+function isProblematicName(n){
+  if(!n)return null;
+  if(n.length>12)return"12文字以内で入力してください";
+  if(/^[0-9]+$/.test(n))return"数字のみの名前は使えません";
+  if(/\d{4,}/.test(n))return"電話番号など連続した数字は避けてください";
+  if(/[@＠]/.test(n)||/\.com|\.jp|http/i.test(n))return"メールアドレスやURLは入力しないでください";
+  return null;
+}
+function NameSetup({onDone}){
+  const[n,setN]=useState("");
+  const err=isProblematicName(n);
+  const valid=n.trim().length>=1&&!err;
+  return(<div style={{position:"fixed",inset:0,background:C.dark,zIndex:200,display:"flex",alignItems:"center",justifyContent:"center",padding:20,overflowY:"auto"}}>
+    <div style={{textAlign:"center",padding:"24px 0",maxWidth:360,width:"100%",animation:"fadeIn .5s ease"}}>
+      <div style={{fontSize:48,marginBottom:16}}>🙏</div>
+      <div style={{fontSize:22,fontWeight:900,color:C.goldLight,fontFamily:"'Noto Serif JP',serif",marginBottom:4}}>題目<span style={{color:C.white}}>フロイデ</span></div>
+      <div style={{fontSize:10,color:C.gold,marginBottom:24,letterSpacing:".1em"}}>世田谷ユースアクションフェス 2026.11.29</div>
+      <div style={{fontSize:15,color:C.cream,marginBottom:6,fontWeight:700}}>ニックネームを入力してください</div>
+      <div style={{fontSize:11,color:"rgba(255,255,255,.6)",marginBottom:16,lineHeight:1.7,padding:"0 8px"}}>
+        ⚠️ 本名・所属地区・電話番号・住所など、<br/>個人を特定できる情報は入力しないでください
+      </div>
+      <input value={n} onChange={e=>setN(e.target.value)} maxLength={20} placeholder="例：青空、もみじ、だいもく好き" style={{...S.input,background:"rgba(255,255,255,.1)",color:"#fff",border:"1px solid "+(err?"#ff6b6b":C.gold),textAlign:"center",fontSize:16,padding:14}} onKeyDown={e=>{if(e.key==="Enter"&&valid)onDone(n.trim());}}/>
+      {err&&<div style={{fontSize:11,color:"#ff9b9b",marginTop:8,padding:"6px 12px",background:"rgba(255,107,107,.15)",borderRadius:8}}>⚠️ {err}</div>}
+      {!err&&n.length>0&&<div style={{fontSize:11,color:C.goldLight,marginTop:8,opacity:.7}}>{n.length}/12文字</div>}
+      <button onClick={()=>{if(valid)onDone(n.trim());}} disabled={!valid} style={{...S.btnMain,width:"100%",marginTop:16,opacity:valid?1:.4,minHeight:48}}>はじめる</button>
+      <div style={{fontSize:9,color:"rgba(255,255,255,.4)",marginTop:20,lineHeight:1.7,padding:"0 8px"}}>
+        ニックネームはひろば・公開祈念の投稿時に表示されます。<br/>後から設定画面で変更できます。
+      </div>
+    </div>
+  </div>);
+}
 
-function SettingsPanel({P,setP,onClose}){
+function SettingsPanel({P,setP,onClose,openMod}){
   const[pr,setPr]=useState(()=>{const p=SPEEDS.find(p=>p.v===P.daimokuPerMin);return p?p.label:"カスタム";});
-  const[cs,setCs]=useState(String(P.daimokuPerMin));const[sr,setSr]=useState(false);const[en,setEn]=useState(P.userName);const[rst,setRst]=useState(false);const[nameSaved,setNameSaved]=useState(false);
+  const[cs,setCs]=useState(String(P.daimokuPerMin));const[sr,setSr]=useState(false);const[en,setEn]=useState(P.userName);const[rst,setRst]=useState(false);const[nameSaved,setNameSaved]=useState(false);const[nameErr,setNameErr]=useState("");
   const[admin,setAdminState]=useState(isAdmin());
   const[pwInput,setPwInput]=useState("");const[pwErr,setPwErr]=useState(false);
   const cur=pr==="カスタム"?(parseInt(cs)||40):(SPEEDS.find(p=>p.label===pr)?.v||40);const chg=cur!==P.daimokuPerMin;
   const apply=(rc)=>{let ns=P.sessions;if(rc)ns=rcAll(P.sessions,cur);const t=recomp(ns);const nd={...P,daimokuPerMin:cur,sessions:ns,...t};setP(nd);saveL(nd);setSr(false);onClose();};
-  const sn=()=>{if(en.trim()){const nd={...P,userName:en.trim()};setP(nd);saveL(nd);setNameSaved(true);setTimeout(()=>setNameSaved(false),2000);}};
+  const sn=()=>{const t=en.trim();if(!t)return;const er=isProblematicName(t);if(er){setNameErr(er);return;}setNameErr("");const nd={...P,userName:t};setP(nd);saveL(nd);setNameSaved(true);setTimeout(()=>setNameSaved(false),2000);};
   const doRst=()=>{if(P.totalHen>0)subG(P.totalHen,P.totalSeconds);const nd={...P,totalSeconds:0,totalHen:0,sessions:[]};setP(nd);saveL(nd);setRst(false);onClose();};
-  const tryAdmin=()=>{if(pwInput===ADMIN_PASSCODE){setAdmin(true);setAdminState(true);setPwInput("");setPwErr(false);}else{setPwErr(true);setTimeout(()=>setPwErr(false),2000);}};
+  const[fullDel,setFullDel]=useState(0);// 0:hidden, 1:confirm1, 2:confirm2
+  const doFullDelete=()=>{fullDelete(P);location.reload();};
+  const tryAdmin=async()=>{const r=await checkAdminPasscode(pwInput);if(r.ok){setAdmin(true,r.name);setAdminState(true);setPwInput("");setPwErr(false);}else{setPwErr(true);setTimeout(()=>setPwErr(false),2000);}};
   const exitAdmin=()=>{setAdmin(false);setAdminState(false);};
 return(<div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.5)",zIndex:100,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={e=>{if(e.target===e.currentTarget)onClose();}}><div style={{width:"100%",maxWidth:430,background:C.cream,borderRadius:"20px 20px 0 0",padding:20,maxHeight:"85vh",overflowY:"auto"}}>
 <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16}}><h2 style={{margin:0,fontSize:17,fontWeight:800,color:C.text,fontFamily:"'Noto Serif JP',serif"}}>⚙ 設定</h2><button onClick={onClose} style={{border:"none",background:"transparent",fontSize:22,color:C.muted,cursor:"pointer",padding:8}}>✕</button></div>
-<div style={{fontSize:14,fontWeight:700,color:C.text,marginBottom:8,fontFamily:"'Noto Serif JP',serif"}}>表示名</div>
-<div style={{display:"flex",gap:8,marginBottom:4}}><input value={en} onChange={e=>setEn(e.target.value)} style={{...S.input,flex:1}}/><button onClick={sn} style={{...S.btnMain,padding:"8px 16px",fontSize:13}}>{nameSaved?"✓ 保存済":"保存"}</button></div>
-{nameSaved&&<div style={{fontSize:11,color:C.green,marginBottom:8,animation:"fadeIn .2s ease"}}>✓ 表示名を保存しました</div>}
+<div style={{fontSize:14,fontWeight:700,color:C.text,marginBottom:4,fontFamily:"'Noto Serif JP',serif"}}>ニックネーム</div>
+<div style={{fontSize:10,color:C.muted,marginBottom:8,lineHeight:1.5}}>⚠️ 本名・所属地区・電話番号など個人を特定できる情報は入力しないでください</div>
+<div style={{display:"flex",gap:8,marginBottom:4}}><input value={en} maxLength={20} onChange={e=>{setEn(e.target.value);setNameErr("");}} style={{...S.input,flex:1,borderColor:nameErr?"#ff6b6b":C.goldPale}}/><button onClick={sn} style={{...S.btnMain,padding:"8px 16px",fontSize:13}}>{nameSaved?"✓ 保存済":"保存"}</button></div>
+{nameErr&&<div style={{fontSize:11,color:"#c62828",marginBottom:8,padding:"4px 10px",background:"#fff5f5",borderRadius:6,animation:"fadeIn .2s ease"}}>⚠️ {nameErr}</div>}
+{nameSaved&&<div style={{fontSize:11,color:C.green,marginBottom:8,animation:"fadeIn .2s ease"}}>✓ ニックネームを保存しました</div>}
 <div style={{marginBottom:16}}/>
 <div style={{fontSize:14,fontWeight:700,color:C.text,marginBottom:8,fontFamily:"'Noto Serif JP',serif"}}>唱題スピード <span style={{fontSize:10,fontWeight:400,color:C.muted}}>※唱題画面でも変更可</span></div>
 <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:6,marginBottom:12}}>{SPEEDS.map(p=>{const a=pr===p.label;return(<button key={p.label} onClick={()=>{setPr(p.label);if(p.v)setCs(String(p.v));}} style={{padding:"10px 4px",borderRadius:8,cursor:"pointer",textAlign:"center",border:a?"2px solid "+C.crimson:"1px solid "+C.goldPale,background:a?C.crimson+"10":C.white,minHeight:44}}><div style={{fontSize:12,fontWeight:700,color:a?C.crimson:C.text}}>{p.label}</div>{p.v&&<div style={{fontSize:10,color:C.muted}}>{p.v}/分</div>}</button>);})}</div>
@@ -171,8 +283,9 @@ return(<div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.5)",zIndex:
 {sr&&<div style={{...S.card,border:"2px solid "+C.gold,marginBottom:12}}><div style={{fontSize:13,fontWeight:700,marginBottom:8}}>過去も再計算？</div><div style={{display:"flex",gap:8}}><button onClick={()=>apply(false)} style={{...S.btnSec,flex:1,minHeight:44}}>今後のみ</button><button onClick={()=>apply(true)} style={{...S.btnMain,flex:1,fontSize:13,minHeight:44}}>全て再計算</button></div></div>}
 <div style={{borderTop:"1px solid "+C.goldPale,marginTop:16,paddingTop:16}}><div style={{fontSize:14,fontWeight:700,color:C.text,marginBottom:8,fontFamily:"'Noto Serif JP',serif"}}>🛡 管理者モード</div>
 {admin?<div>
-  <div style={{background:C.green+"15",border:"1px solid "+C.green,borderRadius:8,padding:"8px 12px",marginBottom:8,fontSize:12,color:C.green,fontWeight:700}}>✓ 管理者モードON</div>
-  <div style={{fontSize:10,color:C.muted,marginBottom:8,lineHeight:1.5}}>ひろば・公開祈念の全投稿を削除できます。不適切な投稿の対応にご活用ください。</div>
+  <div style={{background:C.green+"15",border:"1px solid "+C.green,borderRadius:8,padding:"8px 12px",marginBottom:8,fontSize:12,color:C.green,fontWeight:700}}>✓ 管理者モードON（{getAdminName()}）</div>
+  <button onClick={()=>{openMod&&openMod();onClose();}} style={{...S.btnMain,width:"100%",marginBottom:8,minHeight:44,fontSize:13,background:G.btn}}>📋 承認待ちを確認</button>
+  <div style={{fontSize:10,color:C.muted,marginBottom:8,lineHeight:1.5}}>ひろば・公開祈念の投稿はすべて事前承認制です。承認した投稿のみ全員に公開されます。</div>
   <button onClick={exitAdmin} style={{...S.btnSec,width:"100%",minHeight:40}}>管理者モードを解除</button>
 </div>:<div>
   <div style={{fontSize:10,color:C.muted,marginBottom:8,lineHeight:1.5}}>パスコードを入力すると、ひろば・公開祈念の不適切投稿を削除できるようになります。</div>
@@ -184,11 +297,45 @@ return(<div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.5)",zIndex:
 </div>}</div>
 
 <div style={{borderTop:"1px solid "+C.goldPale,marginTop:16,paddingTop:16}}><div style={{fontSize:14,fontWeight:700,color:C.text,marginBottom:8,fontFamily:"'Noto Serif JP',serif"}}>データ管理</div>
-<button onClick={()=>exportData(P)} style={{...S.btnSec,width:"100%",marginBottom:8,minHeight:44}}>📥 バックアップ保存</button>
-{!rst?<button onClick={()=>setRst(true)} style={{...S.btnSec,width:"100%",color:C.crimson,borderColor:C.crimson,minHeight:44}}>唱題記録をリセット</button>
-:<div style={{...S.card,border:"2px solid "+C.crimson,background:"#fff5f5"}}><div style={{fontSize:13,fontWeight:700,color:C.crimson,marginBottom:8}}>⚠ 本当にリセットしますか？</div><p style={{fontSize:12,color:C.muted,marginBottom:12}}>唱題時間・遍数・履歴が全削除されます。</p><div style={{display:"flex",gap:8}}><button onClick={()=>setRst(false)} style={{...S.btnSec,flex:1,minHeight:44}}>キャンセル</button><button onClick={doRst} style={{...S.btnMain,flex:1,fontSize:13,background:G.rst,minHeight:44}}>リセット</button></div></div>}</div>
+<button onClick={()=>exportData(P)} style={{...S.btnSec,width:"100%",marginBottom:8,minHeight:44}}>📥 バックアップ保存（JSON）</button>
+<div style={{fontSize:10,color:C.muted,marginBottom:12,padding:"0 4px",lineHeight:1.6}}>唱題記録・御祈念・設定をJSONファイルでお手元に保存できます（端末変更前にお勧めします）</div>
+
+{!rst?<button onClick={()=>setRst(true)} style={{...S.btnSec,width:"100%",color:C.crimson,borderColor:C.crimson,minHeight:44,marginBottom:8}}>唱題記録をリセット</button>
+:<div style={{...S.card,border:"2px solid "+C.crimson,background:"#fff5f5",marginBottom:8}}><div style={{fontSize:13,fontWeight:700,color:C.crimson,marginBottom:8}}>⚠ 唱題記録をリセットしますか？</div><p style={{fontSize:12,color:C.muted,marginBottom:12,lineHeight:1.6}}>唱題時間・遍数・履歴が全削除されます。<br/>※ ニックネーム・御祈念・投稿は残ります</p><div style={{display:"flex",gap:8}}><button onClick={()=>setRst(false)} style={{...S.btnSec,flex:1,minHeight:44}}>キャンセル</button><button onClick={doRst} style={{...S.btnMain,flex:1,fontSize:13,background:G.rst,minHeight:44}}>リセット</button></div></div>}
+
+{fullDel===0&&<button onClick={()=>setFullDel(1)} style={{...S.btnSec,width:"100%",color:"#fff",background:"#7a0010",borderColor:"#7a0010",minHeight:44,fontWeight:700}}>🗑 全データを完全削除</button>}
+{fullDel===1&&<div style={{...S.card,border:"2px solid #7a0010",background:"#fff5f5"}}>
+  <div style={{fontSize:14,fontWeight:800,color:"#7a0010",marginBottom:8}}>⚠ 全データを完全に削除します</div>
+  <div style={{fontSize:12,color:C.text,lineHeight:1.8,marginBottom:10}}>
+    削除される内容：<br/>
+    ・唱題記録・遍数・履歴<br/>
+    ・ニックネーム・設定<br/>
+    ・公開した御祈念・ひろば投稿<br/>
+    ・端末に保存されたメモ・いいね履歴
+  </div>
+  <div style={{fontSize:11,color:C.crimson,fontWeight:700,marginBottom:12,padding:"8px 10px",background:"#ffe0e0",borderRadius:6}}>
+    ⚠ この操作は取り消せません。<br/>
+    削除前に「📥 バックアップ保存」を強く推奨します。
+  </div>
+  <div style={{display:"flex",gap:8}}>
+    <button onClick={()=>setFullDel(0)} style={{...S.btnSec,flex:1,minHeight:44}}>キャンセル</button>
+    <button onClick={()=>setFullDel(2)} style={{...S.btnMain,flex:1,fontSize:12,background:"#7a0010",minHeight:44}}>次へ進む</button>
+  </div>
+</div>}
+{fullDel===2&&<div style={{...S.card,border:"2px solid #7a0010",background:"#fff5f5"}}>
+  <div style={{fontSize:14,fontWeight:800,color:"#7a0010",marginBottom:8}}>本当に削除しますか？</div>
+  <div style={{fontSize:12,color:C.text,lineHeight:1.7,marginBottom:12}}>
+    これは <b>最終確認</b> です。<br/>
+    「完全削除する」を押すと、すべてのデータが即座に削除されページが再読み込みされます。
+  </div>
+  <div style={{display:"flex",gap:8}}>
+    <button onClick={()=>setFullDel(0)} style={{...S.btnSec,flex:1,minHeight:44,fontWeight:700}}>やめる</button>
+    <button onClick={doFullDelete} style={{...S.btnMain,flex:1,fontSize:12,background:"#7a0010",minHeight:44}}>完全削除する</button>
+  </div>
+</div>}
+</div>
 {!chg&&!rst&&<button onClick={onClose} style={{...S.btnSec,width:"100%",marginTop:12,minHeight:44}}>閉じる</button>}
-<div style={{textAlign:"center",marginTop:16,fontSize:9,color:C.muted,opacity:.5}}>題目フロイデ v2.0 · Re:Freude 世田谷 2026</div>
+<div style={{textAlign:"center",marginTop:16,fontSize:9,color:C.muted,opacity:.5}}>題目フロイデ v2.2 · Re:Freude 世田谷 2026</div>
 </div></div>);}
 
 function StopwatchTab({P,setP,gs,active,elapsed,running,setRunning,onSave,saving,lastSaved,openEssays}){
@@ -265,9 +412,10 @@ return(<div style={{padding:"0 16px",animation:"fadeIn .3s ease"}}>
 <input type="number" value={am} onChange={e=>setAm(e.target.value)} placeholder="または直接入力" style={S.input}/><div style={{fontSize:11,color:C.muted,marginTop:6}}>≈ {am?cH(parseInt(am||"0")*60,P.daimokuPerMin).toLocaleString():0} 遍</div><button onClick={addM} style={{...S.btnMain,width:"100%",marginTop:16,minHeight:44}}>追加する</button></div>}
 </div>);}
 
-function PrayerTab({P,setP,sp}){const[tab,setTab]=useState("mine");const[np,setNp]=useState("");const[eidP,setEidP]=useState(null);const[etP,setEtP]=useState("");const[eidS,setEidS]=useState(null);const[etS,setEtS]=useState("");const[cdelPr,setCdelPr]=useState(null);const[cdelPub,setCdelPub]=useState(null);
+function PrayerTab({P,setP,sp}){const[tab,setTab]=useState("mine");const[np,setNp]=useState("");const[eidP,setEidP]=useState(null);const[etP,setEtP]=useState("");const[eidS,setEidS]=useState(null);const[etS,setEtS]=useState("");const[cdelPr,setCdelPr]=useState(null);const[cdelPub,setCdelPub]=useState(null);const[confirmPub,setConfirmPub]=useState(false);const[submitted,setSubmitted]=useState(false);
+const myPending=useMyPendingPrayers(P.userId);
 const aPriv=()=>{if(!np.trim())return;const nd={...P,privatePrayers:[...P.privatePrayers,{id:gid(),text:np}]};setP(nd);saveL(nd);setNp("");};
-const aPub=()=>{if(!np.trim())return;aspf({id:gid(),text:np,authorId:P.userId,authorName:P.userName,hearts:0,createdAt:new Date().toISOString()});setNp("");};
+const aPub=()=>{if(!np.trim())return;submitPendingPrayer({id:gid(),text:np,authorId:P.userId,authorName:P.userName,createdAt:new Date().toISOString()});setNp("");setConfirmPub(false);setSubmitted(true);setTimeout(()=>setSubmitted(false),4000);};
 const ePriv=(id)=>{const nd={...P,privatePrayers:P.privatePrayers.map(p=>p.id===id?{...p,text:etP}:p)};setP(nd);saveL(nd);setEidP(null);};
 const dPriv=(id)=>{const nd={...P,privatePrayers:P.privatePrayers.filter(p=>p.id!==id)};setP(nd);saveL(nd);setCdelPr(null);};
 const doH=(pid)=>{if(P.heartedIds.includes(pid))return;hspf(pid);const nd={...P,heartedIds:[...P.heartedIds,pid]};setP(nd);saveL(nd);};
@@ -275,7 +423,39 @@ const myPub=sp.filter(p=>p.authorId===P.userId);
 return(<div style={{padding:"0 16px",animation:"fadeIn .3s ease"}}>
 <div style={{display:"flex",borderBottom:"2px solid "+C.goldPale}}>{[["mine","自分の祈念"],["public","みんなの祈念 ("+sp.length+")"]].map(([k,l])=>(<button key={k} onClick={()=>setTab(k)} style={{...S.subTab,...(tab===k?{color:C.crimson,fontWeight:700,borderBottomColor:C.crimson}:{}),minHeight:40}}>{l}</button>))}</div>
 {tab==="mine"&&<div style={{marginTop:12}}>
-<div style={{...S.card,marginBottom:12}}><textarea value={np} onChange={e=>setNp(e.target.value)} placeholder="御祈念項目を入力..." style={S.textarea}/><div style={{display:"flex",gap:8,marginTop:8}}><button onClick={aPriv} style={{...S.btnSec,flex:1,fontSize:12,minHeight:40}}>🔒 非公開</button><button onClick={aPub} style={{...S.btnMain,flex:1,fontSize:12,padding:"8px 12px",minHeight:40}}>🌍 公開</button></div></div>
+<div style={{...S.card,marginBottom:12}}>
+  <textarea value={np} onChange={e=>setNp(e.target.value)} placeholder="御祈念項目を入力（例：家族の健康、勝利を）..." style={S.textarea} maxLength={200}/>
+  <div style={{fontSize:10,color:C.muted,marginTop:4,textAlign:"right"}}>{np.length}/200</div>
+  {!confirmPub?<div style={{display:"flex",gap:8,marginTop:8}}>
+    <button onClick={aPriv} disabled={!np.trim()} style={{...S.btnMain,flex:2,fontSize:13,minHeight:44,opacity:np.trim()?1:.4}}>🔒 自分だけ保存</button>
+    <button onClick={()=>{if(np.trim())setConfirmPub(true);}} disabled={!np.trim()} style={{...S.btnSec,flex:1,fontSize:11,minHeight:44,opacity:np.trim()?1:.4}}>🌍 公開する</button>
+  </div>
+  :<div style={{marginTop:10,padding:"12px 14px",background:"#fff8e1",border:"1px solid "+C.gold,borderRadius:8}}>
+    <div style={{fontSize:12,fontWeight:700,color:C.crimsonDark,marginBottom:6}}>📋 公開申請の確認</div>
+    <div style={{fontSize:11,color:C.text,lineHeight:1.7,marginBottom:10}}>
+      ・<b>管理者の承認後</b>に公開されます（数日かかる場合があります）<br/>
+      ・公開後は<b>世田谷の全員</b>が閲覧できます<br/>
+      ・ニックネーム「<b>{P.userName}</b>」が表示されます<br/>
+      ・個人を特定できる情報（本名・連絡先・住所・病名等）が含まれていないかご確認ください
+    </div>
+    <div style={{padding:"8px 10px",background:C.white,borderRadius:6,fontSize:12,lineHeight:1.6,marginBottom:10,maxHeight:80,overflowY:"auto",border:"1px solid "+C.goldPale}}>{np}</div>
+    <div style={{display:"flex",gap:8}}>
+      <button onClick={()=>setConfirmPub(false)} style={{...S.btnSec,flex:1,minHeight:40,fontSize:12}}>キャンセル</button>
+      <button onClick={aPub} style={{...S.btnMain,flex:1,fontSize:12,padding:"8px 12px",minHeight:40}}>申請する</button>
+    </div>
+  </div>}
+</div>
+{submitted&&<div style={{...S.card,background:"#e8f5e9",border:"1px solid "+C.green,marginBottom:12}}>
+  <div style={{fontSize:13,fontWeight:700,color:C.green,marginBottom:4}}>✓ 公開申請を受け付けました</div>
+  <div style={{fontSize:11,color:C.text,lineHeight:1.6}}>管理者の承認後に公開されます。下の「承認待ち」で状態を確認できます。</div>
+</div>}
+{myPending.length>0&&<div style={{marginBottom:12}}>
+  <div style={{fontSize:12,color:C.muted,marginBottom:6,fontWeight:700}}>⏳ 承認待ち（{myPending.length}件）</div>
+  {myPending.map(p=>(<div key={p.id} style={{...S.card,background:"#fff8e1",border:"1px dashed "+C.gold,marginBottom:6}}>
+    <p style={{margin:0,fontSize:13,lineHeight:1.7,color:C.text}}>{p.text}</p>
+    <div style={{fontSize:10,color:C.gold,marginTop:6,fontWeight:700}}>⏳ 管理者の承認待ち</div>
+  </div>))}
+</div>}
 {P.privatePrayers.length===0&&myPub.length===0&&<p style={{color:C.muted,fontSize:13,textAlign:"center",padding:16}}>御祈念項目を追加しましょう</p>}
 {P.privatePrayers.map(p=>(<div key={p.id} style={S.card}>{eidP===p.id?(<><textarea value={etP} onChange={e=>setEtP(e.target.value)} style={S.textarea}/><div style={{display:"flex",gap:8,marginTop:8}}><button onClick={()=>setEidP(null)} style={{...S.btnSec,flex:1,fontSize:12,minHeight:40}}>取消</button><button onClick={()=>ePriv(p.id)} style={{...S.btnMain,flex:1,fontSize:12,padding:"8px 12px",minHeight:40}}>保存</button></div></>):(<><p style={{margin:0,fontSize:13,lineHeight:1.7}}>{p.text}</p><div style={{display:"flex",justifyContent:"space-between",marginTop:8}}><span style={{fontSize:11,color:C.muted}}>🔒</span><div style={{display:"flex",gap:12}}><button onClick={()=>{setEidP(p.id);setEtP(p.text);}} style={{border:"none",background:"transparent",fontSize:12,color:C.crimson,cursor:"pointer",padding:4}}>編集</button>{cdelPr===p.id?<><button onClick={()=>dPriv(p.id)} style={{border:"none",background:"transparent",fontSize:12,color:C.crimson,cursor:"pointer",padding:4,fontWeight:700}}>本当に削除</button><button onClick={()=>setCdelPr(null)} style={{border:"none",background:"transparent",fontSize:12,color:C.muted,cursor:"pointer",padding:4}}>戻す</button></>:<button onClick={()=>setCdelPr(p.id)} style={{border:"none",background:"transparent",fontSize:12,color:C.muted,cursor:"pointer",padding:4}}>削除</button>}</div></div></>)}</div>))}
 {myPub.map(p=>(<div key={p.id} style={{...S.card,border:"1px solid "+C.goldPale}}>{eidS===p.id?(<><textarea value={etS} onChange={e=>setEtS(e.target.value)} style={S.textarea}/><div style={{display:"flex",gap:8,marginTop:8}}><button onClick={()=>setEidS(null)} style={{...S.btnSec,flex:1,fontSize:12,minHeight:40}}>取消</button><button onClick={()=>{uspf(p.id,{text:etS});setEidS(null);}} style={{...S.btnMain,flex:1,fontSize:12,padding:"8px 12px",minHeight:40}}>保存</button></div></>):(<><p style={{margin:0,fontSize:13,lineHeight:1.7}}>{p.text}</p><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:8}}><span style={{fontSize:11,color:C.crimson}}>🌍 公開 · ♥{p.hearts||0}</span><div style={{display:"flex",gap:12}}><button onClick={()=>{setEidS(p.id);setEtS(p.text);}} style={{border:"none",background:"transparent",fontSize:12,color:C.crimson,cursor:"pointer",padding:4}}>編集</button><button onClick={()=>dspf(p.id)} style={{border:"none",background:"transparent",fontSize:12,color:C.muted,cursor:"pointer",padding:4}}>削除</button></div></div></>)}</div>))}
@@ -300,21 +480,47 @@ return(<div style={{padding:"0 16px",animation:"fadeIn .3s ease"}}>
 
 function BoardTab({P}){
   const posts=useTimeline();
-  const[cat,setCat]=useState("決意");const[text,setText]=useState("");const[showRules,setShowRules]=useState(false);const[posting,setPosting]=useState(false);const[cdelPost,setCdelPost]=useState(null);
+  const[cat,setCat]=useState("決意");const[text,setText]=useState("");const[showRules,setShowRules]=useState(false);const[posting,setPosting]=useState(false);const[cdelPost,setCdelPost]=useState(null);const[confirmPost,setConfirmPost]=useState(false);const[submittedPost,setSubmittedPost]=useState(false);
+  const myPendingPosts=useMyPendingPosts(P.userId);
   const[likedIds,setLikedIds]=useState(()=>{try{return JSON.parse(localStorage.getItem("df-liked")||"[]");}catch{return[];}});
   const filtered=posts.filter(p=>p.category===cat);
-  const doPost=()=>{if(!text.trim()||posting)return;setPosting(true);addPost({id:gid(),authorId:P.userId,authorName:P.userName,text:text.trim(),category:cat,likes:0,createdAt:new Date().toISOString()});setText("");setTimeout(()=>setPosting(false),500);};
+  const doPost=()=>{if(!text.trim()||posting)return;setPosting(true);submitPendingPost({id:gid(),authorId:P.userId,authorName:P.userName,text:text.trim(),category:cat,createdAt:new Date().toISOString()});setText("");setSubmittedPost(true);setTimeout(()=>{setPosting(false);setSubmittedPost(false);},4000);};
   const doLike=(pid)=>{if(likedIds.includes(pid))return;likePost(pid);const nl=[...likedIds,pid];setLikedIds(nl);try{localStorage.setItem("df-liked",JSON.stringify(nl));}catch{}};
   const ago=(iso)=>{const d=Math.floor((Date.now()-new Date(iso).getTime())/60000);if(d<1)return"今";if(d<60)return d+"分前";if(d<1440)return Math.floor(d/60)+"時間前";return Math.floor(d/1440)+"日前";};
   return(<div style={{padding:"0 16px",animation:"fadeIn .3s ease"}}>
     <div style={{...S.card,marginTop:8}}>
       <div style={{display:"flex",gap:6,marginBottom:10}}>{CATEGORIES.map(c=>(<button key={c} onClick={()=>setCat(c)} style={{flex:1,padding:"8px 4px",borderRadius:20,border:cat===c?"2px solid "+C.crimson:"1px solid "+C.goldPale,background:cat===c?C.crimson+"10":C.white,fontSize:13,color:cat===c?C.crimson:C.text,cursor:"pointer",fontWeight:cat===c?700:400,minHeight:38}}>{c}</button>))}</div>
       <textarea value={text} onChange={e=>setText(e.target.value)} placeholder={"「"+cat+"」を投稿..."} style={S.textarea} maxLength={300}/>
-      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:8}}>
+      {!confirmPost?<div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:8}}>
         <button onClick={()=>setShowRules(true)} style={{border:"none",background:"transparent",fontSize:11,color:C.muted,cursor:"pointer",padding:4}}>⚠ 投稿ルール</button>
-        <div style={{display:"flex",alignItems:"center",gap:8}}><span style={{fontSize:11,color:C.muted}}>{text.length}/300</span><button onClick={doPost} disabled={!text.trim()||posting} style={{...S.btnMain,padding:"8px 20px",fontSize:13,opacity:text.trim()&&!posting?1:.4,minHeight:38}}>{posting?"投稿中…":"投稿"}</button></div>
+        <div style={{display:"flex",alignItems:"center",gap:8}}><span style={{fontSize:11,color:C.muted}}>{text.length}/300</span><button onClick={()=>{if(text.trim())setConfirmPost(true);}} disabled={!text.trim()||posting} style={{...S.btnMain,padding:"8px 20px",fontSize:13,opacity:text.trim()&&!posting?1:.4,minHeight:38}}>投稿する</button></div>
       </div>
+      :<div style={{marginTop:10,padding:"12px 14px",background:"#fff8e1",border:"1px solid "+C.gold,borderRadius:8}}>
+        <div style={{fontSize:12,fontWeight:700,color:C.crimsonDark,marginBottom:6}}>📋 投稿申請の確認</div>
+        <div style={{fontSize:11,color:C.text,lineHeight:1.7,marginBottom:10}}>
+          ・<b>管理者の承認後</b>に公開されます（数日かかる場合があります）<br/>
+          ・公開後は<b>世田谷の全員</b>が閲覧できます<br/>
+          ・ニックネーム「<b>{P.userName}</b>」が表示されます<br/>
+          ・個人情報や他者を傷つける表現が含まれていないかご確認ください
+        </div>
+        <div style={{padding:"8px 10px",background:C.white,borderRadius:6,fontSize:12,lineHeight:1.6,marginBottom:10,maxHeight:80,overflowY:"auto",border:"1px solid "+C.goldPale,whiteSpace:"pre-wrap"}}>{text}</div>
+        <div style={{display:"flex",gap:8}}>
+          <button onClick={()=>setConfirmPost(false)} style={{...S.btnSec,flex:1,minHeight:40,fontSize:12}}>戻る</button>
+          <button onClick={()=>{doPost();setConfirmPost(false);}} disabled={posting} style={{...S.btnMain,flex:1,fontSize:12,padding:"8px 12px",minHeight:40}}>{posting?"申請中…":"申請する"}</button>
+        </div>
+      </div>}
     </div>
+    {submittedPost&&<div style={{...S.card,background:"#e8f5e9",border:"1px solid "+C.green,marginTop:8}}>
+      <div style={{fontSize:13,fontWeight:700,color:C.green,marginBottom:4}}>✓ 投稿申請を受け付けました</div>
+      <div style={{fontSize:11,color:C.text,lineHeight:1.6}}>管理者の承認後に公開されます。</div>
+    </div>}
+    {myPendingInCat.length>0&&<div style={{marginTop:12}}>
+      <div style={{fontSize:12,color:C.muted,marginBottom:6,fontWeight:700}}>⏳ あなたの承認待ち（{myPendingInCat.length}件）</div>
+      {myPendingInCat.map(p=>(<div key={p.id} style={{...S.card,background:"#fff8e1",border:"1px dashed "+C.gold,marginBottom:6}}>
+        <p style={{margin:0,fontSize:13,lineHeight:1.7,color:C.text,whiteSpace:"pre-wrap"}}>{p.text}</p>
+        <div style={{fontSize:10,color:C.gold,marginTop:6,fontWeight:700}}>⏳ 管理者の承認待ち</div>
+      </div>))}
+    </div>}
     <div style={{fontSize:13,fontWeight:700,color:C.text,marginTop:16,marginBottom:8,fontFamily:"'Noto Serif JP',serif"}}>💬 みんなの{cat}（{filtered.length}件）</div>
     {filtered.length===0&&<div style={{...S.card,textAlign:"center",color:C.muted,fontSize:13,padding:24}}>まだ投稿がありません。最初の投稿をしてみましょう！</div>}
     {filtered.map(p=>{const isOwn=p.authorId===P.userId;const liked=likedIds.includes(p.id);return(<div key={p.id} style={S.card}>
@@ -333,6 +539,104 @@ function BoardTab({P}){
         <div style={{fontSize:13,fontWeight:700,textAlign:"center",marginBottom:12}}>※全ユーザーに表示されています。</div>
         <div style={{fontSize:12,color:C.text,lineHeight:1.8,textAlign:"center"}}>・ここはみんなで励まし合う場所です。<br/>・投稿は誰でも読める公開の場です。<br/>個人情報の共有には十分ご注意ください。<br/>・議論よりも、応援・共感を心がけましょう。<br/>・相手を傷つける言葉、暴力的な発言、<br/>誹謗中傷、対立をあおる投稿は通報対象です。</div>
         <button onClick={()=>setShowRules(false)} style={{...S.btnMain,width:"100%",marginTop:16,fontSize:14,minHeight:44}}>OK</button>
+      </div>
+    </div>}
+  </div>);
+}
+
+// 管理者モデレーション画面
+const REJECT_REASONS=[
+  "個人情報が含まれている",
+  "他者への誹謗中傷",
+  "宗教的勧誘・外部誘導",
+  "スパム・無関係な内容",
+  "その他不適切"
+];
+function ModerationPanel({onClose}){
+  const adminName=getAdminName();
+  const pendingPrayers=useAllPendingPrayers(true);
+  const pendingPosts=useAllPendingPosts(true);
+  const[tab,setTab]=useState("prayers");
+  const[rejTarget,setRejTarget]=useState(null);
+  const[rejReason,setRejReason]=useState("");
+  const[busy,setBusy]=useState(false);
+  const total=pendingPrayers.length+pendingPosts.length;
+  
+  const onApprovePrayer=async(p)=>{if(busy)return;setBusy(true);await approvePendingPrayer(p,adminName);setBusy(false);};
+  const onApprovePost=async(p)=>{if(busy)return;setBusy(true);await approvePendingPost(p,adminName);setBusy(false);};
+  const onReject=async()=>{
+    if(!rejTarget||busy)return;
+    setBusy(true);
+    if(rejTarget._kind==="prayer")await rejectPendingPrayer(rejTarget,adminName,rejReason);
+    else await rejectPendingPost(rejTarget,adminName,rejReason);
+    setBusy(false);setRejTarget(null);setRejReason("");
+  };
+  const ago=(iso)=>{const d=Math.floor((Date.now()-new Date(iso).getTime())/60000);if(d<1)return"今";if(d<60)return d+"分前";if(d<1440)return Math.floor(d/60)+"時間前";return Math.floor(d/1440)+"日前";};
+  
+  return(<div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.6)",zIndex:150,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={e=>{if(e.target===e.currentTarget&&!rejTarget)onClose();}}>
+    <div style={{width:"100%",maxWidth:430,background:C.cream,borderRadius:"20px 20px 0 0",maxHeight:"92vh",display:"flex",flexDirection:"column"}}>
+      <div style={{padding:"16px 20px 12px",borderBottom:"1px solid "+C.goldPale,display:"flex",justifyContent:"space-between",alignItems:"center",flexShrink:0}}>
+        <div>
+          <h2 style={{margin:0,fontSize:17,fontWeight:800,color:C.crimsonDark,fontFamily:"'Noto Serif JP',serif"}}>📋 承認待ち（{total}件）</h2>
+          <div style={{fontSize:10,color:C.muted,marginTop:2}}>承認者：<b>{adminName}</b></div>
+        </div>
+        <button onClick={onClose} style={{border:"none",background:"transparent",fontSize:22,color:C.muted,cursor:"pointer",padding:4}}>✕</button>
+      </div>
+      
+      <div style={{display:"flex",borderBottom:"1px solid "+C.goldPale,flexShrink:0}}>
+        <button onClick={()=>setTab("prayers")} style={{flex:1,padding:"10px 0",border:"none",background:tab==="prayers"?C.cardBg:"transparent",borderBottom:tab==="prayers"?"2px solid "+C.crimson:"none",fontSize:13,color:tab==="prayers"?C.crimson:C.muted,fontWeight:tab==="prayers"?700:400,cursor:"pointer",minHeight:42}}>🙏 御祈念（{pendingPrayers.length}）</button>
+        <button onClick={()=>setTab("posts")} style={{flex:1,padding:"10px 0",border:"none",background:tab==="posts"?C.cardBg:"transparent",borderBottom:tab==="posts"?"2px solid "+C.crimson:"none",fontSize:13,color:tab==="posts"?C.crimson:C.muted,fontWeight:tab==="posts"?700:400,cursor:"pointer",minHeight:42}}>💬 ひろば（{pendingPosts.length}）</button>
+      </div>
+      
+      <div style={{flex:1,overflowY:"auto",padding:16}}>
+        {tab==="prayers"&&<>
+          {pendingPrayers.length===0&&<div style={{textAlign:"center",color:C.muted,padding:32,fontSize:13}}>承認待ちはありません ✨</div>}
+          {pendingPrayers.map(p=>(<div key={p.id} style={{...S.card,borderLeft:"3px solid "+C.gold}}>
+            <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}>
+              <div style={{width:30,height:30,borderRadius:"50%",background:G.avatar,display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontSize:12,fontWeight:700,flexShrink:0}}>{(p.authorName||"?")[0]}</div>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:600,fontSize:12}}>{p.authorName||"匿名"}</div>
+                <div style={{fontSize:10,color:C.muted}}>{ago(p.createdAt)}</div>
+              </div>
+            </div>
+            <p style={{margin:"0 0 10px 0",fontSize:13,lineHeight:1.7,whiteSpace:"pre-wrap",padding:"8px 10px",background:C.cream,borderRadius:6}}>{p.text}</p>
+            <div style={{display:"flex",gap:6}}>
+              <button onClick={()=>setRejTarget({...p,_kind:"prayer"})} disabled={busy} style={{...S.btnSec,flex:1,fontSize:12,color:C.crimson,borderColor:C.crimson,minHeight:40}}>✕ 却下</button>
+              <button onClick={()=>onApprovePrayer(p)} disabled={busy} style={{...S.btnMain,flex:2,fontSize:13,background:G.grn,minHeight:40}}>✓ 承認して公開</button>
+            </div>
+          </div>))}
+        </>}
+        
+        {tab==="posts"&&<>
+          {pendingPosts.length===0&&<div style={{textAlign:"center",color:C.muted,padding:32,fontSize:13}}>承認待ちはありません ✨</div>}
+          {pendingPosts.map(p=>(<div key={p.id} style={{...S.card,borderLeft:"3px solid "+C.gold}}>
+            <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}>
+              <div style={{width:30,height:30,borderRadius:"50%",background:G.avatar,display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontSize:12,fontWeight:700,flexShrink:0}}>{(p.authorName||"?")[0]}</div>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:600,fontSize:12}}>{p.authorName||"匿名"} <span style={{fontSize:10,color:C.crimson,marginLeft:4,padding:"1px 6px",background:C.crimson+"15",borderRadius:8}}>{p.category}</span></div>
+                <div style={{fontSize:10,color:C.muted}}>{ago(p.createdAt)}</div>
+              </div>
+            </div>
+            <p style={{margin:"0 0 10px 0",fontSize:13,lineHeight:1.7,whiteSpace:"pre-wrap",padding:"8px 10px",background:C.cream,borderRadius:6}}>{p.text}</p>
+            <div style={{display:"flex",gap:6}}>
+              <button onClick={()=>setRejTarget({...p,_kind:"post"})} disabled={busy} style={{...S.btnSec,flex:1,fontSize:12,color:C.crimson,borderColor:C.crimson,minHeight:40}}>✕ 却下</button>
+              <button onClick={()=>onApprovePost(p)} disabled={busy} style={{...S.btnMain,flex:2,fontSize:13,background:G.grn,minHeight:40}}>✓ 承認して公開</button>
+            </div>
+          </div>))}
+        </>}
+      </div>
+    </div>
+    
+    {rejTarget&&<div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.5)",zIndex:160,display:"flex",alignItems:"center",justifyContent:"center",padding:20}} onClick={e=>{if(e.target===e.currentTarget)setRejTarget(null);}}>
+      <div style={{background:C.white,borderRadius:12,padding:20,maxWidth:360,width:"100%"}}>
+        <div style={{fontSize:15,fontWeight:800,color:C.crimson,marginBottom:10,fontFamily:"'Noto Serif JP',serif"}}>却下する理由</div>
+        <div style={{padding:"8px 10px",background:C.cream,borderRadius:6,fontSize:12,marginBottom:12,maxHeight:80,overflowY:"auto",whiteSpace:"pre-wrap"}}>{rejTarget.text}</div>
+        <div style={{fontSize:11,color:C.muted,marginBottom:6}}>理由（記録のため・投稿者には通知されません）:</div>
+        {REJECT_REASONS.map(r=>(<button key={r} onClick={()=>setRejReason(r)} style={{display:"block",width:"100%",textAlign:"left",padding:"8px 10px",marginBottom:4,borderRadius:6,border:rejReason===r?"2px solid "+C.crimson:"1px solid "+C.goldPale,background:rejReason===r?C.crimson+"10":C.white,fontSize:12,color:rejReason===r?C.crimson:C.text,cursor:"pointer"}}>{r}</button>))}
+        <div style={{display:"flex",gap:8,marginTop:12}}>
+          <button onClick={()=>{setRejTarget(null);setRejReason("");}} style={{...S.btnSec,flex:1,minHeight:40}}>キャンセル</button>
+          <button onClick={onReject} disabled={!rejReason||busy} style={{...S.btnMain,flex:1,fontSize:12,minHeight:40,opacity:rejReason?1:.4}}>却下する</button>
+        </div>
       </div>
     </div>}
   </div>);
@@ -394,7 +698,7 @@ function EssaysModal({onClose}){
   </div>);
 }
 
-function App(){const[tab,setTab]=useState("home");const[P,setP]=useState(null);const[loading,setLoading]=useState(true);const[needsName,setNeedsName]=useState(false);const[showSet,setShowSet]=useState(false);const[running,setRunningRaw]=useState(false);const[elapsed,setElapsed]=useState(0);const[startTime,setStartTime]=useState(null);const[showConf,setShowConf]=useState(false);const[savedMsg,setSavedMsg]=useState("");const[saving,setSaving]=useState(false);const[restored,setRestored]=useState("");const[lastSaved,setLastSaved]=useState(null);const[showEssays,setShowEssays]=useState(false);
+function App(){const[tab,setTab]=useState("home");const[P,setP]=useState(null);const[loading,setLoading]=useState(true);const[needsName,setNeedsName]=useState(false);const[showSet,setShowSet]=useState(false);const[running,setRunningRaw]=useState(false);const[elapsed,setElapsed]=useState(0);const[startTime,setStartTime]=useState(null);const[showConf,setShowConf]=useState(false);const[savedMsg,setSavedMsg]=useState("");const[saving,setSaving]=useState(false);const[restored,setRestored]=useState("");const[lastSaved,setLastSaved]=useState(null);const[showEssays,setShowEssays]=useState(false);const[showMod,setShowMod]=useState(false);
 const[cd,setCd]=useState(()=>Math.max(0,TARGET_DATE-Date.now()));
 useEffect(()=>{const iv=setInterval(()=>setCd(Math.max(0,TARGET_DATE-Date.now())),1000);return()=>clearInterval(iv);},[]);
 const cdD=Math.floor(cd/864e5),cdH=Math.floor((cd%864e5)/36e5),cdM=Math.floor((cd%36e5)/6e4),cdS=Math.floor((cd%6e4)/1e3);
@@ -406,6 +710,9 @@ useEffect(()=>{const fn=()=>{if(document.visibilityState==="visible"&&stRef.curr
 useEffect(()=>{const save=()=>{if(runRef.current&&stRef.current)saveTS(true,stRef.current);};window.addEventListener("beforeunload",save);window.addEventListener("pagehide",save);return()=>{window.removeEventListener("beforeunload",save);window.removeEventListener("pagehide",save);};},[]);
 const setRunning=(v)=>{if(v==="reset"){setRunningRaw(false);setElapsed(0);setStartTime(null);stRef.current=null;clearTS();return;}if(v){setRunningRaw(true);const st=Date.now()-elapsed*1000;setStartTime(st);stRef.current=st;saveTS(true,st);}else{setRunningRaw(false);clearTS();}};
 const gs=useGlobal(),sp=useSP(),active=useActive(P?.userId,P?.userName,running);
+const pendingP=useAllPendingPrayers(isAdmin());
+const pendingT=useAllPendingPosts(isAdmin());
+const pendingTotal=pendingP.length+pendingT.length;
 useEffect(()=>{const raw=loadL();if(raw){const m=migrate(raw);setP(m);if(!m.userName)setNeedsName(true);}else{setP(defP());setNeedsName(true);}
 const ts=loadTS();if(ts){const el=Math.floor((Date.now()-ts.startTime)/1000);if(el>0&&el<86400){setRunningRaw(true);setStartTime(ts.startTime);stRef.current=ts.startTime;setElapsed(el);setRestored("唱題タイマーを復元（"+fmt(el)+"）");setTimeout(()=>setRestored(""),4000);}}
 setLoading(false);const splash=document.getElementById("splash");if(splash){splash.style.opacity="0";setTimeout(()=>splash.remove(),300);};},[]);
@@ -420,7 +727,7 @@ return(<div style={S.app}><Confetti show={showConf}/>
 <div style={S.header}><div style={S.headerInner}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
 <a href={MAIN} style={{fontSize:11,color:C.goldLight,textDecoration:"none",background:"rgba(255,255,255,.08)",borderRadius:6,padding:"5px 10px",display:"flex",alignItems:"center",gap:4}}>◀ <span style={{fontSize:10}}>練習サイト</span></a>
 <div style={{textAlign:"center",flex:1}}><div style={{fontSize:17,fontWeight:900,fontFamily:"'Noto Serif JP',serif",letterSpacing:".08em"}}>題目<span style={{color:C.goldLight}}>フロイデ</span>{running&&<span style={{display:"inline-block",width:8,height:8,borderRadius:"50%",background:"#76ff03",marginLeft:6,boxShadow:"0 0 8px #76ff03",animation:"pulse 1.5s infinite",verticalAlign:"middle"}}/>}{isAdmin()&&<span style={{fontSize:8,background:C.gold,color:C.dark,borderRadius:3,padding:"1px 5px",marginLeft:6,fontWeight:800,verticalAlign:"middle",letterSpacing:".05em"}}>ADMIN</span>}</div>{running&&<div style={{fontSize:9,color:"#76ff03",marginTop:1,letterSpacing:".1em"}}>● 唱題中</div>}</div>
-<button onClick={()=>setShowSet(true)} style={{border:"none",background:"rgba(255,255,255,.08)",color:C.goldLight,fontSize:10,cursor:"pointer",borderRadius:6,padding:"5px 10px",display:"flex",flexDirection:"column",alignItems:"center",gap:1}}><span style={{fontSize:14}}>⚙</span>設定</button>
+<button onClick={()=>setShowSet(true)} style={{border:"none",background:"rgba(255,255,255,.08)",color:C.goldLight,fontSize:10,cursor:"pointer",borderRadius:6,padding:"5px 10px",display:"flex",flexDirection:"column",alignItems:"center",gap:1,position:"relative"}}><span style={{fontSize:14}}>⚙</span>設定{isAdmin()&&pendingTotal>0&&<span style={{position:"absolute",top:-4,right:-4,background:"#ff3b30",color:"#fff",fontSize:9,fontWeight:800,borderRadius:10,minWidth:18,height:18,display:"flex",alignItems:"center",justifyContent:"center",padding:"0 4px",boxShadow:"0 2px 4px rgba(0,0,0,.3)"}}>{pendingTotal}</span>}</button>
 </div></div></div>
 {/* カウントダウン */}
 <div style={S.countdown}><div style={S.cdBg}/><div style={{position:"relative",zIndex:1,padding:"6px 0"}}>
@@ -449,8 +756,9 @@ return(<div style={S.app}><Confetti show={showConf}/>
 {tab==="board"&&<BoardTab P={P}/>}
 </div>
 <div style={S.tabBar}>{TABS.map(t=>{const isA=tab===t.id,dot=t.id==="home"&&running&&tab!=="home";return(<button key={t.id} onClick={()=>setTab(t.id)} style={{...S.tabBtn,...(isA?S.tabBtnAct:{}),minHeight:44}}><span style={{fontSize:18,position:"relative"}}>{t.icon}{dot&&<span style={{position:"absolute",top:-2,right:-6,width:7,height:7,borderRadius:"50%",background:C.crimson}}/>}</span><span style={{fontSize:9,marginTop:1}}>{t.label}</span></button>);})}</div>
-{showSet&&<SettingsPanel P={P} setP={setP} onClose={()=>setShowSet(false)}/>}
+{showSet&&<SettingsPanel P={P} setP={setP} onClose={()=>setShowSet(false)} openMod={()=>setShowMod(true)}/>}
 {showEssays&&<EssaysModal onClose={()=>setShowEssays(false)}/>}
+{showMod&&isAdmin()&&<ModerationPanel onClose={()=>setShowMod(false)}/>}
 </div>);}
 
 const S={app:{maxWidth:430,margin:"0 auto",height:"100%",background:C.cream,fontFamily:"'Noto Sans JP',sans-serif",color:C.text,display:"flex",flexDirection:"column",overflow:"hidden"},header:{background:G.hdr,color:"#fff",position:"sticky",top:0,zIndex:10,borderBottom:"1px solid rgba(201,150,58,.3)",flexShrink:0,paddingTop:"env(safe-area-inset-top,0px)"},headerInner:{padding:"8px 10px 6px"},countdown:{background:G.crim,color:"#fff",textAlign:"center",padding:"14px 16px",position:"relative",overflow:"hidden",flexShrink:0},cdBg:{position:"absolute",inset:0,background:"repeating-linear-gradient(-45deg,transparent,transparent 8px,rgba(255,255,255,.04) 8px,rgba(255,255,255,.04) 9px)"},content:{flex:1,paddingTop:8,paddingBottom:64,overflowY:"auto",WebkitOverflowScrolling:"touch"},tabBar:{position:"fixed",bottom:0,left:"50%",transform:"translateX(-50%)",width:"100%",maxWidth:430,display:"flex",background:"#fff",borderTop:"1px solid "+C.goldPale,padding:"3px 0 env(safe-area-inset-bottom,5px)",zIndex:20},tabBtn:{flex:1,display:"flex",flexDirection:"column",alignItems:"center",border:"none",background:"transparent",padding:"3px 0",color:C.muted,cursor:"pointer"},tabBtnAct:{color:C.crimson},card:{background:C.cardBg,borderRadius:8,padding:14,boxShadow:"0 1px 4px rgba(0,0,0,.05)",marginBottom:10,border:"1px solid rgba(0,0,0,.05)"},cumCard:{background:G.crim,color:"#fff",borderRadius:10,padding:"16px",textAlign:"center"},btnMain:{padding:"12px 24px",border:"none",borderRadius:50,background:G.btn,color:"#fff",fontSize:15,fontWeight:700,cursor:"pointer",boxShadow:"0 4px 14px rgba(155,27,48,.3)"},btnSec:{padding:"10px 18px",border:"1px solid "+C.goldPale,borderRadius:50,background:C.cardBg,color:C.muted,fontSize:12,cursor:"pointer"},subTab:{flex:1,padding:"10px 0",border:"none",background:"transparent",fontSize:13,color:C.muted,cursor:"pointer",borderBottom:"2px solid transparent",marginBottom:-2},textarea:{width:"100%",padding:12,border:"1px solid "+C.goldPale,borderRadius:8,fontSize:13,resize:"vertical",minHeight:70,fontFamily:"inherit",boxSizing:"border-box",background:C.cream},input:{width:"100%",padding:10,border:"1px solid "+C.goldPale,borderRadius:8,fontSize:13,fontFamily:"inherit",boxSizing:"border-box",background:C.cream}};
