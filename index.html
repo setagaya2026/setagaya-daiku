@@ -4,14 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Re:Freude 世田谷ユースアクションフェス 練習サイト</title>
-<meta name="description" content="Re:Freude 〜わたしたちの新しい歓喜の歌〜 世田谷ユースアクションフェス 2026.11.29 練習サイト">
-<!-- PWA -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#9B1B30">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Re:Freude">
-<link rel="apple-touch-icon" href="icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -33,111 +25,17 @@ header h1 span{color:var(--gold-light)}
 .hsub{color:rgba(255,255,255,.55);font-size:13px;letter-spacing:.1em;margin-top:12px;font-weight:300}
 .hdiv{width:60px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:20px auto 0}
 
-/* ── MEANING CARD（なぜ第九を歌うのか） ── */
-.meaning-card{background:linear-gradient(135deg,#1a1208 0%,#2d1a0a 50%,#1a1208 100%);color:#fff;border-radius:10px;padding:32px 28px;margin:28px 0 24px;position:relative;overflow:hidden;border:1px solid rgba(201,150,58,.25)}
-.meaning-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 0%,rgba(155,27,48,.35) 0%,transparent 55%),radial-gradient(ellipse at 85% 100%,rgba(201,150,58,.18) 0%,transparent 55%);pointer-events:none}
-.meaning-card::after{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,transparent,transparent 22px,rgba(201,150,58,1) 22px,rgba(201,150,58,1) 23px);opacity:.05;pointer-events:none}
-.meaning-label{position:relative;display:inline-block;font-size:10px;letter-spacing:.3em;color:var(--gold-light);border:1px solid rgba(201,150,58,.5);padding:4px 14px;margin-bottom:18px;font-weight:300}
-.meaning-title{position:relative;font-family:'Noto Serif JP',serif;font-weight:900;font-size:clamp(22px,5.4vw,32px);line-height:1.45;letter-spacing:.04em;margin-bottom:24px;color:#fff}
-.meaning-title .accent{color:var(--gold-light)}
-.meaning-body{position:relative}
-.meaning-body p{font-size:14px;line-height:2.05;color:rgba(255,255,255,.9);margin-bottom:18px}
-.meaning-body p:last-child{margin-bottom:0}
-.meaning-body strong{color:var(--gold-light);font-weight:700}
-.meaning-finale{margin-top:24px;padding-top:22px;border-top:1px solid rgba(201,150,58,.25);font-family:'Noto Serif JP',serif;font-size:14.5px!important;line-height:1.95!important;letter-spacing:.02em}
-@media(max-width:520px){.meaning-card{padding:26px 22px}.meaning-body p{font-size:13.5px;line-height:2}}
-
-/* ── COUNTDOWN (スローガン主役・控えめ日数表示) ── */
-.cdbar{background:linear-gradient(135deg,var(--crimson-dark),var(--crimson));padding:24px 20px 20px;text-align:center;position:relative;overflow:hidden}
+/* ── COUNTDOWN ── */
+.cdbar{background:linear-gradient(135deg,var(--crimson-dark),var(--crimson));padding:20px 16px;text-align:center;position:relative;overflow:hidden}
 .cdbar::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(-45deg,transparent,transparent 8px,rgba(255,255,255,.04) 8px,rgba(255,255,255,.04) 9px)}
-.cd-slogan{font-family:'Noto Serif JP',serif;font-size:clamp(18px,4.6vw,26px);font-weight:700;color:#fff;letter-spacing:.08em;line-height:1.55;position:relative;text-shadow:0 2px 14px rgba(0,0,0,.28)}
-.cd-slogan .accent{color:var(--gold-light)}
-.cd-days{margin-top:14px;position:relative;display:inline-flex;align-items:baseline;gap:8px;color:rgba(255,255,255,.85);font-size:12px;letter-spacing:.12em}
-.cd-days strong{font-family:'Noto Serif JP',serif;font-size:clamp(24px,5.5vw,32px);font-weight:900;color:var(--gold-light);line-height:1;margin:0 2px}
-
-/* 直前期（残り30日以内）モード — 秒単位カウンター表示 */
-.cdtitle{color:var(--gold-light);font-size:11px;letter-spacing:.25em;margin-bottom:10px;position:relative;font-weight:700;display:none}
-.cdblocks{justify-content:center;align-items:center;gap:6px;position:relative;display:none}
-.cdbar.final{padding:20px 16px 18px}
-.cdbar.final .cd-slogan{font-size:clamp(14px,3.4vw,17px);margin-bottom:4px;opacity:.85;font-weight:400}
-.cdbar.final .cd-days{display:none}
-.cdbar.final .cdtitle{display:block}
-.cdbar.final .cdblocks{display:flex;animation:pulseGlow 2.4s ease-in-out infinite}
-@keyframes pulseGlow{0%,100%{filter:drop-shadow(0 0 0 rgba(232,192,106,0))}50%{filter:drop-shadow(0 0 8px rgba(232,192,106,.4))}}
+.cdtitle{color:rgba(255,255,255,.8);font-size:12px;letter-spacing:.2em;margin-bottom:10px;position:relative}
+.cdblocks{display:flex;justify-content:center;align-items:center;gap:6px;position:relative}
 .cdb{text-align:center}
 .cdn{display:block;font-family:'Noto Serif JP',serif;font-size:clamp(36px,8vw,64px);font-weight:900;color:#fff;line-height:1;text-shadow:0 2px 20px rgba(0,0,0,.3)}
 .cdl{display:block;font-size:10px;letter-spacing:.15em;color:rgba(255,255,255,.6);margin-top:3px}
 .cdsep{font-size:clamp(28px,6vw,48px);color:rgba(255,255,255,.3);font-weight:300;line-height:1;align-self:flex-start;padding-top:4px}
-.cdsub{color:rgba(255,255,255,.6);font-size:11px;margin-top:10px;position:relative;letter-spacing:.05em}
+.cdsub{color:rgba(255,255,255,.7);font-size:12px;margin-top:10px;position:relative}
 .cdsub strong{color:var(--gold-light)}
-
-/* ── PART TABS（統合パートページ） ── */
-.part-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:24px 0 22px}
-.part-tab{background:white;border:2px solid rgba(0,0,0,.1);border-radius:8px;padding:14px 8px 12px;cursor:pointer;transition:all .2s;font-family:'Noto Sans JP',sans-serif;display:flex;flex-direction:column;align-items:center;gap:3px;position:relative}
-.part-tab .pt-name{font-family:'Noto Serif JP',serif;font-size:15px;font-weight:900;color:var(--text);line-height:1.2}
-.part-tab .pt-en{font-size:9px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
-.part-tab:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.08)}
-.part-tab.active{color:#fff;border-color:transparent;box-shadow:0 4px 14px rgba(0,0,0,.15)}
-.part-tab.active .pt-name,.part-tab.active .pt-en{color:#fff}
-.part-tab.ptab-s.active{background:linear-gradient(135deg,#c0392b,#922b21)}
-.part-tab.ptab-a.active{background:linear-gradient(135deg,#8e44ad,#6c3483)}
-.part-tab.ptab-t.active{background:linear-gradient(135deg,#2471a3,#1a5276)}
-.part-tab.ptab-b.active{background:linear-gradient(135deg,#1e8449,#145a32)}
-.part-panel{display:none;animation:fadeIn .3s ease}
-.part-panel.active{display:block}
-@media(max-width:480px){.part-tabs{gap:6px}.part-tab{padding:12px 4px 10px}.part-tab .pt-name{font-size:13px}.part-tab .pt-en{font-size:8px}}
-
-/* ── 動画キャプション（統一スタイル） ── */
-.video-caption{margin-top:10px!important;background:#fffbf0;border-left:3px solid #8B6914;padding:11px 14px;font-size:12.5px;line-height:1.75;color:#5a4318}
-
-/* ── 学びコンテンツカード（フロイデVoice / 新・人間革命） ── */
-.learn-card{display:flex;align-items:stretch;gap:0;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:10px;overflow:hidden;text-decoration:none;color:inherit;margin-bottom:12px;cursor:pointer;transition:transform .2s,box-shadow .2s;position:relative}
-.learn-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.1)}
-.learn-card:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-.learn-num{flex-shrink:0;width:96px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;padding:14px 8px;text-align:center;line-height:1}
-.learn-freude .learn-num{background:linear-gradient(135deg,var(--purple),var(--purple-dark))}
-.learn-nikk .learn-num{background:linear-gradient(135deg,#2d3a1a,#1a2510)}
-.learn-num-big{font-family:'Noto Serif JP',serif;font-size:38px;font-weight:900;color:var(--gold-light);line-height:1;display:block}
-.learn-num-unit{font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.75);margin-top:4px;display:block}
-.learn-info{flex:1;padding:16px 18px;min-width:0}
-.learn-eyebrow{font-size:9px;letter-spacing:.18em;color:var(--gold);font-weight:700;margin-bottom:4px}
-.learn-freude .learn-eyebrow{color:var(--purple)}
-.learn-nikk .learn-eyebrow{color:#4a5a2a}
-.learn-title{font-family:'Noto Serif JP',serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px;line-height:1.4}
-.learn-desc{font-size:12px;color:var(--muted);line-height:1.65}
-.learn-arrow{flex-shrink:0;align-self:center;padding:0 18px 0 8px;font-size:18px;color:var(--muted);transition:transform .2s,color .2s}
-.learn-card:hover .learn-arrow{transform:translateX(4px);color:var(--crimson)}
-@media(max-width:480px){.learn-num{width:78px}.learn-num-big{font-size:32px}.learn-info{padding:14px 14px}.learn-title{font-size:14px}.learn-desc{font-size:11.5px}.learn-arrow{padding:0 12px 0 4px;font-size:16px}}
-
-/* ── インラインLINEシェア（意義文の直下） ── */
-.line-share-inline{margin:24px 0 8px;padding:18px 20px;background:linear-gradient(135deg,#06C755 0%,#04a847 100%);border-radius:10px;text-align:center;color:#fff;box-shadow:0 4px 16px rgba(6,199,85,.25)}
-.line-share-inline p{font-family:'Noto Serif JP',serif;font-size:14px;font-weight:700;margin-bottom:12px;letter-spacing:.03em}
-.line-share-btn-inline{display:inline-flex;align-items:center;gap:10px;background:#fff;color:#06C755;padding:12px 26px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:900;font-family:'Noto Sans JP',sans-serif;transition:transform .15s,box-shadow .15s;box-shadow:0 3px 10px rgba(0,0,0,.15)}
-.line-share-btn-inline:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.2)}
-.line-share-btn-inline .line-icon{width:22px;height:22px}
-
-/* ── DAIMOKU PROMO CARD（ホーム上のフィーチャーカード） ── */
-.daimoku-promo{background:linear-gradient(135deg,#4a1010 0%,#7a1818 50%,#4a1010 100%);border-radius:12px;padding:24px 24px 18px;margin:8px 0 16px;position:relative;overflow:hidden;border:1px solid rgba(201,150,58,.4);box-shadow:0 6px 22px rgba(74,16,16,.28)}
-.daimoku-promo::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 0%,rgba(201,150,58,.22),transparent 60%),radial-gradient(ellipse at 0% 100%,rgba(255,255,255,.06),transparent 50%);pointer-events:none}
-.daimoku-promo::after{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,transparent,transparent 18px,rgba(201,150,58,1) 18px,rgba(201,150,58,1) 19px);opacity:.05;pointer-events:none}
-.dp-tag{position:relative;display:inline-block;font-size:10px;letter-spacing:.18em;color:var(--gold-light);background:rgba(201,150,58,.15);border:1px solid rgba(201,150,58,.5);padding:4px 12px;border-radius:999px;margin-bottom:14px;font-weight:700}
-.dp-title{position:relative;font-family:'Noto Serif JP',serif;font-size:clamp(18px,4.6vw,22px);font-weight:900;color:#fff;line-height:1.4;margin-bottom:10px;letter-spacing:.02em}
-.dp-desc{position:relative;font-size:13px;color:rgba(255,255,255,.88);line-height:1.85;margin-bottom:18px}
-.dp-desc strong{color:var(--gold-light);font-weight:700}
-.dp-cta{position:relative;display:flex;align-items:center;justify-content:center;gap:10px;background:var(--gold);color:var(--dark);text-decoration:none;font-family:'Noto Sans JP',sans-serif;font-size:14px;font-weight:900;padding:15px 22px;border-radius:8px;letter-spacing:.04em;transition:transform .15s,box-shadow .15s;box-shadow:0 4px 14px rgba(201,150,58,.32)}
-.dp-cta:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(201,150,58,.5)}
-.dp-cta-arrow{font-size:18px;transition:transform .2s;display:inline-block}
-.dp-cta:hover .dp-cta-arrow{transform:translateX(4px)}
-.dp-foot{position:relative;text-align:center;font-size:11px;color:rgba(255,255,255,.65);margin-top:12px;letter-spacing:.03em}
-@media(max-width:480px){.daimoku-promo{padding:22px 20px 16px}}
-
-/* ── DAIMOKU FLOATING BUTTON（題目カウンターへの常設導線） ── */
-.daimoku-fab{position:fixed;right:18px;bottom:22px;z-index:200;background:linear-gradient(135deg,#8B1a1a,#4a1010);color:#fff;border-radius:999px;padding:12px 18px 12px 14px;display:flex;align-items:center;gap:10px;text-decoration:none;box-shadow:0 6px 22px rgba(74,16,16,.5),0 2px 6px rgba(0,0,0,.22);border:1px solid rgba(201,150,58,.45);font-family:'Noto Sans JP',sans-serif;transition:transform .2s,box-shadow .2s}
-.daimoku-fab:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(74,16,16,.6),0 4px 12px rgba(0,0,0,.28)}
-.daimoku-fab-icon{font-size:22px;line-height:1}
-.daimoku-fab-text{font-family:'Noto Serif JP',serif;font-size:13px;font-weight:700;letter-spacing:.05em;line-height:1.2}
-.daimoku-fab-text small{display:block;font-family:'Noto Sans JP',sans-serif;font-size:9px;font-weight:400;opacity:.78;letter-spacing:.08em;margin-top:2px}
-@media(max-width:480px){.daimoku-fab{right:12px;bottom:14px;padding:10px 14px 10px 12px}.daimoku-fab-icon{font-size:20px}.daimoku-fab-text{font-size:12px}}
 
 /* ── NAV ── */
 nav{background:var(--dark);border-top:1px solid rgba(201,150,58,.2);position:sticky;top:0;z-index:100;overflow-x:auto;-webkit-overflow-scrolling:touch}
@@ -235,6 +133,7 @@ main{max-width:900px;margin:0 auto;padding:0 16px 80px}
 .sch-info{flex:1}
 .sch-title{font-size:13px;font-weight:700;margin-bottom:2px}
 .sch-sub{font-size:11px;color:var(--muted)}
+.sch-song{font-size:11px;color:#8B6914;margin-top:3px;line-height:1.5;font-weight:500}
 .badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:2px;white-space:nowrap}
 .badge-sp{background:var(--gold);color:var(--dark)}
 .badge-n{background:#e8f0fe;color:#1a5276}
@@ -292,35 +191,6 @@ main{max-width:900px;margin:0 auto;padding:0 16px 80px}
 .qnbtn .nh{font-size:10px;color:var(--muted)}
 .qnbtn.next{text-align:right}
 .qnbtn:disabled{opacity:.3;cursor:not-allowed}
-
-/* ── SHINNINGENKAKUMEI ── */
-.sngh{margin:28px 0 20px;padding:20px 24px;border-radius:6px;color:white;position:relative;overflow:hidden;background:linear-gradient(135deg,#2d3a1a,#1a2510)}
-.sngh::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(201,150,58,.2) 0%,transparent 60%)}
-.sngh h2{font-family:'Noto Serif JP',serif;font-size:20px;font-weight:700;position:relative}
-.sngh p{font-size:13px;opacity:.8;margin-top:4px;position:relative;line-height:1.6}
-
-.sng-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-bottom:20px}
-.sng-btn{background:white;border:1px solid rgba(0,0,0,.1);border-radius:6px;padding:12px 10px;cursor:pointer;text-align:center;transition:all .2s;font-family:'Noto Sans JP',sans-serif}
-.sng-btn:hover{border-color:#5d8a3c;box-shadow:0 2px 8px rgba(0,0,0,.08)}
-.sng-btn.active{background:#2d3a1a;color:white;border-color:#2d3a1a}
-.sng-btn-num{font-size:10px;color:#5d8a3c;font-weight:700;display:block;margin-bottom:3px}
-.sng-btn.active .sng-btn-num{color:var(--gold-light)}
-.sng-btn-range{font-size:12px;font-weight:700;line-height:1.3}
-
-.sng-viewer{background:white;border-radius:8px;border:1px solid rgba(0,0,0,.1);overflow:hidden;display:none}
-.sng-viewer.active{display:block;animation:fadeIn .3s ease}
-.sng-viewer-hd{background:#2d3a1a;color:var(--gold-light);padding:12px 18px;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:space-between}
-.sng-viewer-hd span{font-size:11px;opacity:.7}
-.sng-img-wrap{padding:8px}
-.sng-img-wrap img{width:100%;height:auto;display:block;border-radius:4px}
-.sng-img-note{font-size:11px;color:var(--muted);padding:8px 12px;text-align:center}
-
-.sng-nav{display:flex;gap:10px;margin-top:16px}
-.sng-nbtn{flex:1;padding:10px 14px;background:white;border:1px solid rgba(0,0,0,.15);border-radius:6px;cursor:pointer;font-size:12px;font-family:'Noto Sans JP',sans-serif;transition:all .2s;display:flex;flex-direction:column;gap:2px}
-.sng-nbtn:hover:not(:disabled){border-color:#5d8a3c}
-.sng-nbtn .nh{font-size:10px;color:var(--muted)}
-.sng-nbtn.next{text-align:right}
-.sng-nbtn:disabled{opacity:.3;cursor:not-allowed}
 
 /* ── CAL ADD BUTTON ── */
 .gcal-add-btn{
@@ -392,21 +262,41 @@ footer strong{color:var(--gold-light);font-weight:400}
 
 .mypart-set-note{font-size:12px;color:var(--muted);text-align:center;margin-top:8px}
 
+
+/* ── 誌面ビューワー ── */
+.mv-wrap{background:white;border-radius:8px;border:1px solid rgba(0,0,0,.1);overflow:hidden;margin-bottom:14px}
+.mv-head{background:#8B6914;color:#fff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.mv-head-title{font-size:13px;font-weight:700}
+.mv-page-ind{font-size:12px;opacity:.85}
+.mv-tabs{display:flex;gap:6px;padding:10px 12px 4px;background:#fff;flex-wrap:wrap;border-bottom:1px solid rgba(0,0,0,.06)}
+.mv-tab{flex:0 0 auto;padding:7px 13px;border:1px solid rgba(139,105,20,.35);background:#fff;border-radius:16px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;color:#8B6914;transition:all .15s;line-height:1.2}
+.mv-tab:hover{background:#faf6ec}
+.mv-tab.active{background:#8B6914;color:#fff;border-color:#8B6914}
+.mv-stage{position:relative;background:#2a2a2a;touch-action:pan-y pinch-zoom;overflow:hidden}
+.mv-stage img{width:100%;height:auto;display:block;user-select:none;-webkit-user-drag:none}
+.mv-controls{display:flex;gap:8px;padding:10px 12px;background:#f7f4ef;align-items:center}
+.mv-btn{flex:1;padding:11px 10px;border:1px solid rgba(0,0,0,.15);background:white;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;transition:all .15s;color:var(--text)}
+.mv-btn:hover:not(:disabled){border-color:#8B6914;color:#8B6914}
+.mv-btn:disabled{opacity:.3;cursor:not-allowed}
+.mv-zoom-note{font-size:11px;color:var(--muted);text-align:center;padding:0 12px 10px;background:#f7f4ef}
+/* フルスクリーンモーダル */
+.mv-modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.95)}
+.mv-modal.open{display:block}
+.mv-modal-close{position:fixed;top:14px;right:14px;z-index:10001;background:rgba(255,255,255,.15);color:#fff;border:none;border-radius:50%;width:42px;height:42px;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.mv-modal-scroll{width:100%;height:100%;overflow:auto;-webkit-overflow-scrolling:touch}
+.mv-modal-scroll img{min-width:100%;width:160%;max-width:none;height:auto;display:block;margin:0 auto}
+.mv-modal-nav{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:10001;display:flex;gap:10px;align-items:center}
+.mv-modal-nav button{background:rgba(255,255,255,.18);color:#fff;border:none;border-radius:24px;padding:11px 22px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif}
+.mv-modal-nav button:disabled{opacity:.25}
+.mv-modal-ind{color:rgba(255,255,255,.85);font-size:13px;min-width:70px;text-align:center}
+
 /* ── LINE SHARE ── */
 .line-share-bar{background:linear-gradient(135deg,#06C755,#00a040);padding:16px 20px;text-align:center}
 .line-share-bar p{color:rgba(255,255,255,.85);font-size:12px;margin-bottom:10px;letter-spacing:.05em}
 .line-share-btn{display:inline-flex;align-items:center;gap:8px;background:white;color:#06C755;border:none;border-radius:24px;padding:10px 24px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;text-decoration:none;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .line-share-btn:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.2)}
 
-/* ── 出欠フォーム ── */
-.att-header{margin:28px 0 20px;padding:20px 24px;border-radius:6px;color:white;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--crimson),var(--crimson-dark))}
-.att-header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(255,255,255,.1) 0%,transparent 60%)}
-.att-header h2{font-family:'Noto Serif JP',serif;font-size:20px;font-weight:700;position:relative}
-.att-header p{font-size:13px;opacity:.85;margin-top:4px;position:relative;line-height:1.6}
-.att-note{background:#fdf6f0;border-radius:6px;border:1px solid rgba(155,27,48,.2);border-left:4px solid var(--crimson);padding:14px 18px;font-size:13px;color:var(--crimson-dark);line-height:1.7;margin-bottom:16px}
-.att-note strong{color:var(--crimson)}
-.att-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--crimson),var(--crimson-dark));color:#fff;border:1px solid rgba(201,150,58,.45);border-radius:6px;padding:16px 28px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;text-decoration:none;transition:all .2s;width:100%;justify-content:center;margin-bottom:16px;box-shadow:0 4px 14px rgba(155,27,48,.25)}
-.att-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(155,27,48,.4)}
+
 
 @media(max-width:480px){
   .parts-grid{grid-template-columns:1fr 1fr}
@@ -430,15 +320,9 @@ footer strong{color:var(--gold-light);font-weight:400}
   </div>
 </header>
 
-<!-- COUNTDOWN（通常期はスローガン＋あと○日、残り30日以内で秒単位カウンターに自動切替） -->
+<!-- COUNTDOWN -->
 <div class="cdbar">
-  <!-- ▼ スローガン（自由に書き換えてください） -->
-  <div class="cd-slogan">心ひとつに、<span class="accent">歓喜の大合唱</span>を</div>
-  <!-- ▲ -->
-  <div class="cd-days">本番まで あと <strong id="cd-days-num">---</strong> 日</div>
-
-  <!-- 直前期モード（残り30日以内）で表示される秒単位カウンター -->
-  <div class="cdtitle">🎶 FINAL COUNTDOWN</div>
+  <div class="cdtitle">🎶 本番まであと</div>
   <div class="cdblocks">
     <div class="cdb"><span class="cdn" id="cd-d">---</span><span class="cdl">日</span></div>
     <div class="cdsep">:</div>
@@ -448,7 +332,6 @@ footer strong{color:var(--gold-light);font-weight:400}
     <div class="cdsep">:</div>
     <div class="cdb"><span class="cdn" id="cd-s">--</span><span class="cdl">秒</span></div>
   </div>
-
   <div class="cdsub"><strong>2026年11月29日（日）</strong> 世田谷ユースアクションフェス本番</div>
 </div>
 
@@ -456,10 +339,14 @@ footer strong{color:var(--gold-light);font-weight:400}
 <nav>
   <div class="nav-inner">
     <a class="active" onclick="showSection('home',this)">ホーム</a>
-    <a onclick="showSection('schedule',this)">📅 練習日程・出欠連絡</a>
-    <a onclick="showSection('parts',this)">🎤 練習動画</a>
+    <a onclick="showSection('schedule',this)">📅 練習日程</a>
+    <a onclick="showSection('video',this)">🎬 映像アーカイブ</a>
     <a onclick="showSection('freude',this)">📖 フロイデVoice</a>
-    <a onclick="showSection('nikk',this)">📚 新・人間革命</a>
+    <a onclick="showSection('daiku',this)">📜 第九の研鑽</a>
+    <a onclick="showSection('soprano',this)">ソプラノ</a>
+    <a onclick="showSection('alto',this)">アルト</a>
+    <a onclick="showSection('tenor',this)">テノール</a>
+    <a onclick="showSection('bass',this)">バス</a>
     <a onclick="showSection('info',this)">指導・情報</a>
   </div>
 </nav>
@@ -468,8 +355,19 @@ footer strong{color:var(--gold-light);font-weight:400}
 
 <!-- ── HOME ── -->
 <div class="section active" id="sec-home">
+  <div class="notice">
+    <h2><span class="mbadge">必見</span>本番向け通し音源動画</h2>
+    <p>本番同様のテンポでの通し音源です。通しの練習はこちらをご利用ください。</p>
+  </div>
+  <div class="cblock">
+    <div class="cbh"><div class="cnum" style="background:var(--crimson)">▶</div><span class="ctitle">【合唱（フルコーラス）付き】通し音源</span></div>
+    <div class="cbody"><div class="eplace"><div class="icon">🎵</div><div>YouTube動画をここに埋め込み</div></div><p class="enote">💡 YouTubeのURLを取得後 &lt;iframe&gt; で差し替え</p></div>
+  </div>
+  <div class="cblock">
+    <div class="cbh"><div class="cnum" style="background:var(--muted)">▶</div><span class="ctitle">【合唱なし】通し音源（オーケストラのみ）</span></div>
+    <div class="cbody"><div class="eplace"><div class="icon">🎼</div><div>YouTube動画をここに埋め込み</div></div></div>
+  </div>
 
-  <!-- 1. 次回の練習 -->
   <div class="slabel"><div class="licon">📅</div>次回の練習</div>
   <div class="next-bar">
     <div class="next-bar-icon">🎵</div>
@@ -481,8 +379,41 @@ footer strong{color:var(--gold-light);font-weight:400}
     <button class="next-bar-btn" onclick="showSection('schedule',null)">日程一覧 →</button>
   </div>
 
-  <!-- 2. 練習動画（パート別） -->
-  <div class="slabel"><div class="licon">🎤</div>練習動画（パート別）</div>
+  <div class="slabel"><div class="licon">🎬</div>映像アーカイブ</div>
+  <div class="cblock" style="cursor:pointer" onclick="showSection('video',null)">
+    <div class="cbh"><div class="cnum" style="background:#1a1208">▶</div><span class="ctitle">2011年 世田谷第九合唱祭 / 2025年 九州アジア平和フェスタ</span></div>
+    <div class="cbody" style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+      <p style="font-size:13px;color:var(--muted);line-height:1.7">先輩たちの歓喜の歌声を観て、本番への思いを高めよう！</p>
+      <div style="background:#1a1208;color:var(--gold-light);padding:10px 16px;border-radius:4px;font-size:13px;font-weight:700;white-space:nowrap;flex-shrink:0">観る →</div>
+    </div>
+  </div>
+
+  <div class="slabel"><div class="licon">📖</div>フロイデVoice / 第九の研鑽</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:8px">
+    <div class="cblock" style="cursor:pointer;margin-bottom:0" onclick="showSection('freude',null)">
+      <div class="cbh"><div class="cnum" style="background:var(--purple)">✦</div><span class="ctitle" style="font-size:13px">フロイデVoice 全20回</span></div>
+      <div class="cbody"><p style="font-size:12px;color:var(--muted)">不安・疑問をQ&Aで解消</p></div>
+    </div>
+    <div class="cblock" style="cursor:pointer;margin-bottom:0" onclick="showSection('daiku',null)">
+      <div class="cbh"><div class="cnum" style="background:#8B6914">📜</div><span class="ctitle" style="font-size:13px">第九と師弟の歴史</span></div>
+      <div class="cbody"><p style="font-size:12px;color:var(--muted)">「歓喜の歌」に込められた心を学ぶ</p></div>
+    </div>
+  </div>
+
+  <!-- 題目バナー -->
+  <a href="https://setagaya2026.github.io/setagaya-daiku/daimoku/" target="_blank"
+    style="display:block;text-decoration:none;margin-bottom:8px">
+    <div style="background:linear-gradient(135deg,#4a1010,#8B1a1a);border-radius:8px;padding:18px 20px;display:flex;align-items:center;gap:14px;transition:opacity .2s">
+      <div style="font-size:34px;flex-shrink:0">🙏</div>
+      <div style="flex:1">
+        <div style="font-family:'Noto Serif JP',serif;font-size:16px;font-weight:700;color:#fff;margin-bottom:4px">みんなで題目をあげよう！</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.7);line-height:1.6">一人一人の祈りが本番の歓喜につながる。<br>さあ、フロイデに向けて共に唱題！</div>
+      </div>
+      <div style="background:rgba(255,255,255,.15);color:#fff;padding:8px 14px;border-radius:4px;font-size:12px;font-weight:700;white-space:nowrap;flex-shrink:0">開く →</div>
+    </div>
+  </a>
+
+  <div class="slabel"><div class="licon">🎬</div>練習動画（パート別）</div>
 
   <!-- マイパートバナー（設定済みの場合に表示） -->
   <div id="mypart-banner" style="display:none">
@@ -503,7 +434,7 @@ footer strong{color:var(--gold-light);font-weight:400}
   <!-- パート選択（未設定の場合に表示） -->
   <div id="mypart-select">
     <p style="font-size:13px;color:var(--muted);margin-bottom:12px">
-      🎤 自分のパートを選んでください。次回から自動でそのパートが開きます。
+      🎤 自分のパートを選ぶと次回から自動でそのページが開きます！
     </p>
     <div class="part-select-grid">
       <div class="part-select-card ps-s" onclick="selectPart('soprano','ソプラノ','🎤')">
@@ -522,124 +453,21 @@ footer strong{color:var(--gold-light);font-weight:400}
     <p class="mypart-set-note">📱 このサイトを閉じても次回から自動で覚えています</p>
   </div>
 
-  <!-- 題目カウンターバナー -->
-  <div class="daimoku-promo">
-    <div class="dp-tag">FREUDE 2026 共同企画</div>
-    <h3 class="dp-title">🙏 ムイト・マイス・ダイモク！</h3>
-    <p class="dp-desc">あなたの唱題時間を記録すれば、<strong>世田谷総区全員の祈りがリアルタイムで積み上がります</strong>。一人一人の挑戦が、みんなの励みに。<br>さあ！ムイト・マイス・ダイモク！<span style="opacity:.75">（もっと題目を！）</span></p>
-    <a href="https://setagaya2026.github.io/setagaya-daiku/daimoku/" target="_blank" class="dp-cta">
-      <span>題目カウンターを開く</span>
-      <span class="dp-cta-arrow">→</span>
-    </a>
-    <div class="dp-foot">📱 はじめての方も10秒で登録完了 / スマホでサッと記録</div>
-  </div>
-
-  <!-- 3. 歓喜の歌声 -->
-  <div class="slabel"><div class="licon">🎬</div>歓喜の歌声</div>
-  <p style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:14px">
-    歌い継がれてきた「歓喜の歌」を観て、本番への思いを高めよう。
-  </p>
-
-  <div class="cblock">
-    <div class="cbh">
-      <div class="cnum" style="background:#8B6914">▶</div>
-      <span class="ctitle">わたしたちの歓喜の歌 ～世田谷第九合唱祭 2011～</span>
-    </div>
-    <div class="cbody">
-      <div class="yt-wrap">
-        <iframe src="https://www.youtube.com/embed/3YpVNQF4E3E" allowfullscreen
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
-        </iframe>
-      </div>
-      <p class="enote video-caption">
-        📜 2011年11月27日、池田講堂で400名のフロイデ合唱団が富士交響楽団と共に「歓喜の歌」を大合唱。世田谷の原点となる一日。
-      </p>
-    </div>
-  </div>
-
-  <div class="cblock">
-    <div class="cbh">
-      <div class="cnum" style="background:#c0392b">▶</div>
-      <span class="ctitle">アジア平和フェスタ 第九合唱（九州・2025年）</span>
-    </div>
-    <div class="cbody">
-      <div class="yt-wrap">
-        <iframe src="https://www.youtube.com/embed/1ZQaO3Hn8bc" allowfullscreen
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
-        </iframe>
-      </div>
-      <p class="enote video-caption" style="border-left-color:#c0392b">
-        🎶 2025年、九州の青年たちがアジア平和フェスタで歌い上げた「歓喜の歌」。世代と地域を越えて受け継がれる歌声を、世田谷から再び。
-      </p>
-    </div>
-  </div>
-
-  <!-- 4. 学びコンテンツ -->
-  <div class="slabel"><div class="licon">📖</div>学びコンテンツ</div>
-
-  <a class="learn-card learn-freude" onclick="showSection('freude',null)" role="button" tabindex="0">
-    <div class="learn-num"><span class="learn-num-big">20</span><span class="learn-num-unit">回</span></div>
-    <div class="learn-info">
-      <div class="learn-eyebrow">FREUDE VOICE</div>
-      <div class="learn-title">フロイデ Voice ～みんなのギモンに答えます～</div>
-      <div class="learn-desc">本番への不安・疑問をQ&Aで一つずつ解消。九州「Q&Aフロイデ質問ひろば」＋世田谷の歴史を編集した全20回シリーズ。</div>
-    </div>
-    <div class="learn-arrow">→</div>
-  </a>
-
-  <a class="learn-card learn-nikk" onclick="showSection('nikk',null)" role="button" tabindex="0">
-    <div class="learn-num"><span class="learn-num-big">139</span><span class="learn-num-unit">回</span></div>
-    <div class="learn-info">
-      <div class="learn-eyebrow">SHIN-NINGEN KAKUMEI</div>
-      <div class="learn-title">新・人間革命「誓願」</div>
-      <div class="learn-desc">全139回（35ファイル）の研鑽コンテンツ。通勤・通学中にスマホでサクサク読める。</div>
-    </div>
-    <div class="learn-arrow">→</div>
-  </a>
-
-  <!-- 5. なぜ歌うのか（情緒ブロック） -->
-  <div class="meaning-card">
-    <div class="meaning-label">Why we sing</div>
-    <h2 class="meaning-title">なぜ、私たちは<br><span class="accent">「歓喜の歌」</span>を歌うのか</h2>
-    <div class="meaning-body">
-      <p>ベートーヴェンが「歓喜の歌」に込めた確信は、たった一つだった。<br><strong>——人類は、必ずひとつになれる。</strong></p>
-      <p>二百年のあいだ、この歌は国境も言語も越えてきた。ベルリンの壁が崩れた夜にも、戦火の止んだ広場にも、第九は響いていた。</p>
-      <p>2011年11月27日、池田講堂。<br>“魂の独立”から二十年の節目に、400名のフロイデ合唱団がこの歌を歌い上げた日、先生はこう寄せてくださった。<br>「<strong>今日の会合は、2030年への出発です</strong>」と。</p>
-      <p>あれから15年。約束の年まで、あと4年。<br><strong>次に歌うのは、私たちだ。</strong></p>
-      <p>誰かのために歌うのではない。自分の中でまだ眠っている歓喜を、解き放つために歌う。一人の歓喜は、必ず誰かの歓喜を呼び覚ます。その連鎖こそが、世界を動かす力になる。</p>
-      <p class="meaning-finale"><strong>『Re：Freude』</strong>——わたしたちの、新しい歓喜の歌。<br>2026年11月29日。<strong>次の物語は、あなたの一声から始まる。</strong></p>
-    </div>
-  </div>
-
-  <!-- 6. LINEシェア（情緒のピーク直後に配置） -->
-  <div class="line-share-inline">
-    <p>🎶 この想いを、仲間にも届けよう</p>
-    <a href="https://line.me/R/msg/text/?Re%3AFreude%20%E4%B8%96%E7%94%B0%E8%B0%B7%E3%83%A6%E3%83%BC%E3%82%B9%E3%82%A2%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%E3%83%95%E3%82%A7%E3%82%B9%202026.11.29%20%E7%B7%B4%E7%BF%92%E3%82%B5%E3%82%A4%E3%83%88%0Ahttps%3A%2F%2Fsetagaya2026.github.io%2Fsetagaya-daiku" target="_blank" class="line-share-btn-inline">
-      <svg class="line-icon" viewBox="0 0 24 24" fill="#06C755" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 2C6.48 2 2 6.03 2 11c0 3.07 1.67 5.78 4.24 7.5L5.5 22l3.72-1.95C10.35 20.65 11.16 21 12 21c5.52 0 10-4.03 10-9S17.52 2 12 2z"/>
-      </svg>
-      LINEでシェアする
-    </a>
+  <!-- 全パート一覧（常に表示） -->
+  <div class="parts-grid" style="margin-top:16px">
+    <a class="pcard cs" onclick="showSection('soprano',null)"><div class="pci"><span class="plabel">ソプラノ</span><span class="psub">Soprano</span></div></a>
+    <a class="pcard ca" onclick="showSection('alto',null)"><div class="pci"><span class="plabel">アルト</span><span class="psub">Alto</span></div></a>
+    <a class="pcard ct" onclick="showSection('tenor',null)"><div class="pci"><span class="plabel">テノール</span><span class="psub">Tenor</span></div></a>
+    <a class="pcard cb" onclick="showSection('bass',null)"><div class="pci"><span class="plabel">バス</span><span class="psub">Bass</span></div></a>
   </div>
 </div>
 
-<!-- ── SCHEDULE & ATTENDANCE (統合) ── -->
+<!-- ── SCHEDULE ── -->
 <div class="section" id="sec-schedule">
   <div class="calh">
-    <h2>📅 練習日程・出欠連絡</h2>
-    <p>練習日程の確認と、欠席・遅刻のご連絡はこちらから。</p>
+    <h2>📅 練習日程・スケジュール</h2>
+    <p>各回の練習箇所（🎼マーク）も掲載しています。<br>「📅+」ボタンで自分のGoogleカレンダーに追加できます。</p>
   </div>
-
-  <!-- 出欠連絡ボタン（上部に配置） -->
-  <div class="att-note">
-    <strong>📌 出欠・遅刻連絡のお願い</strong><br>
-    欠席・遅刻・早退の場合は、練習日の前日までにフォームから送信してください。<br>
-    当日やむを得ない場合は、できるだけ早めにご連絡をお願いします。
-  </div>
-
-  <a href="https://forms.gle/tHMuR18vcGWAN1Cz5" target="_blank" class="att-btn">
-    ✋ 出欠・遅刻を連絡する（Googleフォーム）
-  </a>
 
   <!-- 説明バナー -->
   <div class="gcal-add-all">
@@ -658,11 +486,62 @@ footer strong{color:var(--gold-light);font-weight:400}
 
 </div>
 
+<!-- ── VIDEO ARCHIVE ── -->
+<div class="section" id="sec-video">
+  <div class="vid-header">
+    <h2>🎬 映像アーカイブ</h2>
+    <p>先輩たちの歓喜の歌声を観て、本番への思いを高めよう！</p>
+  </div>
+
+  <!-- 2011年 世田谷 -->
+  <div class="slabel"><div class="licon" style="background:#8B6914">🏛</div>2011年 世田谷第九合唱祭</div>
+  <div class="cblock">
+    <div class="cbh">
+      <div class="cnum" style="background:#8B6914">▶</div>
+      <span class="ctitle">わたしたちの歓喜の歌 ～世田谷第九合唱祭 2011～</span>
+    </div>
+    <div class="cbody">
+      <div class="yt-wrap">
+        <iframe src="https://www.youtube.com/embed/3YpVNQF4E3E" allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+        </iframe>
+      </div>
+    </div>
+  </div>
+  <div class="cblock" style="background:#fffbf0;border-color:rgba(201,150,58,.3)">
+    <div class="cbody">
+      <p style="font-size:13px;line-height:1.8;color:#555">
+        <strong style="color:#8B6914">📜 2011年 世田谷の原点</strong><br>
+        2011年11月27日、池田講堂で400名のフロイデ合唱団が富士交響楽団と共に「歓喜の歌」を大合唱。
+        池田先生からメッセージが届き、「今日の会合は、2030年への出発です」と万感の期待を寄せてくださった。
+        あれから15年——今度は私たちが受け継ぐ番です。
+      </p>
+    </div>
+  </div>
+
+  <!-- 九州 -->
+  <div class="slabel"><div class="licon" style="background:#c0392b">🎶</div>2025年 九州 アジア平和フェスタ</div>
+  <div class="cblock">
+    <div class="cbh">
+      <div class="cnum" style="background:#c0392b">▶</div>
+      <span class="ctitle">アジア平和フェスタ 第九合唱（九州・2025年）</span>
+    </div>
+    <div class="cbody">
+      <div class="yt-wrap">
+        <iframe src="https://www.youtube.com/embed/1ZQaO3Hn8bc" allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+        </iframe>
+      </div>
+      <p class="enote" style="margin-top:10px">🎵 九州の仲間たちが歌い上げた歓喜の歌。この精神を受け継いで世田谷から！</p>
+    </div>
+  </div>
+</div>
+
 <!-- ── FREUDE VOICE ── -->
 <div class="section" id="sec-freude">
   <div class="frh">
     <h2>📖 フロイデ Voice ～みんなのギモンに答えます！ 全20回～</h2>
-    <p>九州「Q&amp;Aフロイデ質問ひろば」＋世田谷の歴史・開催大綱をもとに編集。本番への不安を自信に変える全20回。</p>
+    <p>本番への不安を自信に変える、世田谷オリジナルの全20回研鑽コンテンツです。</p>
   </div>
   <div class="prog">
     <div class="prog-lbl">進捗：<span id="prog-lbl">Part 1 / 20</span></div>
@@ -676,109 +555,183 @@ footer strong{color:var(--gold-light);font-weight:400}
   </div>
 </div>
 
-<!-- ── 新・人間革命 ── -->
-<div class="section" id="sec-nikk">
-  <div class="sngh">
-    <h2>📚 新・人間革命「誓願」研鑽コンテンツ</h2>
-    <p>全139回（35ファイル）。各ファイルに4回分（最終巻は3回分）の記事が掲載されています。<br>通勤・通学中にスマホでサクサク読めます。</p>
+<!-- ── 第九の研鑽 ── -->
+<div class="section" id="sec-daiku">
+  <div class="ph" style="background:linear-gradient(135deg,#8B6914,#5d4506)">
+    <h2>📜 第九と師弟の歴史</h2>
+    <p>「歓喜の歌」に込められた心を学び、確信をもって本番へ！</p>
   </div>
 
-  <div class="slabel"><div class="licon" style="background:#2d3a1a">📄</div>回を選んでください（全139回・35ファイル）</div>
-  <div class="sng-grid" id="sng-grid"></div>
+  <!-- 1 -->
+  <div class="slabel"><div class="licon" style="background:#8B6914">🎼</div>日本初演の地・徳島と「第九」</div>
+  <div class="cblock">
+    <div class="cbody">
+      <p style="font-size:14px;line-height:2;color:#333">
+        徳島は、日本で初めて「第九」が演奏された地です。1918年、板東俘虜収容所で、ドイツ兵捕虜たちによって演奏されました。この史実は徳島県民の誇りでもあります。<br><br>
+        そして徳島は、創価の「第九」の原点の地でもあります。1972年（昭和47年）の夏季講習会で、池田先生は女子部の参加者たちに対して<strong style="color:#8B6914">「いろいろな歌もあるけれど、『よろこびの歌』を原語で歌ったりしてほしい」</strong>とおっしゃいました。昭和56年に徳島の友が「よろこびの歌」を選んだ理由は、この先生の一言だったのです。
+      </p>
+    </div>
+  </div>
 
-  <div id="sng-viewer-wrap"></div>
+  <!-- 2 -->
+  <div class="slabel"><div class="licon" style="background:#8B6914">🎹</div>1981年・徳島 ―「魂の独立宣言」と歓喜の歌</div>
+  <div class="cblock">
+    <div class="cbody">
+      <p style="font-size:14px;line-height:2;color:#333">
+        第三代会長辞任から2年後の1981年（昭和56年）。悪侶たちの横暴が吹き荒れるなか、徳島の友たちはベートーヴェンの「よろこびの歌」で池田先生をお迎えしました。<br><br>
+        11月、徳島講堂の落成記念勤行会。先生はピアノ演奏を通して参加者に励ましを送られ、若草合唱団が日本語とドイツ語で「よろこびの歌」を高らかに歌い上げました。<br><br>
+        悪僧たちの迫害に耐え抜いてきた徳島の同志。その健気な姿に応えて、先生が弾いてくださった一曲こそ「よろこびの歌」だったのです。
+      </p>
+    </div>
+  </div>
 
-  <div class="sng-nav" id="sng-nav" style="display:none">
-    <button class="sng-nbtn" id="sng-prev" onclick="moveSng(-1)" disabled><span class="nh">← 前へ</span><span id="sng-prev-lbl">―</span></button>
-    <button class="sng-nbtn next" id="sng-next" onclick="moveSng(1)"><span class="nh">次へ →</span><span id="sng-next-lbl">誓願02</span></button>
+  <!-- 3 -->
+  <div class="slabel"><div class="licon" style="background:#8B6914">🔥</div>「歓喜の歌」の否定は、文化否定・人間性否定</div>
+  <div class="cblock">
+    <div class="cbody">
+      <p style="font-size:14px;line-height:2;color:#333">
+        宗門は「第九を歌ってはならない」と否定しました。まさしく『外道礼讃』であると。<br><br>
+        しかし池田先生は断じました。<strong style="color:#9B1B30">「『歓喜の歌』の否定は文化否定、人間性否定、国際性否定であり、崇高なる人間精神の否定であり、それは、とりもなおさず仏法の否定なのである」</strong>と。<br><br>
+        この1994年、創価学会はもう一つ、前例のない「第九」に挑みました。九州での「五万人の第九」です。福岡ドームでの「アジア青年平和音楽祭」は、演目の全体を"一つのシンフォニー"に見立てた壮大な祭典となりました。
+      </p>
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="slabel"><div class="licon" style="background:#8B6914">✒️</div>シラー「歓喜に寄す」の精神</div>
+  <div class="cblock">
+    <div class="cbody">
+      <p style="font-size:14px;line-height:2;color:#333">
+        「第九」の歌詞のもとになった「歓喜に寄す」を書いた詩人シラーは、若き日にこう友人に語ったといいます。<br><br>
+        <strong style="color:#8B6914">「本を作ろう。しかし、それは、絶対に、圧制者によって焼き捨てられるようなものでなくてはならぬ」</strong><br><br>
+        権力者から『本を焼くぞ』と脅されるような正義の本を出そう――。不当な権力者から弾圧されるくらいでなければ、本物とはいえない。創価学会の精神と深く響き合う言葉です。
+      </p>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="slabel"><div class="licon" style="background:#8B6914">🇰🇷</div>一人を大切にする心 ― 韓国・張允実さんのドラマ</div>
+  <div class="cblock">
+    <div class="cbody">
+      <p style="font-size:14px;line-height:2;color:#333">
+        1994年の福岡ドーム「アジア青年平和音楽祭」。韓国の伝統舞踊を披露した張允実（チャン・ユンシル）さんには、壮絶なドラマがありました。<br><br>
+        公演直前の交通事故で頸椎を損傷し、「今後は動けないままになる可能性が高い」と医師に告げられました。それでも彼女は信心根本に、御本尊に向かい、一枚ずつ薄紙を剥ぐようにリハビリに励み、事故から1年半――真っ白な民服に身を包み、福岡ドームの大舞台で見事に踊りきったのです。<br><br>
+        池田先生はその姿を「<strong style="color:#9B1B30">"信心"強き人こそが"仏"となる</strong>」と讃えられました。一人を大切にする。これこそが創価学会の真実の姿です。
+      </p>
+    </div>
+  </div>
+
+  <!-- 誌面アーカイブ -->
+  <div class="slabel"><div class="licon" style="background:#8B6914">📰</div>誌面で読む ―「民衆こそ王者」魂の独立宣言篇</div>
+  <div class="mv-wrap">
+    <div class="mv-tabs" id="mv-tabs"></div>
+    <div class="mv-head">
+      <span class="mv-head-title" id="mv-head-title">📖 潮 2024年7月号「魂の独立宣言」篇①</span>
+      <span class="mv-page-ind"><span id="mv-cur">1</span> / <span id="mv-total">13</span></span>
+    </div>
+    <div class="mv-stage" id="mv-stage">
+      <img id="mv-img" src="minshu/minshu01-01.jpg" alt="民衆こそ王者 誌面">
+    </div>
+    <div class="mv-controls">
+      <button class="mv-btn" id="mv-prev" onclick="mvMove(-1)">← 前のページ</button>
+      <button class="mv-btn" style="flex:0 0 auto;padding:11px 16px" onclick="mvOpenModal()">🔍 拡大</button>
+      <button class="mv-btn" id="mv-next" onclick="mvMove(1)">次のページ →</button>
+    </div>
+    <div class="mv-zoom-note">💡「🔍 拡大」を押すと全画面表示に。ピンチ操作で自由に拡大・縮小できます</div>
+  </div>
+
+  <!-- フルスクリーンモーダル -->
+  <div class="mv-modal" id="mv-modal">
+    <button class="mv-modal-close" onclick="mvCloseModal()">✕</button>
+    <div class="mv-modal-scroll" id="mv-modal-scroll">
+      <img id="mv-modal-img" src="minshu/minshu01-01.jpg" alt="民衆こそ王者 誌面 拡大表示">
+    </div>
+    <div class="mv-modal-nav">
+      <button id="mv-m-prev" onclick="mvMove(-1)">← 前</button>
+      <span class="mv-modal-ind"><span id="mv-m-cur">1</span> / <span id="mv-m-total">13</span></span>
+      <button id="mv-m-next" onclick="mvMove(1)">次 →</button>
+    </div>
+  </div>
+
+  <!-- 6 -->
+  <div class="slabel"><div class="licon" style="background:#8B6914">🌏</div>そして世田谷から ― 私たちの新しい歓喜の歌</div>
+  <div class="cblock" style="background:#fffbf0;border-color:rgba(201,150,58,.3)">
+    <div class="cbody">
+      <p style="font-size:14px;line-height:2;color:#333">
+        徳島から、九州から、そして2011年の世田谷から――。創価の「第九」は、迫害を乗り越える歓喜の歌として、師弟の歴史とともに歌い継がれてきました。<br><br>
+        2026年11月29日。今度は私たちが、この精神を受け継ぎ、世田谷から新しい歓喜の歌を轟かせる番です。<br><br>
+        <strong style="color:#9B1B30">Re:Freude ～わたしたちの新しい歓喜の歌～</strong><br>
+        一人ひとりが自分の壁を破り、その歓喜のドラマをもって、2030年・創立100周年への大行進を開始しましょう！
+      </p>
+    </div>
   </div>
 </div>
 
-<!-- ── PARTS (統合・タブ切替) ── -->
-<div class="section" id="sec-parts">
-  <div class="ph" style="background:linear-gradient(135deg,#1a1208,#2d1a0a)">
-    <h2>🎤 練習動画（パート別）</h2>
-    <p>タブを切り替えると、各パートの練習動画を視聴できます</p>
-  </div>
-
-  <!-- パートタブ -->
-  <div class="part-tabs" role="tablist">
-    <button class="part-tab ptab-s active" data-part="soprano" onclick="switchPart('soprano')" role="tab">
-      <span class="pt-name">ソプラノ</span><span class="pt-en">Soprano</span>
-    </button>
-    <button class="part-tab ptab-a" data-part="alto" onclick="switchPart('alto')" role="tab">
-      <span class="pt-name">アルト</span><span class="pt-en">Alto</span>
-    </button>
-    <button class="part-tab ptab-t" data-part="tenor" onclick="switchPart('tenor')" role="tab">
-      <span class="pt-name">テノール</span><span class="pt-en">Tenor</span>
-    </button>
-    <button class="part-tab ptab-b" data-part="bass" onclick="switchPart('bass')" role="tab">
-      <span class="pt-name">バス</span><span class="pt-en">Bass</span>
-    </button>
-  </div>
-
-  <!-- ソプラノ -->
-  <div class="part-panel active" id="part-soprano">
-    <div class="cblock">
-      <div class="cbh"><div class="cnum" style="background:#c0392b">▶</div><span class="ctitle">ソプラノ 練習動画</span></div>
-      <div class="cbody">
-        <div class="yt-wrap">
-          <iframe src="https://www.youtube.com/embed/MkPEjuVkQI4" allowfullscreen
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
-          </iframe>
-        </div>
+<!-- ── SOPRANO ── -->
+<div class="section" id="sec-soprano">
+  <div class="ph phs"><h2>🎤 ソプラノ（Soprano）</h2><p>練習動画コンテンツ</p></div>
+  <div class="cblock">
+    <div class="cbh"><div class="cnum" style="background:#c0392b">▶</div><span class="ctitle">ソプラノ 練習動画</span></div>
+    <div class="cbody">
+      <div class="yt-wrap">
+        <iframe src="https://www.youtube.com/embed/MkPEjuVkQI4" allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+        </iframe>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- アルト -->
-  <div class="part-panel" id="part-alto">
-    <div class="cblock">
-      <div class="cbh"><div class="cnum" style="background:#8e44ad">▶</div><span class="ctitle">アルト 練習動画</span></div>
-      <div class="cbody">
-        <div class="yt-wrap">
-          <iframe src="https://www.youtube.com/embed/RwXUgXEg_rI" allowfullscreen
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
-          </iframe>
-        </div>
+<!-- ── ALTO ── -->
+<div class="section" id="sec-alto">
+  <div class="ph pha"><h2>🎤 アルト（Alto）</h2><p>練習動画コンテンツ</p></div>
+  <div class="cblock">
+    <div class="cbh"><div class="cnum" style="background:#8e44ad">▶</div><span class="ctitle">アルト 練習動画</span></div>
+    <div class="cbody">
+      <div class="yt-wrap">
+        <iframe src="https://www.youtube.com/embed/RwXUgXEg_rI" allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+        </iframe>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- テノール -->
-  <div class="part-panel" id="part-tenor">
-    <div class="cblock">
-      <div class="cbh"><div class="cnum" style="background:#2471a3">1</div><span class="ctitle">第1テノール 練習動画</span></div>
-      <div class="cbody">
-        <div class="yt-wrap">
-          <iframe src="https://www.youtube.com/embed/njSh-mxfDDg" allowfullscreen
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
-          </iframe>
-        </div>
-      </div>
-    </div>
-    <div class="cblock">
-      <div class="cbh"><div class="cnum" style="background:#2471a3">2</div><span class="ctitle">第2テノール 練習動画</span></div>
-      <div class="cbody">
-        <div class="yt-wrap">
-          <iframe src="https://www.youtube.com/embed/zaJUoOANy74" allowfullscreen
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
-          </iframe>
-        </div>
+<!-- ── TENOR ── -->
+<div class="section" id="sec-tenor">
+  <div class="ph pht"><h2>🎤 テノール（Tenor）</h2><p>練習動画コンテンツ</p></div>
+  <div class="cblock">
+    <div class="cbh"><div class="cnum" style="background:#2471a3">1</div><span class="ctitle">第1テノール 練習動画</span></div>
+    <div class="cbody">
+      <div class="yt-wrap">
+        <iframe src="https://www.youtube.com/embed/njSh-mxfDDg" allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+        </iframe>
       </div>
     </div>
   </div>
+  <div class="cblock">
+    <div class="cbh"><div class="cnum" style="background:#2471a3">2</div><span class="ctitle">第2テノール 練習動画</span></div>
+    <div class="cbody">
+      <div class="yt-wrap">
+        <iframe src="https://www.youtube.com/embed/zaJUoOANy74" allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</div>
 
-  <!-- バス -->
-  <div class="part-panel" id="part-bass">
-    <div class="cblock">
-      <div class="cbh"><div class="cnum" style="background:#1e8449">▶</div><span class="ctitle">バス 練習動画</span></div>
-      <div class="cbody">
-        <div class="yt-wrap">
-          <iframe src="https://www.youtube.com/embed/hYVGSnNo3Ck" allowfullscreen
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
-          </iframe>
-        </div>
+<!-- ── BASS ── -->
+<div class="section" id="sec-bass">
+  <div class="ph phb"><h2>🎤 バス（Bass）</h2><p>練習動画コンテンツ</p></div>
+  <div class="cblock">
+    <div class="cbh"><div class="cnum" style="background:#1e8449">▶</div><span class="ctitle">バス 練習動画</span></div>
+    <div class="cbody">
+      <div class="yt-wrap">
+        <iframe src="https://www.youtube.com/embed/hYVGSnNo3Ck" allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+        </iframe>
       </div>
     </div>
   </div>
@@ -795,11 +748,22 @@ footer strong{color:var(--gold-light);font-weight:400}
   <div class="cblock"><div class="cbh"><div class="cnum" style="background:#5d4037">1</div><span class="ctitle">発声練習動画①</span></div><div class="cbody"><div class="eplace"><div class="icon">🎬</div><div>YouTube動画を埋め込み</div></div></div></div>
   <div class="icards">
     <div class="icard"><h3>📅 本番情報</h3><p>本番日：2026年11月29日（日）<br>午後・夜の2回公演予定<br>リハーサル：11月28日（土）</p></div>
-    <div class="icard"><h3>📝 スケジュール</h3><p>6月21日（日）17:00〜 結団式<br>東京池田記念講堂 2F講堂<br>7月〜 毎週日曜 19:00〜20:30<br>東京池田記念講堂 2F講堂</p></div>
+    <div class="icard"><h3>📝 スケジュール</h3><p>6月21日（日）17:00〜 結団式<br>7月〜 毎週日曜 19:00〜20:30<br>東京池田記念講堂 2F講堂<br>※8月9日・16日はお休み</p></div>
   </div>
 </div>
 
 </main>
+
+<!-- LINE シェアバー -->
+<div class="line-share-bar">
+  <p>🎶 このサイトをLINEで仲間にシェアしよう！</p>
+  <a href="https://line.me/R/msg/text/?Re%3AFreude%20%E4%B8%96%E7%94%B0%E8%B0%B7%E3%83%A6%E3%83%BC%E3%82%B9%E3%82%A2%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%E3%83%95%E3%82%A7%E3%82%B9%202026.11.29%20%E7%B7%B4%E7%BF%92%E3%82%B5%E3%82%A4%E3%83%88%0Ahttps%3A%2F%2Fsetagaya2026.github.io%2Fsetagaya-daiku" target="_blank" class="line-share-btn">
+    <svg class="line-icon" viewBox="0 0 24 24" fill="#06C755" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2C6.48 2 2 6.03 2 11c0 3.07 1.67 5.78 4.24 7.5L5.5 22l3.72-1.95C10.35 20.65 11.16 21 12 21c5.52 0 10-4.03 10-9S17.52 2 12 2z"/>
+    </svg>
+    LINEでシェアする
+  </a>
+</div>
 
 <footer>
   <strong>Re:Freude ～わたしたちの新しい歓喜の歌～</strong><br>
@@ -807,82 +771,45 @@ footer strong{color:var(--gold-light);font-weight:400}
   <span style="font-size:10px;margin-top:4px;display:block">世田谷ユースアクションフェス実行委員会</span>
 </footer>
 
-<!-- 題目カウンターへの常設フローティング導線 -->
-<a class="daimoku-fab" href="https://setagaya2026.github.io/setagaya-daiku/daimoku/" target="_blank" rel="noopener" aria-label="題目カウンターを開く">
-  <span class="daimoku-fab-icon">🙏</span>
-  <span class="daimoku-fab-text">題目<small>COUNTER</small></span>
-</a>
-
 <script>
 // ── COUNTDOWN ──
 const TARGET=new Date('2026-11-29T13:00:00+09:00');
-// 残り○日以下になったら秒単位のカウンターに切り替え（デフォルト30日）
-const FINAL_THRESHOLD_DAYS=30;
-// 開発用: URLに ?testfinal を付けると強制的に直前期モード表示
-const FORCE_FINAL=new URLSearchParams(location.search).has('testfinal');
 function updateCD(){
-  const cdbar=document.querySelector('.cdbar');
-  if(!cdbar)return;
   const diff=TARGET-new Date();
-  if(diff<=0&&!FORCE_FINAL){cdbar.innerHTML='<div style="color:var(--gold-light);font-family:Noto Serif JP,serif;font-size:22px;font-weight:700;text-align:center;position:relative;padding:20px">🎉 本番当日！フロイデー！！！</div>';return;}
-  const safeDiff=FORCE_FINAL?(15*86400000+3*3600000+27*60000+42*1000):diff;
-  const d=Math.floor(safeDiff/86400000),h=Math.floor((safeDiff%86400000)/3600000),m=Math.floor((safeDiff%3600000)/60000),s=Math.floor((safeDiff%60000)/1000);
-  const isFinal=FORCE_FINAL||d<FINAL_THRESHOLD_DAYS;
-  cdbar.classList.toggle('final',isFinal);
-  if(isFinal){
-    document.getElementById('cd-d').textContent=d;
-    document.getElementById('cd-h').textContent=String(h).padStart(2,'0');
-    document.getElementById('cd-m').textContent=String(m).padStart(2,'0');
-    document.getElementById('cd-s').textContent=String(s).padStart(2,'0');
-  }else{
-    const el=document.getElementById('cd-days-num');
-    if(el)el.textContent=d;
-  }
+  if(diff<=0){document.querySelector('.cdbar').innerHTML='<div style="color:var(--gold-light);font-family:Noto Serif JP,serif;font-size:22px;font-weight:700;text-align:center;position:relative;padding:20px">🎉 本番当日！フロイデー！！！</div>';return;}
+  const d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
+  document.getElementById('cd-d').textContent=d;
+  document.getElementById('cd-h').textContent=String(h).padStart(2,'0');
+  document.getElementById('cd-m').textContent=String(m).padStart(2,'0');
+  document.getElementById('cd-s').textContent=String(s).padStart(2,'0');
 }
 updateCD();setInterval(updateCD,1000);
-
-// ── ACCESSIBILITY: クリック可能な div/a にキーボード操作を付与 ──
-function initA11y(){
-  document.querySelectorAll('a[onclick]:not([href]), div[onclick], span[onclick]').forEach(el=>{
-    if(!el.hasAttribute('tabindex'))el.setAttribute('tabindex','0');
-    if(!el.hasAttribute('role'))el.setAttribute('role','button');
-  });
-  document.addEventListener('keydown',e=>{
-    if(e.key==='Enter'||e.key===' '){
-      const t=e.target;
-      if(t.matches&&t.matches('[role="button"]:not(button):not(a[href])')){
-        e.preventDefault();
-        t.click();
-      }
-    }
-  });
-}
-initA11y();
 
 // ── SCHEDULE ──
 // ★ 練習日を追加・変更する場合はここを編集してください
 const SCH=[
-  {date:'2026-06-21',title:'結団式',detail:'17:00〜 東京池田記念講堂 2F講堂',badge:'badge-sp',btext:'結団式',start:'17:00',end:'19:00'},
-  {date:'2026-07-05',title:'第1回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30'},
-  {date:'2026-07-12',title:'第2回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30'},
-  {date:'2026-07-26',title:'第3回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30'},
-  {date:'2026-08-02',title:'第4回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30'},
-  {date:'2026-08-23',title:'第5回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30'},
-  {date:'2026-08-30',title:'第6回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30'},
-  {date:'2026-09-06',title:'第7回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30'},
-  {date:'2026-09-13',title:'第8回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30'},
-  {date:'2026-09-20',title:'第9回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30'},
-  {date:'2026-09-27',title:'第10回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30'},
-  {date:'2026-10-04',title:'第11回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30'},
-  {date:'2026-10-11',title:'第12回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30'},
-  {date:'2026-10-18',title:'第13回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30'},
-  {date:'2026-10-25',title:'第14回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30'},
-  {date:'2026-11-01',title:'第15回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30'},
-  {date:'2026-11-08',title:'第16回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30'},
-  {date:'2026-11-15',title:'第17回 通し練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30'},
-  {date:'2026-11-22',title:'第18回 最終練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30'},
-  {date:'2026-11-28',title:'リハーサル',detail:'本番会場にて（時間別途連絡）',badge:'badge-rh',btext:'リハーサル',start:'10:00',end:'17:00'},
-  {date:'2026-11-29',title:'🎶 本番！Re:Freude',detail:'13:00〜 午後・夜の2回公演',badge:'badge-c',btext:'本番！',start:'13:00',end:'21:00'},
+  {date:'2026-06-21',title:'結団式',detail:'17:00〜 東京池田記念講堂 2F講堂',badge:'badge-sp',btext:'結団式',start:'17:00',end:'19:00',song:''},
+  {date:'2026-07-05',title:'第1回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'M(543-590) Freude schöner〜Flügel weilt'},
+  {date:'2026-07-12',title:'第2回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'M(543-590) Freude schöner〜Flügel weilt'},
+  {date:'2026-07-19',title:'第3回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'D(257-264)・E(282-292) Deine Zauber〜diesem Bund ※男声は237〜Freude!あり'},
+  {date:'2026-07-26',title:'第4回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'G(313-330)① Küsse gab〜vor Gott'},
+  {date:'2026-08-02',title:'第5回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'G(313-330)① Küsse gab〜vor Gott'},
+  {date:'2026-08-23',title:'第6回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'(595-626)① Seid um〜Vater wohnen'},
+  {date:'2026-08-30',title:'第7回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'(595-626)② Seid um〜Vater wohnen'},
+  {date:'2026-09-06',title:'第8回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'(631-654) Ihr stürzt〜vor Gott'},
+  {date:'2026-09-13',title:'第9回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'(631-654) Ihr stürzt〜vor Gott'},
+  {date:'2026-09-20',title:'第10回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'(655-729)① Freude schöner〜Heiligtum / Seid um〜ganzen Welt ※可能なら4パート別'},
+  {date:'2026-09-27',title:'第11回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'(655-729)② Freude schöner〜Heiligtum / Seid um〜ganzen Welt ※可能なら4パート別'},
+  {date:'2026-10-04',title:'第12回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'(655-729)③ Freude schöner〜Heiligtum / Seid um〜ganzen Welt ※男女別'},
+  {date:'2026-10-11',title:'第13回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'R(730-762) Ihr stürzt〜Vater wohnen'},
+  {date:'2026-10-18',title:'第14回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'男声(411-431) Laufet, Brüder〜zum Siegen / 女声総復習'},
+  {date:'2026-10-25',title:'第15回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'S(795-832) Deine Zauber〜Alle Menschen'},
+  {date:'2026-11-01',title:'第16回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'(855-920)① Deine Zauber〜Götterfunken'},
+  {date:'2026-11-08',title:'第17回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'(855-920)② Deine Zauber〜Götterfunken'},
+  {date:'2026-11-15',title:'第18回 全曲通し①',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'全曲①'},
+  {date:'2026-11-22',title:'第19回 全曲通し②',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'全曲②'},
+  {date:'2026-11-28',title:'リハーサル',detail:'本番会場にて（時間別途連絡）',badge:'badge-rh',btext:'リハーサル',start:'10:00',end:'17:00',song:'通し'},
+  {date:'2026-11-29',title:'🎶 本番！Re:Freude',detail:'13:00〜 午後・夜の2回公演',badge:'badge-c',btext:'本番！',start:'13:00',end:'21:00',song:'通し'},
 ];
 const DOW=['日','月','火','水','木','金','土'];
 const MON=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
@@ -923,14 +850,15 @@ function buildSch(){
       <div class="sch-info">
         <div class="sch-title">${ev.title}</div>
         <div class="sch-sub">${ev.detail}</div>
+        ${ev.song ? `<div class="sch-song">🎼 ${ev.song}</div>` : ''}
       </div>
       <span class="badge ${ev.badge}" style="margin-right:6px">${ev.btext}</span>
       <a href="${gcalUrl(ev)}" target="_blank" class="gcal-add-btn" title="Googleカレンダーに追加">📅+</a>
     `;
     c.appendChild(el);
-    if(!past&&!nf){nf=true;document.getElementById('home-next-date').textContent=`${d.getMonth()+1}/${d.getDate()} (${DOW[d.getDay()]}) ${ev.title}`;document.getElementById('home-next-sub').textContent=ev.detail;}
+    if(!past&&!nf){nf=true;document.getElementById('home-next-date').textContent=`${d.getMonth()+1}月${d.getDate()}日（${DOW[d.getDay()]}）${ev.title}`;document.getElementById('home-next-sub').textContent=ev.detail;}
   });
-  if(!nf){document.getElementById('home-next-date').textContent='11/29 (日) 本番！';document.getElementById('home-next-sub').textContent='フロイデー！！！';}
+  if(!nf){document.getElementById('home-next-date').textContent='2026年11月29日（日）本番！';document.getElementById('home-next-sub').textContent='フロイデー！！！';}
 }
 buildSch();
 
@@ -942,28 +870,14 @@ const PART_INFO = {
   bass:    {name:'バス',     icon:'🎤', color:'#1e8449'},
 };
 
-// 統合パートページのタブ切替
-function switchPart(part){
-  if(!PART_INFO[part])return;
-  document.querySelectorAll('.part-tab').forEach(t=>t.classList.toggle('active',t.dataset.part===part));
-  document.querySelectorAll('.part-panel').forEach(p=>p.classList.toggle('active',p.id==='part-'+part));
-}
-
-// パートページを開いて指定パートに切替
-function openPart(part){
-  showSection('parts',null);
-  switchPart(part);
-}
-
 function initMyPart(){
   const saved = localStorage.getItem('mypart');
   if(saved && PART_INFO[saved]){
     showMyPartBanner(saved);
-    // 初回アクセス時はマイパートに自動切替（ホームに留まる）
-    switchPart(saved);
+    // 初回アクセス時はマイパートページへ自動ジャンプ
     if(!sessionStorage.getItem('visited')){
       sessionStorage.setItem('visited','1');
-      setTimeout(()=>openPart(saved), 400);
+      setTimeout(()=>showSection(saved, null), 400);
     }
   }
 }
@@ -978,7 +892,7 @@ function showMyPartBanner(part){
   const btn = document.getElementById('mypart-go-btn');
   btn.style.background = info.color;
   btn.style.color = 'white';
-  btn.onclick = () => openPart(part);
+  btn.onclick = () => showSection(part, null);
   // 選択済みカードにselectedクラス
   document.querySelectorAll('.part-select-card').forEach(c => c.classList.remove('selected'));
 }
@@ -986,13 +900,12 @@ function showMyPartBanner(part){
 function selectPart(part, name, icon){
   localStorage.setItem('mypart', part);
   showMyPartBanner(part);
-  switchPart(part);
   // 選んだカードを光らせる演出
   document.querySelectorAll('.part-select-card').forEach(c => c.classList.remove('selected'));
   const cards = {'soprano':0,'alto':1,'tenor':2,'bass':3};
   document.querySelectorAll('.part-select-card')[cards[part]].classList.add('selected');
-  // 0.5秒後にパートページへジャンプ
-  setTimeout(() => openPart(part), 500);
+  // 0.5秒後にそのパートへジャンプ
+  setTimeout(() => showSection(part, null), 500);
 }
 
 function resetMyPart(){
@@ -1007,7 +920,7 @@ function showSection(name,link){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
   document.getElementById('sec-'+name).classList.add('active');
-  const labels={home:'ホーム',schedule:'📅 練習日程・出欠連絡',parts:'🎤 練習動画',freude:'📖 フロイデVoice',nikk:'📚 新・人間革命',info:'指導・情報'};
+  const labels={home:'ホーム',schedule:'📅 練習日程',video:'🎬 映像アーカイブ',freude:'📖 フロイデVoice',daiku:'📜 第九の研鑽',soprano:'ソプラノ',alto:'アルト',tenor:'テノール',bass:'バス',info:'指導・情報'};
   if(link){link.classList.add('active');}
   else{document.querySelectorAll('nav a').forEach(a=>{if(a.textContent.trim()===labels[name])a.classList.add('active');});}
   window.scrollTo({top:0,behavior:'smooth'});
@@ -1137,100 +1050,91 @@ function updateQNav(){
 buildFreude();
 initMyPart();
 
-// ── 新・人間革命 ──
-// ★ PDFファイルをGoogleドライブ等に公開してURLを取得し、
-//   pdfFiles[i].url に設定してください
-// ★ GoogleドライブのファイルIDが分かれば
-//   url: 'https://drive.google.com/file/d/【ファイルID】/preview' で埋め込み可能です
-const SNG=[
-  {num:'01',range:'第1〜4回',url:'https://drive.google.com/file/d/11F-BHLuFgoAhWU2xPdri31WDs0T3BSzr/preview'},
-  {num:'02',range:'第5〜8回',url:'https://drive.google.com/file/d/1YhT60Xab5t6lfz5Zc43h18h7gS_iEhre/preview'},
-  {num:'03',range:'第9〜12回',url:'https://drive.google.com/file/d/1f7vxuRX3NFjrLVxa3urf5JVi95dbhiY1/preview'},
-  {num:'04',range:'第13〜16回',url:'https://drive.google.com/file/d/13EfcaNiZPe6-pRvCsEgbxcIiVftTKatg/preview'},
-  {num:'05',range:'第17〜20回',url:'https://drive.google.com/file/d/1O1cZa-mVTtnS-h9Sbn5O9WmpFYfvMR6R/preview'},
-  {num:'06',range:'第21〜24回',url:'https://drive.google.com/file/d/1q0QLoahF1wQl-QtPzWvxTAlifPBmvpGF/preview'},
-  {num:'07',range:'第25〜28回',url:'https://drive.google.com/file/d/1P_NujuVnVcQ-ryDaO-XNcaJBZafkeSxK/preview'},
-  {num:'08',range:'第29〜32回',url:'https://drive.google.com/file/d/1gekTF75ViT06JnAsTXwcHp1K4eHgliSu/preview'},
-  {num:'09',range:'第33〜36回',url:'https://drive.google.com/file/d/13fzXbKESUf2_gqg7gmhP10LpgfzXD9mx/preview'},
-  {num:'10',range:'第37〜40回',url:'https://drive.google.com/file/d/1YDytfoPslu0T8Keke6rNzKhXPgLHQ8QA/preview'},
-  {num:'11',range:'第41〜44回',url:'https://drive.google.com/file/d/1MMNXVsPA-i_OHl3532uhk7Yyd60x867Y/preview'},
-  {num:'12',range:'第45〜48回',url:'https://drive.google.com/file/d/1AnBt0p7iIpa47Stv9xaT7z2ikzbdbdX6/preview'},
-  {num:'13',range:'第49〜52回',url:'https://drive.google.com/file/d/1ymm13oNwOAvzszfg5wU9TNrrvOp2Jce5/preview'},
-  {num:'14',range:'第53〜56回',url:'https://drive.google.com/file/d/15rqQAe_fNqOHpoOxAmb_EFSxF9VS_HAj/preview'},
-  {num:'15',range:'第57〜60回',url:'https://drive.google.com/file/d/11IsPAE5kaMvahrz-5j7bF6YxjPlaStnk/preview'},
-  {num:'16',range:'第61〜64回',url:'https://drive.google.com/file/d/1bD7tIz-B-iurie1XQxR1zcHBjwV_qpy7/preview'},
-  {num:'17',range:'第65〜68回',url:'https://drive.google.com/file/d/1eAsbW6A-3exqPguZ_Pq2RhWOxvhuO-kJ/preview'},
-  {num:'18',range:'第69〜72回',url:'https://drive.google.com/file/d/1yuv4qMySYbxWO2RwgWUETt_uHz3NCTQj/preview'},
-  {num:'19',range:'第73〜76回',url:'https://drive.google.com/file/d/1l18ILzOR8WW4POUpDE1q8uKy0mAGicec/preview'},
-  {num:'20',range:'第77〜80回',url:'https://drive.google.com/file/d/1CbamjuN3tKbENi_qLJSUvypAuAryNhZt/preview'},
-  {num:'21',range:'第81〜84回',url:'https://drive.google.com/file/d/1tHZWaoVo0iew0XX970OH2hTtucXBz8fR/preview'},
-  {num:'22',range:'第85〜88回',url:'https://drive.google.com/file/d/17UBd-BnYnysuVM1pg22MkD3jl0Q5Y1iS/preview'},
-  {num:'23',range:'第89〜92回',url:'https://drive.google.com/file/d/1LO_8h3anLnVsgtmPs1PAXMlRBKAc-yPv/preview'},
-  {num:'24',range:'第93〜96回',url:'https://drive.google.com/file/d/1smKYzWcnOf8RvezT_kHSfFPTjZJOJcc3/preview'},
-  {num:'25',range:'第97〜100回',url:'https://drive.google.com/file/d/1RuEelFaSUDtsH-JbyTl-o2DLekSWdrhT/preview'},
-  {num:'26',range:'第101〜104回',url:'https://drive.google.com/file/d/1TwahEA1dWun1tofZs385vjpmIXcMnat8/preview'},
-  {num:'27',range:'第105〜108回',url:'https://drive.google.com/file/d/1gt_eQo7wmvaxBreJ_J1sKyvJDMhmKljq/preview'},
-  {num:'28',range:'第109〜112回',url:'https://drive.google.com/file/d/1RtCt3LTuAmmZB_N3pJt--tvP3-3unXZb/preview'},
-  {num:'29',range:'第113〜116回',url:'https://drive.google.com/file/d/1sD82h3tj_gYyjUSRic7eaPfNCzHhtfcn/preview'},
-  {num:'30',range:'第117〜120回',url:'https://drive.google.com/file/d/1RoKbJEqyWiFQ7Us6pu5T60tilfMqBFS5/preview'},
-  {num:'31',range:'第121〜124回',url:'https://drive.google.com/file/d/1xZWFHKpV69QGR_oidO-fYeqf8ykgzH9o/preview'},
-  {num:'32',range:'第125〜128回',url:'https://drive.google.com/file/d/1Yh_Ju75yjJeWRombgC4we8WhI_9pVZz4/preview'},
-  {num:'33',range:'第129〜132回',url:'https://drive.google.com/file/d/12X6lxrJSNq9SwpBj5jhmtNyg8QjSgGaw/preview'},
-  {num:'34',range:'第133〜136回',url:'https://drive.google.com/file/d/1atzgpXVKHThG60J5ZB53TrrTBOizHUTs/preview'},
-  {num:'35',range:'第137〜139回',url:'https://drive.google.com/file/d/1DECw13zI_xU8vJJK_LsCB-M5Fx0V0n1k/preview'},
+// ── 誌面ビューワー（民衆こそ王者・複数冊対応） ──
+// ★冊子を追加するとき: 画像を minshu/ に置き、この配列に1行足すだけ
+//   prefix は画像パスの「-XX.jpg」より前の部分。total はページ数。
+const BOOKLETS = [
+  { label:'①7月号', head:'📖 潮 2024年7月号「魂の独立宣言」篇①', prefix:'minshu/minshu01-', total:13 },
+  { label:'②8月号', head:'📖 潮 2024年8月号「魂の独立宣言」篇②', prefix:'minshu/minshu02-', total:16 },
+  // 届き次第、下のように追加してください（コメントを外す）:
+  // { label:'③9月号',  head:'📖 潮 2024年9月号「魂の独立宣言」篇③',  prefix:'minshu/minshu03-', total:14 },
+  // { label:'⑤12月号', head:'📖 潮 2024年12月号「魂の独立宣言」篇⑤', prefix:'minshu/minshu05-', total:17 },
+  // { label:'随筆',     head:'📖 随筆「新・人間革命」宗教革命の旭日',  prefix:'minshu/zuihitsu-', total:1  },
 ];
-let curSng=-1;
-function buildSng(){
-  const grid=document.getElementById('sng-grid');
-  SNG.forEach((s,i)=>{
-    const btn=document.createElement('button');
-    btn.className='sng-btn';
-    btn.innerHTML='<span class="sng-btn-num">誓願'+s.num+'</span><span class="sng-btn-range">'+s.range+'</span>';
-    btn.onclick=()=>goSng(i);
-    grid.appendChild(btn);
+let mvBook = 0;   // 現在の冊子（BOOKLETSの添字）
+let mvPage = 1;   // 現在のページ
+function mvCur(){ return BOOKLETS[mvBook]; }
+function mvSrc(p){ return mvCur().prefix + String(p).padStart(2,'0') + '.jpg'; }
+function mvBuildTabs(){
+  const wrap = document.getElementById('mv-tabs');
+  if(!wrap) return;
+  if(BOOKLETS.length < 2){ wrap.style.display='none'; return; }
+  wrap.style.display='';
+  wrap.innerHTML = '';
+  BOOKLETS.forEach((b,i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'mv-tab' + (i===mvBook ? ' active' : '');
+    btn.textContent = b.label;
+    btn.onclick = ()=>mvSelectBook(i);
+    wrap.appendChild(btn);
   });
 }
-function goSng(i){
-  document.querySelectorAll('.sng-btn').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.sng-btn')[i].classList.add('active');
-  curSng=i;
-  const wrap=document.getElementById('sng-viewer-wrap');
-  const s=SNG[i];
-  const nav=document.getElementById('sng-nav');
-  nav.style.display='flex';
-  document.getElementById('sng-prev').disabled=i===0;
-  document.getElementById('sng-next').disabled=i===SNG.length-1;
-  document.getElementById('sng-prev-lbl').textContent=i>0?'誓願'+SNG[i-1].num:'―';
-  document.getElementById('sng-next-lbl').textContent=i<SNG.length-1?'誓願'+SNG[i+1].num:'―';
-
-  if(s.url){
-    wrap.innerHTML=`<div class="sng-viewer active">
-      <div class="sng-viewer-hd">📚 新・人間革命「誓願」 ${s.num} ／ ${s.range} <span>全139回</span></div>
-      <div class="sng-img-wrap">
-        <iframe src="${s.url}" width="100%" height="700" frameborder="0" allowfullscreen style="display:block;border-radius:4px"></iframe>
-      </div>
-    </div>`;
-  } else {
-    wrap.innerHTML=`<div class="sng-viewer active">
-      <div class="sng-viewer-hd">📚 新・人間革命「誓願」 ${s.num} ／ ${s.range} <span>全139回</span></div>
-      <div class="sng-img-wrap" style="padding:24px;text-align:center;background:#f7f4ef;border-radius:4px">
-        <div style="font-size:40px;margin-bottom:12px">📄</div>
-        <p style="font-size:14px;font-weight:700;color:#2d3a1a;margin-bottom:8px">「誓願」${s.num}（${s.range}）</p>
-        <p style="font-size:12px;color:var(--muted);line-height:1.8">
-          ファイルのURLをGoogleドライブ等にアップロードして<br>
-          SNG配列の <code>url</code> に設定してください。<br><br>
-          <strong>Googleドライブの場合：</strong><br>
-          1. ドライブにPDFをアップロード<br>
-          2. 「共有」→「リンクを知っている全員」に設定<br>
-          3. URLの <code>/view</code> を <code>/preview</code> に変えて設定
-        </p>
-      </div>
-    </div>`;
-  }
-  document.getElementById('sng-viewer-wrap').scrollIntoView({behavior:'smooth',block:'start'});
+function mvSelectBook(i){
+  if(i<0 || i>=BOOKLETS.length || i===mvBook) return;
+  mvBook = i; mvPage = 1;
+  document.getElementById('mv-head-title').textContent = mvCur().head;
+  mvBuildTabs();
+  mvUpdate();
+  const sc = document.getElementById('mv-modal-scroll'); if(sc) sc.scrollTo(0,0);
 }
-function moveSng(d){const n=curSng+d;if(n>=0&&n<SNG.length)goSng(n);}
-buildSng();
+function mvUpdate(){
+  const total = mvCur().total;
+  document.getElementById('mv-img').src = mvSrc(mvPage);
+  document.getElementById('mv-modal-img').src = mvSrc(mvPage);
+  document.getElementById('mv-cur').textContent = mvPage;
+  document.getElementById('mv-m-cur').textContent = mvPage;
+  document.getElementById('mv-total').textContent = total;
+  document.getElementById('mv-m-total').textContent = total;
+  document.getElementById('mv-prev').disabled = mvPage===1;
+  document.getElementById('mv-next').disabled = mvPage===total;
+  document.getElementById('mv-m-prev').disabled = mvPage===1;
+  document.getElementById('mv-m-next').disabled = mvPage===total;
+}
+function mvMove(d){
+  const total = mvCur().total;
+  const n = mvPage + d;
+  if(n>=1 && n<=total){ mvPage = n; mvUpdate();
+    const sc = document.getElementById('mv-modal-scroll');
+    if(sc) sc.scrollTo(0,0);
+  }
+}
+function mvOpenModal(){
+  document.getElementById('mv-modal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function mvCloseModal(){
+  document.getElementById('mv-modal').classList.remove('open');
+  document.body.style.overflow='';
+}
+// スワイプでページ送り（ビューワー本体）
+(function(){
+  const stage = document.getElementById('mv-stage');
+  if(!stage) return;
+  let sx=0, sy=0;
+  stage.addEventListener('touchstart', e=>{ if(e.touches.length===1){ sx=e.touches[0].clientX; sy=e.touches[0].clientY; }}, {passive:true});
+  stage.addEventListener('touchend', e=>{
+    const dx = e.changedTouches[0].clientX - sx;
+    const dy = e.changedTouches[0].clientY - sy;
+    if(Math.abs(dx)>60 && Math.abs(dx)>Math.abs(dy)*1.5){ mvMove(dx<0?1:-1); }
+  }, {passive:true});
+})();
+// 初期化: 先頭の冊子の見出しを反映してから描画
+document.getElementById('mv-head-title').textContent = mvCur().head;
+mvBuildTabs();
+mvUpdate();
+
+
+
 </script>
 </body>
 </html>
