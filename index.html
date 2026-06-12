@@ -289,6 +289,20 @@ footer strong{color:var(--gold-light);font-weight:400}
 .mv-modal-nav button{background:rgba(255,255,255,.18);color:#fff;border:none;border-radius:24px;padding:11px 22px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif}
 .mv-modal-nav button:disabled{opacity:.25}
 .mv-modal-ind{color:rgba(255,255,255,.85);font-size:13px;min-width:70px;text-align:center}
+/* 折りたたみ学習カード（第九の研鑽） */
+.kb{border:1px solid rgba(139,105,20,.28);border-radius:10px;margin-bottom:10px;overflow:hidden;background:#fff}
+.kb-head{display:flex;align-items:center;gap:10px;padding:14px;cursor:pointer;font-weight:700;font-size:14px;color:#5d4506;background:#faf7ef;-webkit-tap-highlight-color:transparent;user-select:none;transition:background .15s}
+.kb-head:hover{background:#f4ecdc}
+.kb-ic{width:28px;height:28px;border-radius:7px;background:#8B6914;color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;flex:0 0 auto}
+.kb-tt{flex:1;line-height:1.45}
+.kb-ar{flex:0 0 auto;color:#8B6914;font-size:12px;transition:transform .2s;margin-left:4px}
+.kb.open .kb-ar{transform:rotate(90deg)}
+.kb-body{display:none;padding:6px 16px 18px;font-size:14.5px;line-height:2;color:#333}
+.kb.open .kb-body{display:block}
+.kb-body strong{color:#8B6914}
+.kb-q{display:block;background:#faf7ef;border-left:4px solid #8B6914;border-radius:0 6px 6px 0;padding:12px 14px;margin:12px 0;font-weight:700;color:#5d4506;line-height:1.9}
+.kb-src{display:block;margin-top:12px;font-size:12px;color:var(--muted)}
+.kb-note{display:block;font-size:12px;color:#8B6914;font-weight:700;margin-bottom:12px;letter-spacing:.02em}
 
 /* ── LINE SHARE ── */
 .line-share-bar{background:linear-gradient(135deg,#06C755,#00a040);padding:16px 20px;text-align:center}
@@ -355,19 +369,6 @@ footer strong{color:var(--gold-light);font-weight:400}
 
 <!-- ── HOME ── -->
 <div class="section active" id="sec-home">
-  <div class="notice">
-    <h2><span class="mbadge">必見</span>本番向け通し音源動画</h2>
-    <p>本番同様のテンポでの通し音源です。通しの練習はこちらをご利用ください。</p>
-  </div>
-  <div class="cblock">
-    <div class="cbh"><div class="cnum" style="background:var(--crimson)">▶</div><span class="ctitle">【合唱（フルコーラス）付き】通し音源</span></div>
-    <div class="cbody"><div class="eplace"><div class="icon">🎵</div><div>YouTube動画をここに埋め込み</div></div><p class="enote">💡 YouTubeのURLを取得後 &lt;iframe&gt; で差し替え</p></div>
-  </div>
-  <div class="cblock">
-    <div class="cbh"><div class="cnum" style="background:var(--muted)">▶</div><span class="ctitle">【合唱なし】通し音源（オーケストラのみ）</span></div>
-    <div class="cbody"><div class="eplace"><div class="icon">🎼</div><div>YouTube動画をここに埋め込み</div></div></div>
-  </div>
-
   <div class="slabel"><div class="licon">📅</div>次回の練習</div>
   <div class="next-bar">
     <div class="next-bar-icon">🎵</div>
@@ -559,70 +560,92 @@ footer strong{color:var(--gold-light);font-weight:400}
 <div class="section" id="sec-daiku">
   <div class="ph" style="background:linear-gradient(135deg,#8B6914,#5d4506)">
     <h2>📜 第九と師弟の歴史</h2>
-    <p>「歓喜の歌」に込められた心を学び、確信をもって本番へ！</p>
+    <p>各テーマをタップすると開きます。「歓喜の歌」に込められた心を学び、確信をもって本番へ！</p>
   </div>
 
-  <!-- 1 -->
-  <div class="slabel"><div class="licon" style="background:#8B6914">🎼</div>日本初演の地・徳島と「第九」</div>
-  <div class="cblock">
-    <div class="cbody">
-      <p style="font-size:14px;line-height:2;color:#333">
-        徳島は、日本で初めて「第九」が演奏された地です。1918年、板東俘虜収容所で、ドイツ兵捕虜たちによって演奏されました。この史実は徳島県民の誇りでもあります。<br><br>
-        そして徳島は、創価の「第九」の原点の地でもあります。1972年（昭和47年）の夏季講習会で、池田先生は女子部の参加者たちに対して<strong style="color:#8B6914">「いろいろな歌もあるけれど、『よろこびの歌』を原語で歌ったりしてほしい」</strong>とおっしゃいました。昭和56年に徳島の友が「よろこびの歌」を選んだ理由は、この先生の一言だったのです。
-      </p>
-    </div>
-  </div>
-
-  <!-- 2 -->
-  <div class="slabel"><div class="licon" style="background:#8B6914">🎹</div>1981年・徳島 ―「魂の独立宣言」と歓喜の歌</div>
-  <div class="cblock">
-    <div class="cbody">
-      <p style="font-size:14px;line-height:2;color:#333">
-        第三代会長辞任から2年後の1981年（昭和56年）。悪侶たちの横暴が吹き荒れるなか、徳島の友たちはベートーヴェンの「よろこびの歌」で池田先生をお迎えしました。<br><br>
-        11月、徳島講堂の落成記念勤行会。先生はピアノ演奏を通して参加者に励ましを送られ、若草合唱団が日本語とドイツ語で「よろこびの歌」を高らかに歌い上げました。<br><br>
-        悪僧たちの迫害に耐え抜いてきた徳島の同志。その健気な姿に応えて、先生が弾いてくださった一曲こそ「よろこびの歌」だったのです。
-      </p>
+  <!-- 学習カード（タップで開閉） -->
+  <div class="kb open">
+    <div class="kb-head"><div class="kb-ic">🎼</div><div class="kb-tt">「第九」とは ― 常識を破った歓喜の交響曲</div><span class="kb-ar">▶</span></div>
+    <div class="kb-body">
+      1824年完成。ベートーヴェン9番目にして最後の交響曲です。20代の頃から、シラーの詩「歓喜に寄す」を題材に作曲したいと構想すること、およそ30年。苦難の渦中にあった53歳のとき、ついに完成させました。<br><br>
+      曲全体は4つの楽章で構成され、演奏時間は60分を超える大作。有名な「歓喜の歌」は、最後の第4楽章で「合唱」されます。当時、交響曲に合唱を取り入れるのは前例のないことでした。それでもベートーヴェンは、<strong>「歓喜を表現するには、人の声でなければならない」</strong>と考え、その常識破りをやってのけたのです。それは当時の観客に圧倒的な感動をもたらし、後世の音楽家にも多大な影響を与えました。
+      <span class="kb-q">「おお友よ、これらの調べではなく、我々は、もっと心地よい、もっと歓喜に満ちた歌を歌おうではないか！」</span>
+      バリトン独唱があえて前の3楽章を否定し、「歓喜の調べ」へと導いていきます。続く合唱で「歓喜の声」が爆発し、歌声は「すべての人々は兄弟となる」と、人類愛へと昇華していくのです。
     </div>
   </div>
 
   <!-- 3 -->
-  <div class="slabel"><div class="licon" style="background:#8B6914">🔥</div>「歓喜の歌」の否定は、文化否定・人間性否定</div>
-  <div class="cblock">
-    <div class="cbody">
-      <p style="font-size:14px;line-height:2;color:#333">
-        宗門は「第九を歌ってはならない」と否定しました。まさしく『外道礼讃』であると。<br><br>
-        しかし池田先生は断じました。<strong style="color:#9B1B30">「『歓喜の歌』の否定は文化否定、人間性否定、国際性否定であり、崇高なる人間精神の否定であり、それは、とりもなおさず仏法の否定なのである」</strong>と。<br><br>
-        この1994年、創価学会はもう一つ、前例のない「第九」に挑みました。九州での「五万人の第九」です。福岡ドームでの「アジア青年平和音楽祭」は、演目の全体を"一つのシンフォニー"に見立てた壮大な祭典となりました。
-      </p>
+  <div class="kb">
+    <div class="kb-head"><div class="kb-ic">🇯🇵</div><div class="kb-tt">なぜ「第九」なのか①― 九州創価学会の誇り、師匠の構想</div><span class="kb-ar">▶</span></div>
+    <div class="kb-body">
+      「第九」を歌う契機となったのは、1990年11月16日の「第35回本部幹部会」での池田先生のスピーチでした。
+      <span class="kb-q">「一つの提案として、創立65周年には5万人で、創立70周年には10万人で、『第九』の合唱を行ってはどうだろうか。壮麗なる世界広宣流布の前奏曲として、後世に残しておきたい」</span>
+      この師匠の提案を受け、1994年11月23日に「5万人の第九」、2001年12月2日に「10万人の第九」を実現したのが、九州青年部でした。師の構想を、青年がわが手で実現してきた――これが九州創価学会の誇りです。
     </div>
   </div>
 
   <!-- 4 -->
-  <div class="slabel"><div class="licon" style="background:#8B6914">✒️</div>シラー「歓喜に寄す」の精神</div>
-  <div class="cblock">
-    <div class="cbody">
-      <p style="font-size:14px;line-height:2;color:#333">
-        「第九」の歌詞のもとになった「歓喜に寄す」を書いた詩人シラーは、若き日にこう友人に語ったといいます。<br><br>
-        <strong style="color:#8B6914">「本を作ろう。しかし、それは、絶対に、圧制者によって焼き捨てられるようなものでなくてはならぬ」</strong><br><br>
-        権力者から『本を焼くぞ』と脅されるような正義の本を出そう――。不当な権力者から弾圧されるくらいでなければ、本物とはいえない。創価学会の精神と深く響き合う言葉です。
-      </p>
+  <div class="kb">
+    <div class="kb-head"><div class="kb-ic">🕊️</div><div class="kb-tt">なぜ「第九」なのか②― 世界平和への祈りと行動</div><span class="kb-ar">▶</span></div>
+    <div class="kb-body">
+      「第九」の初公演は1824年、ベートーヴェン53歳の頃。作曲当時のヨーロッパでは「テロの秘密結社」が暗躍し、オーストリアでは「テロを取りしまる」という名目で、言論や思想の自由が弾圧され、独裁的な政治が行われていました。人間を圧迫し、争いと憎しみが蔓延する「暗黒の時代」。ベートーヴェン自身も危険人物とみなされていました。<br><br>
+      そんな時、若き日に感動を覚えたシラーの詩「歓喜に寄す」を取り入れた、合唱付き交響曲の制作を決意します。ベートーヴェンが最も思いを寄せたとされる詩には、こうあります。
+      <span class="kb-q">「あなたの奇跡の力が、分断された時代を再び繋ぎ合わせる。あなたの優しい翼に包まれ、誰もが心を通わせる兄弟（仲間）となる」</span>
+      発表後、自由と平和を求める民衆運動が起こり、やがて悪政は失脚。「第九」は、民衆の手に自由を取り戻すためにつくられた「民衆革命の歌」となりました。込められたメッセージは、弾圧に苦しむ人が願う「世界の平和」と「団結」の祈りです。<br><br>
+      だからこそ「歓喜の歌」は、世界中で歌い継がれてきました。「ベルリンの壁」崩壊の時、東西ドイツの民衆の手で。EU（欧州連合）の賛歌として。長野冬季五輪の開会式では、世界五大陸を繋いで全世界同時に。東日本大震災後の復興コンサートでも、数多く演奏されました。2024年には完成200周年を迎え、大阪・関西万博でも「1万人の第九」で開幕を飾るなど、今なお平和と団結のシンボルとして歌い継がれています。
     </div>
   </div>
 
   <!-- 5 -->
-  <div class="slabel"><div class="licon" style="background:#8B6914">🇰🇷</div>一人を大切にする心 ― 韓国・張允実さんのドラマ</div>
-  <div class="cblock">
-    <div class="cbody">
-      <p style="font-size:14px;line-height:2;color:#333">
-        1994年の福岡ドーム「アジア青年平和音楽祭」。韓国の伝統舞踊を披露した張允実（チャン・ユンシル）さんには、壮絶なドラマがありました。<br><br>
-        公演直前の交通事故で頸椎を損傷し、「今後は動けないままになる可能性が高い」と医師に告げられました。それでも彼女は信心根本に、御本尊に向かい、一枚ずつ薄紙を剥ぐようにリハビリに励み、事故から1年半――真っ白な民服に身を包み、福岡ドームの大舞台で見事に踊りきったのです。<br><br>
-        池田先生はその姿を「<strong style="color:#9B1B30">"信心"強き人こそが"仏"となる</strong>」と讃えられました。一人を大切にする。これこそが創価学会の真実の姿です。
-      </p>
+  <div class="kb">
+    <div class="kb-head"><div class="kb-ic">🔥</div><div class="kb-tt">「歓喜の歌」否定は、文化否定・人間性否定（第二次宗門問題）</div><span class="kb-ar">▶</span></div>
+    <div class="kb-body">
+      1990年11月16日の本部幹部会で歌われた、創価合唱団・富士交響楽団による第九「歓喜の歌」。これに対し宗門（日顕宗）は「外道礼讃」と難癖をつけました。それが、池田先生の総講頭罷免、そして学会への破門通告（1991年11月28日）へと至る「第二次宗門問題」の発端となった、象徴的な事件でした。<span class="kb-src">※この破門通告の日・11月28日は、学会の「魂の独立記念日」とされています。</span><br>
+      しかし池田先生は、こう断じられました。
+      <span class="kb-q">「『歓喜の歌』の否定は文化否定、人間性否定、国際性否定であり、崇高なる人間精神の否定であり、それは、とりもなおさず仏法の否定なのである」</span>
+      そしてこの1994年、創価学会は前例のない「第九」――九州での「五万人の第九」に挑みました。福岡ドームでの「アジア青年平和音楽祭」は、演目の全体を“一つのシンフォニー”に見立てた、壮大な祭典となったのです。
+    </div>
+  </div>
+
+  <!-- 6 -->
+  <div class="kb">
+    <div class="kb-head"><div class="kb-ic">📖</div><div class="kb-tt">先生のご指導①―「第35回本部幹部会」スピーチ（1990年11月16日）</div><span class="kb-ar">▶</span></div>
+    <div class="kb-body">
+      フランスの文豪ロマン・ロランは、「第九」を、嵐の生涯に打ち勝ったベートーヴェンの「精神（エスプリ）の凱歌」と位置づけている。「不幸な貧しい病身な孤独な一人の人間、まるで悩みそのもののような人間、世の中から歓喜を拒まれたその人間がみずから歓喜を造り出す――それを世界に贈りものとするために。彼は自分の不幸を用いて歓喜を鍛え出す」と。そして「悩みをつきぬけて歓喜にいたれ！」とのベートーヴェンの言葉に、彼の全生涯がこめられているとロランは結論している。<br><br>
+      耳も聞こえない。保守的な旧社会の人々からの圧迫もある。妬みもある。病気や経済的・家庭的悩みも尽きない。しかし彼は負けなかった。戦った。そして勝った。あらゆる苦悩の暗雲をつき抜けて、雲上の晴れわたる青空のごとき“歓喜の境涯”にまで自身を高めた。「第九」は、そうした人間ベートーヴェンの人生最終章の勝利の証である。<br><br>
+      仏法もまた“勝負”である。勝負である以上、当然、敵もいる。困難につぐ困難もある。しかし、それら一切に勝ちきってこそ、真実にして永遠の幸福はある。広宣流布もある。ゆえに「断じて勝利を！」と、私は声を限りに訴えたい。日蓮大聖人は「南無妙法蓮華経は歓喜の中の大歓喜なり」と仰せである。妙法を持った私どもこそが、最大にして永遠の「歓喜」を味わえる。また私どもこそ「歓喜の歌」を声高らかに歌う理由があると確信する。
+      <span class="kb-src">※「第35回本部幹部会」スピーチ（1990年11月16日）より</span>
+    </div>
+  </div>
+
+  <!-- 7 -->
+  <div class="kb">
+    <div class="kb-head"><div class="kb-ic">📕</div><div class="kb-tt">先生のご指導②―『新・人間革命』「誓願」の章／随筆「創価大学の第九」</div><span class="kb-ar">▶</span></div>
+    <div class="kb-body">
+      <strong>小説『新・人間革命』第30巻（下）「誓願」の章</strong><br>
+      なぜ、ベートーベンが、苦しみのなかで作曲し続けたのか。自身がつかんだ歓喜の境涯を、未来のため、不幸な貧しき人びとのために分け与えたかったからである――それが伸一の洞察であった。まさに、この大音楽家の一念は、学会精神に通じよう。<br><br>
+      <strong>随筆「新・人間革命」 創価大学の「第九」より</strong><br>
+      そこには、「苦悩を突き抜けよ！」と金の汗を流し、自己の課題に立ち向かった、幾つものドラマがあるだろう。「もっといいものを！」と挑戦を重ねた日々があっただろう。<br><br>
+      努力と持続と勝利！ この生命の歓びの勝鬨こそ、われらの「第九」の伝統である。<br><br>
+      民衆勝利、人間勝利の歌が轟く新時代である。<br><br>
+      その主役は青年だ。自分らしい「歓喜の歌」を歌い、正義と栄光の旗を振りながら、新しき世紀の先頭に立て！
+      <span class="kb-q">「走れ、兄弟たちよ、汝らの道を／凱歌の英雄のように歓びをもって」（歓喜の歌より）</span>
+    </div>
+  </div>
+
+  <!-- 8 -->
+  <div class="kb">
+    <div class="kb-head"><div class="kb-ic">✒️</div><div class="kb-tt">シラー「歓喜に寄す」の精神</div><span class="kb-ar">▶</span></div>
+    <div class="kb-body">
+      「第九」の歌詞のもとになった「歓喜に寄す」を書いた詩人シラーは、若き日にこう友人に語ったといいます。
+      <span class="kb-q">「本を作ろう。しかし、それは、絶対に、圧制者によって焼き捨てられるようなものでなくてはならぬ」</span>
+      権力者から『本を焼くぞ』と脅されるような正義の本を出そう――。不当な権力者から弾圧されるくらいでなければ、本物とはいえない。創価学会の精神と深く響き合う言葉です。
     </div>
   </div>
 
   <!-- 誌面アーカイブ -->
-  <div class="slabel"><div class="licon" style="background:#8B6914">📰</div>誌面で読む ―「民衆こそ王者」魂の独立宣言篇</div>
+  <div class="slabel"><div class="licon" style="background:#8B6914">📰</div>原典で読む ―「民衆こそ王者」誌面アーカイブ（さらに深く）</div>
+  <p style="font-size:12px;color:var(--muted);margin:-2px 0 10px;line-height:1.8">もっと深く学びたい方へ。月刊誌「潮」連載の誌面そのものを収めています。ページ送りは下のボタンで。「🔍 拡大」を押すとピンチ操作で大きく読めます。</p>
   <div class="mv-wrap">
     <div class="mv-tabs" id="mv-tabs"></div>
     <div class="mv-head">
@@ -658,8 +681,8 @@ footer strong{color:var(--gold-light);font-weight:400}
   <div class="cblock" style="background:#fffbf0;border-color:rgba(201,150,58,.3)">
     <div class="cbody">
       <p style="font-size:14px;line-height:2;color:#333">
-        徳島から、九州から、そして2011年の世田谷から――。創価の「第九」は、迫害を乗り越える歓喜の歌として、師弟の歴史とともに歌い継がれてきました。<br><br>
-        2026年11月29日。今度は私たちが、この精神を受け継ぎ、世田谷から新しい歓喜の歌を轟かせる番です。<br><br>
+        時代の閉塞を、青年の歓喜の歌声で打ち破りたい。何があってもがんばって生きていく――その爆発的な生命力を、人間は持っているということを、世田谷から発信していきます。<br><br>
+        九州から、そして2011年の世田谷から――。創価の「第九」は、迫害を乗り越える歓喜の歌として、師弟の歴史とともに歌い継がれてきました。2026年11月29日。今度は私たちが、この精神を受け継ぎ、世田谷から新しい歓喜の歌を轟かせる番です。<br><br>
         <strong style="color:#9B1B30">Re:Freude ～わたしたちの新しい歓喜の歌～</strong><br>
         一人ひとりが自分の壁を破り、その歓喜のドラマをもって、2030年・創立100周年への大行進を開始しましょう！
       </p>
@@ -1056,10 +1079,9 @@ initMyPart();
 const BOOKLETS = [
   { label:'①7月号', head:'📖 潮 2024年7月号「魂の独立宣言」篇①', prefix:'minshu/minshu01-', total:13 },
   { label:'②8月号', head:'📖 潮 2024年8月号「魂の独立宣言」篇②', prefix:'minshu/minshu02-', total:16 },
-  // 届き次第、下のように追加してください（コメントを外す）:
-  // { label:'③9月号',  head:'📖 潮 2024年9月号「魂の独立宣言」篇③',  prefix:'minshu/minshu03-', total:14 },
-  // { label:'⑤12月号', head:'📖 潮 2024年12月号「魂の独立宣言」篇⑤', prefix:'minshu/minshu05-', total:17 },
-  // { label:'随筆',     head:'📖 随筆「新・人間革命」宗教革命の旭日',  prefix:'minshu/zuihitsu-', total:1  },
+  { label:'③9月号', head:'📖 潮 2024年9月号「魂の独立宣言」篇③', prefix:'minshu/minshu03-', total:14 },
+  { label:'④10月号', head:'📖 潮 2024年10月号「魂の独立宣言」篇④', prefix:'minshu/minshu04-', total:16 },
+  { label:'⑤12月号', head:'📖 潮 2024年12月号「魂の独立宣言」篇⑤', prefix:'minshu/minshu05-', total:17 },
 ];
 let mvBook = 0;   // 現在の冊子（BOOKLETSの添字）
 let mvPage = 1;   // 現在のページ
@@ -1116,22 +1138,18 @@ function mvCloseModal(){
   document.getElementById('mv-modal').classList.remove('open');
   document.body.style.overflow='';
 }
-// スワイプでページ送り（ビューワー本体）
-(function(){
-  const stage = document.getElementById('mv-stage');
-  if(!stage) return;
-  let sx=0, sy=0;
-  stage.addEventListener('touchstart', e=>{ if(e.touches.length===1){ sx=e.touches[0].clientX; sy=e.touches[0].clientY; }}, {passive:true});
-  stage.addEventListener('touchend', e=>{
-    const dx = e.changedTouches[0].clientX - sx;
-    const dy = e.changedTouches[0].clientY - sy;
-    if(Math.abs(dx)>60 && Math.abs(dx)>Math.abs(dy)*1.5){ mvMove(dx<0?1:-1); }
-  }, {passive:true});
-})();
+// （ビューワーのスワイプ送りは廃止。誤って指で触れてもページが飛ばないよう、ページ送りはボタンのみにしています）
 // 初期化: 先頭の冊子の見出しを反映してから描画
 document.getElementById('mv-head-title').textContent = mvCur().head;
 mvBuildTabs();
 mvUpdate();
+
+// ── 第九の研鑽：学習カードの開閉（タップで開く） ──
+document.querySelectorAll('.kb-head').forEach(function(h){
+  h.addEventListener('click', function(){
+    h.parentElement.classList.toggle('open');
+  });
+});
 
 
 
