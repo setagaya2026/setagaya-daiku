@@ -4,6 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Re:Freude 世田谷ユースアクションフェス 練習サイト</title>
+<meta name="description" content="Re:Freude ～わたしたちの新しい歓喜の歌～ 世田谷ユースアクションフェスの第九（合唱）練習サイト。練習日程・映像アーカイブ・パート別練習動画・誌面研鑽をまとめています。本番 2026年11月29日。">
+<meta name="theme-color" content="#1a1208">
+<!-- OGP / SNSシェア用 -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Re:Freude 練習サイト">
+<meta property="og:title" content="Re:Freude ～わたしたちの新しい歓喜の歌～">
+<meta property="og:description" content="世田谷ユースアクションフェス 第九（合唱）練習サイト。練習日程・映像・パート別練習・誌面研鑽。本番 2026.11.29。">
+<meta property="og:url" content="https://setagaya2026.github.io/setagaya-daiku/">
+<meta property="og:image" content="https://setagaya2026.github.io/setagaya-daiku/ogp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<!-- ファビコン（画像ファイル不要のインラインSVG）／ホーム画面アイコン -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231a1208'/%3E%3Ctext x='32' y='44' font-size='38' font-family='serif' font-weight='bold' fill='%23e8c06a' text-anchor='middle'%3E九%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -24,6 +39,20 @@ header h1{font-family:'Noto Serif JP',serif;font-weight:900;font-size:clamp(24px
 header h1 span{color:var(--gold-light)}
 .hsub{color:rgba(255,255,255,.55);font-size:13px;letter-spacing:.1em;margin-top:12px;font-weight:300}
 .hdiv{width:60px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:20px auto 0}
+
+/* ── MEANING CARD（なぜ第九を歌うのか） ── */
+.meaning-card{background:linear-gradient(135deg,#1a1208 0%,#2d1a0a 50%,#1a1208 100%);color:#fff;border-radius:10px;padding:32px 28px;margin:0 0 24px;position:relative;overflow:hidden;border:1px solid rgba(201,150,58,.25)}
+.meaning-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 0%,rgba(155,27,48,.35) 0%,transparent 55%),radial-gradient(ellipse at 85% 100%,rgba(201,150,58,.18) 0%,transparent 55%);pointer-events:none}
+.meaning-card::after{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,transparent,transparent 22px,rgba(201,150,58,1) 22px,rgba(201,150,58,1) 23px);opacity:.05;pointer-events:none}
+.meaning-label{position:relative;display:inline-block;font-size:10px;letter-spacing:.3em;color:var(--gold-light);border:1px solid rgba(201,150,58,.5);padding:4px 14px;margin-bottom:18px;font-weight:300}
+.meaning-title{position:relative;font-family:'Noto Serif JP',serif;font-weight:900;font-size:clamp(22px,5.4vw,32px);line-height:1.45;letter-spacing:.04em;margin-bottom:24px;color:#fff}
+.meaning-title .accent{color:var(--gold-light)}
+.meaning-body{position:relative}
+.meaning-body p{font-size:14px;line-height:2.05;color:rgba(255,255,255,.9);margin-bottom:18px}
+.meaning-body p:last-child{margin-bottom:0}
+.meaning-body strong{color:var(--gold-light);font-weight:700}
+.meaning-finale{margin-top:24px;padding-top:20px;border-top:1px solid rgba(201,150,58,.25);font-size:14px;line-height:2.05}
+@media(max-width:520px){.meaning-card{padding:26px 22px}.meaning-body p,.meaning-finale{font-size:13.5px;line-height:2}}
 
 /* ── COUNTDOWN ── */
 .cdbar{background:linear-gradient(135deg,var(--crimson-dark),var(--crimson));padding:20px 16px;text-align:center;position:relative;overflow:hidden}
@@ -318,9 +347,42 @@ footer strong{color:var(--gold-light);font-weight:400}
   .sng-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr))}
   .cdn{font-size:42px}
 }
+/* ── 追加: 次回練習ハイライト ── */
+.sch-item.next{opacity:1;background:linear-gradient(90deg,rgba(201,150,58,.14),transparent);border-left:4px solid var(--gold);box-shadow:0 2px 12px rgba(201,150,58,.18)}
+.sch-next-tag{display:inline-block;background:var(--gold);color:var(--dark);font-size:10px;font-weight:700;letter-spacing:.08em;padding:2px 8px;border-radius:10px;margin-bottom:4px}
+.sch-item.next .sch-d{color:var(--crimson)}
+/* ── 追加: 会場マップリンク ── */
+.map-link{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:7px 15px;font-size:12px;font-weight:700;text-decoration:none;margin-top:10px;transition:background .2s}
+.map-link:hover{background:rgba(255,255,255,.26)}
+.map-link.dark{background:#fff;color:var(--navy-dark);border-color:transparent}
+/* ── 追加: 誌面ビューワー 読み込み中/エラー ── */
+.mv-stage{position:relative}
+.mv-loading{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:rgba(250,246,239,.65);z-index:3}
+.mv-stage.loading .mv-loading{display:flex}
+.mv-spin{width:34px;height:34px;border:3px solid rgba(155,27,48,.25);border-top-color:var(--crimson);border-radius:50%;animation:mvspin .8s linear infinite}
+@keyframes mvspin{to{transform:rotate(360deg)}}
+.mv-error{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:var(--cream);z-index:4;padding:20px;text-align:center;color:var(--muted);font-size:13px}
+.mv-stage.error .mv-error{display:flex}
+.mv-retry{background:var(--crimson);color:#fff;border:none;border-radius:20px;padding:8px 18px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif}
+/* ── 追加: 続きから読む ── */
+.mv-resume{display:none;align-items:center;gap:8px;width:100%;background:linear-gradient(135deg,var(--navy),var(--navy-dark));color:#fff;border:none;border-radius:8px;padding:11px 14px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;margin-bottom:12px;text-align:left}
+.mv-resume.show{display:flex}
+.mv-resume .mvr-go{margin-left:auto;background:var(--gold);color:var(--dark);border-radius:14px;padding:4px 12px;font-size:11px}
+/* ── 追加: トップへ戻る ── */
+#toTop{position:fixed;right:16px;bottom:84px;width:46px;height:46px;border-radius:50%;background:var(--crimson);color:#fff;border:2px solid rgba(255,255,255,.25);font-size:20px;cursor:pointer;z-index:9000;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+#toTop.show{opacity:1;visibility:visible}
+/* ── 追加: YouTube遅延読み込み（サムネ＋再生ボタン） ── */
+.yt-wrap.yt-facade{cursor:pointer;background-size:cover;background-position:center}
+.yt-wrap.yt-facade::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.28);transition:background .2s}
+.yt-wrap.yt-facade:hover::after{background:rgba(0,0,0,.12)}
+.yt-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:68px;height:48px;border:none;border-radius:12px;background:rgba(220,40,40,.92);color:#fff;font-size:22px;line-height:1;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center;padding-left:4px;box-shadow:0 2px 10px rgba(0,0,0,.4)}
+.yt-wrap.yt-facade:hover .yt-play{background:rgba(255,0,0,.98)}
+/* ── 追加: JS無効時 ── */
+.noscript-warn{background:var(--crimson);color:#fff;text-align:center;padding:14px;font-size:13px;line-height:1.6}
 </style>
 </head>
 <body>
+<noscript><div class="noscript-warn">このサイトは JavaScript を有効にすると、練習日程・誌面ビューワーなどすべての機能をご利用いただけます。ブラウザの設定をご確認ください。</div></noscript>
 
 <!-- HEADER -->
 <header>
@@ -369,6 +431,21 @@ footer strong{color:var(--gold-light);font-weight:400}
 
 <!-- ── HOME ── -->
 <div class="section active" id="sec-home">
+
+  <!-- ── なぜ第九を歌うのか ── -->
+  <div class="meaning-card">
+    <div class="meaning-label">Why we sing</div>
+    <h2 class="meaning-title">なぜ、私たちは<br><span class="accent">「歓喜の歌」</span>を歌うのか</h2>
+    <div class="meaning-body">
+      <p>ベートーヴェンが「歓喜の歌」に込めた確信は、たった一つだった。<br><strong>——人類は、必ずひとつになれる。</strong></p>
+      <p>二百年のあいだ、この歌は国境も言語も越えてきた。ベルリンの壁が崩れた夜にも、戦火の止んだ広場にも、第九は響いていた。</p>
+      <p>2011年11月27日、池田講堂。<br>“魂の独立”から二十年の節目に、400名のフロイデ合唱団がこの歌を歌い上げた日、先生はこう寄せてくださった。<br>「<strong>今日の会合は、2030年への出発です</strong>」と。</p>
+      <p>あれから15年。約束の年まで、あと4年。<br><strong>次に歌うのは、私たちだ。</strong></p>
+      <p>誰かのために歌うのではない。自分の中でまだ眠っている歓喜を、解き放つために歌う。一人の歓喜は、必ず誰かの歓喜を呼び覚ます。その連鎖こそが、世界を動かす力になる。</p>
+      <p class="meaning-finale"><strong>『Re：Freude』</strong>——わたしたちの、新しい歓喜の歌。<br>2026年11月29日。<strong>次の物語は、あなたの一声から始まる。</strong></p>
+    </div>
+  </div>
+
   <div class="slabel"><div class="licon">📅</div>次回の練習</div>
   <div class="next-bar">
     <div class="next-bar-icon">🎵</div>
@@ -468,6 +545,7 @@ footer strong{color:var(--gold-light);font-weight:400}
   <div class="calh">
     <h2>📅 練習日程・スケジュール</h2>
     <p>各回の練習箇所（🎼マーク）も掲載しています。<br>「📅+」ボタンで自分のGoogleカレンダーに追加できます。</p>
+    <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E5%89%B5%E4%BE%A1%E5%AD%A6%E4%BC%9A%E6%9D%B1%E4%BA%AC%E6%B1%A0%E7%94%B0%E8%A8%98%E5%BF%B5%E8%AC%9B%E5%A0%82+%E4%B8%96%E7%94%B0%E8%B0%B7%E5%8C%BA%E7%94%A8%E8%B3%803-1-1" target="_blank" rel="noopener">📍 会場の地図を開く（東京池田記念講堂）</a>
   </div>
 
   <!-- 説明バナー -->
@@ -503,7 +581,7 @@ footer strong{color:var(--gold-light);font-weight:400}
     </div>
     <div class="cbody">
       <div class="yt-wrap">
-        <iframe src="https://www.youtube.com/embed/3YpVNQF4E3E" allowfullscreen
+        <iframe data-src="https://www.youtube.com/embed/3YpVNQF4E3E" allowfullscreen
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
         </iframe>
       </div>
@@ -529,7 +607,7 @@ footer strong{color:var(--gold-light);font-weight:400}
     </div>
     <div class="cbody">
       <div class="yt-wrap">
-        <iframe src="https://www.youtube.com/embed/1ZQaO3Hn8bc" allowfullscreen
+        <iframe data-src="https://www.youtube.com/embed/1ZQaO3Hn8bc" allowfullscreen
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
         </iframe>
       </div>
@@ -564,7 +642,7 @@ footer strong{color:var(--gold-light);font-weight:400}
   </div>
 
   <!-- 学習カード（タップで開閉） -->
-  <div class="kb open">
+  <div class="kb">
     <div class="kb-head"><div class="kb-ic">🎼</div><div class="kb-tt">「第九」とは ― 常識を破った歓喜の交響曲</div><span class="kb-ar">▶</span></div>
     <div class="kb-body">
       1824年完成。ベートーヴェン9番目にして最後の交響曲です。20代の頃から、シラーの詩「歓喜に寄す」を題材に作曲したいと構想すること、およそ30年。苦難の渦中にあった53歳のとき、ついに完成させました。<br><br>
@@ -648,12 +726,15 @@ footer strong{color:var(--gold-light);font-weight:400}
   <p style="font-size:12px;color:var(--muted);margin:-2px 0 10px;line-height:1.8">もっと深く学びたい方へ。月刊誌「潮」連載の誌面そのものを収めています。ページ送りは下のボタンで。「🔍 拡大」を押すとピンチ操作で大きく読めます。</p>
   <div class="mv-wrap">
     <div class="mv-tabs" id="mv-tabs"></div>
+    <button class="mv-resume" id="mv-resume" onclick="mvResume()"><span id="mv-resume-text">前回の続きから読む</span><span class="mvr-go">続きから ▶</span></button>
     <div class="mv-head">
       <span class="mv-head-title" id="mv-head-title">📖 潮 2024年7月号「魂の独立宣言」篇①</span>
       <span class="mv-page-ind"><span id="mv-cur">1</span> / <span id="mv-total">13</span></span>
     </div>
     <div class="mv-stage" id="mv-stage">
-      <img id="mv-img" src="minshu/minshu01-01.jpg" alt="民衆こそ王者 誌面">
+      <img id="mv-img" src="minshu/minshu01-01.jpg" alt="民衆こそ王者 誌面" loading="lazy">
+      <div class="mv-loading"><div class="mv-spin"></div></div>
+      <div class="mv-error">📵 画像を読み込めませんでした。<button class="mv-retry" onclick="mvUpdate()">再読み込み</button></div>
     </div>
     <div class="mv-controls">
       <button class="mv-btn" id="mv-prev" onclick="mvMove(-1)">← 前のページ</button>
@@ -697,7 +778,7 @@ footer strong{color:var(--gold-light);font-weight:400}
     <div class="cbh"><div class="cnum" style="background:#c0392b">▶</div><span class="ctitle">ソプラノ 練習動画</span></div>
     <div class="cbody">
       <div class="yt-wrap">
-        <iframe src="https://www.youtube.com/embed/MkPEjuVkQI4" allowfullscreen
+        <iframe data-src="https://www.youtube.com/embed/MkPEjuVkQI4" allowfullscreen
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
         </iframe>
       </div>
@@ -712,7 +793,7 @@ footer strong{color:var(--gold-light);font-weight:400}
     <div class="cbh"><div class="cnum" style="background:#8e44ad">▶</div><span class="ctitle">アルト 練習動画</span></div>
     <div class="cbody">
       <div class="yt-wrap">
-        <iframe src="https://www.youtube.com/embed/RwXUgXEg_rI" allowfullscreen
+        <iframe data-src="https://www.youtube.com/embed/RwXUgXEg_rI" allowfullscreen
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
         </iframe>
       </div>
@@ -727,7 +808,7 @@ footer strong{color:var(--gold-light);font-weight:400}
     <div class="cbh"><div class="cnum" style="background:#2471a3">1</div><span class="ctitle">第1テノール 練習動画</span></div>
     <div class="cbody">
       <div class="yt-wrap">
-        <iframe src="https://www.youtube.com/embed/njSh-mxfDDg" allowfullscreen
+        <iframe data-src="https://www.youtube.com/embed/njSh-mxfDDg" allowfullscreen
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
         </iframe>
       </div>
@@ -737,7 +818,7 @@ footer strong{color:var(--gold-light);font-weight:400}
     <div class="cbh"><div class="cnum" style="background:#2471a3">2</div><span class="ctitle">第2テノール 練習動画</span></div>
     <div class="cbody">
       <div class="yt-wrap">
-        <iframe src="https://www.youtube.com/embed/zaJUoOANy74" allowfullscreen
+        <iframe data-src="https://www.youtube.com/embed/zaJUoOANy74" allowfullscreen
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
         </iframe>
       </div>
@@ -752,7 +833,7 @@ footer strong{color:var(--gold-light);font-weight:400}
     <div class="cbh"><div class="cnum" style="background:#1e8449">▶</div><span class="ctitle">バス 練習動画</span></div>
     <div class="cbody">
       <div class="yt-wrap">
-        <iframe src="https://www.youtube.com/embed/hYVGSnNo3Ck" allowfullscreen
+        <iframe data-src="https://www.youtube.com/embed/hYVGSnNo3Ck" allowfullscreen
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
         </iframe>
       </div>
@@ -770,7 +851,7 @@ footer strong{color:var(--gold-light);font-weight:400}
   <div class="slabel"><div class="licon">🎙</div>発声練習動画</div>
   <div class="cblock"><div class="cbh"><div class="cnum" style="background:#5d4037">1</div><span class="ctitle">発声練習動画①</span></div><div class="cbody"><div class="eplace"><div class="icon">🎬</div><div>YouTube動画を埋め込み</div></div></div></div>
   <div class="icards">
-    <div class="icard"><h3>📅 本番情報</h3><p>本番日：2026年11月29日（日）<br>午後・夜の2回公演予定<br>リハーサル：11月28日（土）</p></div>
+    <div class="icard"><h3>📅 本番情報</h3><p>本番日：2026年11月29日（日）<br>午後・夜の2回公演予定<br>リハーサル：11月28日（土）</p><a class="map-link dark" href="https://www.google.com/maps/search/?api=1&query=%E5%89%B5%E4%BE%A1%E5%AD%A6%E4%BC%9A%E6%9D%B1%E4%BA%AC%E6%B1%A0%E7%94%B0%E8%A8%98%E5%BF%B5%E8%AC%9B%E5%A0%82+%E4%B8%96%E7%94%B0%E8%B0%B7%E5%8C%BA%E7%94%A8%E8%B3%803-1-1" target="_blank" rel="noopener">📍 会場の地図</a></div>
     <div class="icard"><h3>📝 スケジュール</h3><p>6月21日（日）17:00〜 結団式<br>7月〜 毎週日曜 19:00〜20:30<br>東京池田記念講堂 2F講堂<br>※8月9日・16日はお休み</p></div>
   </div>
 </div>
@@ -793,6 +874,8 @@ footer strong{color:var(--gold-light);font-weight:400}
   世田谷ユースアクションフェス 2026.11.29<br>
   <span style="font-size:10px;margin-top:4px;display:block">世田谷ユースアクションフェス実行委員会</span>
 </footer>
+
+<button id="toTop" aria-label="ページ上部へ戻る" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <script>
 // ── COUNTDOWN ──
@@ -871,6 +954,7 @@ function buildSch(){
       </div>
       <div class="sch-divider"></div>
       <div class="sch-info">
+        ${(!past&&!nf)?'<span class="sch-next-tag">🔜 次回</span><br>':''}
         <div class="sch-title">${ev.title}</div>
         <div class="sch-sub">${ev.detail}</div>
         ${ev.song ? `<div class="sch-song">🎼 ${ev.song}</div>` : ''}
@@ -878,6 +962,7 @@ function buildSch(){
       <span class="badge ${ev.badge}" style="margin-right:6px">${ev.btext}</span>
       <a href="${gcalUrl(ev)}" target="_blank" class="gcal-add-btn" title="Googleカレンダーに追加">📅+</a>
     `;
+    if(!past&&!nf){ el.classList.add('next'); }
     c.appendChild(el);
     if(!past&&!nf){nf=true;document.getElementById('home-next-date').textContent=`${d.getMonth()+1}月${d.getDate()}日（${DOW[d.getDay()]}）${ev.title}`;document.getElementById('home-next-sub').textContent=ev.detail;}
   });
@@ -897,8 +982,8 @@ function initMyPart(){
   const saved = localStorage.getItem('mypart');
   if(saved && PART_INFO[saved]){
     showMyPartBanner(saved);
-    // 初回アクセス時はマイパートページへ自動ジャンプ
-    if(!sessionStorage.getItem('visited')){
+    // 初回アクセス時はマイパートページへ自動ジャンプ（ただし共有リンクで開いた場合は尊重）
+    if(!sessionStorage.getItem('visited') && (!location.hash || location.hash==='#home')){
       sessionStorage.setItem('visited','1');
       setTimeout(()=>showSection(saved, null), 400);
     }
@@ -939,15 +1024,27 @@ function resetMyPart(){
 }
 
 // ── NAV ──
-function showSection(name,link){
+function _setSection(name,link){
+  if(!document.getElementById('sec-'+name)) name='home';
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
   document.getElementById('sec-'+name).classList.add('active');
   const labels={home:'ホーム',schedule:'📅 練習日程',video:'🎬 映像アーカイブ',freude:'📖 フロイデVoice',daiku:'📜 第九の研鑽',soprano:'ソプラノ',alto:'アルト',tenor:'テノール',bass:'バス',info:'指導・情報'};
   if(link){link.classList.add('active');}
   else{document.querySelectorAll('nav a').forEach(a=>{if(a.textContent.trim()===labels[name])a.classList.add('active');});}
+  if(name==='schedule'){
+    const nx=document.querySelector('.sch-item.next');
+    if(nx){ nx.scrollIntoView({behavior:'smooth',block:'center'}); return; }
+  }
   window.scrollTo({top:0,behavior:'smooth'});
 }
+function showSection(name,link){
+  _setSection(name,link);
+  if(('#'+name)!==location.hash){ history.pushState({s:name},'','#'+name); }
+}
+window.addEventListener('popstate',function(){
+  _setSection((location.hash||'#home').slice(1),null);
+});
 function st(btn,type,part){
   btn.closest('.ttabs').querySelectorAll('.ttab').forEach(t=>t.classList.remove('active'));
   btn.classList.add('active');
@@ -1085,6 +1182,8 @@ const BOOKLETS = [
 ];
 let mvBook = 0;   // 現在の冊子（BOOKLETSの添字）
 let mvPage = 1;   // 現在のページ
+let _mvFirst = true;     // 初回描画はしおり保存しない
+let _mvBookmark = null;  // 前回の続き（保存スナップショット）
 function mvCur(){ return BOOKLETS[mvBook]; }
 function mvSrc(p){ return mvCur().prefix + String(p).padStart(2,'0') + '.jpg'; }
 function mvBuildTabs(){
@@ -1111,8 +1210,15 @@ function mvSelectBook(i){
 }
 function mvUpdate(){
   const total = mvCur().total;
-  document.getElementById('mv-img').src = mvSrc(mvPage);
-  document.getElementById('mv-modal-img').src = mvSrc(mvPage);
+  const stage = document.getElementById('mv-stage');
+  const img = document.getElementById('mv-img');
+  const src = mvSrc(mvPage);
+  stage.classList.remove('error'); stage.classList.add('loading');
+  img.onload = function(){ stage.classList.remove('loading'); };
+  img.onerror = function(){ stage.classList.remove('loading'); stage.classList.add('error'); };
+  img.src = src;
+  if(img.complete && img.naturalWidth>0){ stage.classList.remove('loading'); }
+  document.getElementById('mv-modal-img').src = src;
   document.getElementById('mv-cur').textContent = mvPage;
   document.getElementById('mv-m-cur').textContent = mvPage;
   document.getElementById('mv-total').textContent = total;
@@ -1121,6 +1227,33 @@ function mvUpdate(){
   document.getElementById('mv-next').disabled = mvPage===total;
   document.getElementById('mv-m-prev').disabled = mvPage===1;
   document.getElementById('mv-m-next').disabled = mvPage===total;
+  // 次・前ページを先読み（体感ゼロ秒のページ送り）
+  [mvPage+1, mvPage-1].forEach(function(p){ if(p>=1 && p<=total){ const im=new Image(); im.src=mvSrc(p); } });
+  // しおり保存（初回描画は除く）
+  if(_mvFirst){ _mvFirst=false; }
+  else { try{ localStorage.setItem('mv-last', mvBook+':'+mvPage); }catch(e){} }
+}
+// 前回の続き：パネル表示
+function mvInitResume(){
+  try{ _mvBookmark = localStorage.getItem('mv-last'); }catch(e){ _mvBookmark=null; }
+  if(!_mvBookmark) return;
+  const a=_mvBookmark.split(':'); const b=+a[0], p=+a[1];
+  if(!(b>=0 && b<BOOKLETS.length)){ _mvBookmark=null; return; }
+  if(b===0 && p<=1){ _mvBookmark=null; return; } // 先頭なら出さない
+  document.getElementById('mv-resume-text').textContent='前回の続き（'+BOOKLETS[b].label+' '+p+'ページ）から読む';
+  document.getElementById('mv-resume').classList.add('show');
+}
+// 前回の続き：実行
+function mvResume(){
+  if(!_mvBookmark) return;
+  const a=_mvBookmark.split(':'); const b=+a[0], p=+a[1];
+  mvBook=b;
+  document.getElementById('mv-head-title').textContent=mvCur().head;
+  mvBuildTabs();
+  mvPage=Math.min(Math.max(1,p), mvCur().total);
+  mvUpdate();
+  document.getElementById('mv-resume').classList.remove('show');
+  document.getElementById('mv-stage').scrollIntoView({behavior:'smooth',block:'center'});
 }
 function mvMove(d){
   const total = mvCur().total;
@@ -1143,6 +1276,14 @@ function mvCloseModal(){
 document.getElementById('mv-head-title').textContent = mvCur().head;
 mvBuildTabs();
 mvUpdate();
+mvInitResume();
+// 拡大モーダル：キーボード操作（←→でページ送り／Escで閉じる）
+document.addEventListener('keydown', function(e){
+  if(!document.getElementById('mv-modal').classList.contains('open')) return;
+  if(e.key==='ArrowRight'){ mvMove(1); }
+  else if(e.key==='ArrowLeft'){ mvMove(-1); }
+  else if(e.key==='Escape'){ mvCloseModal(); }
+});
 
 // ── 第九の研鑽：学習カードの開閉（タップで開く） ──
 document.querySelectorAll('.kb-head').forEach(function(h){
@@ -1151,7 +1292,42 @@ document.querySelectorAll('.kb-head').forEach(function(h){
   });
 });
 
+// ── トップへ戻るボタンの表示制御 ──
+(function(){
+  const t=document.getElementById('toTop');
+  if(!t) return;
+  window.addEventListener('scroll', function(){
+    if(window.scrollY>400){ t.classList.add('show'); } else { t.classList.remove('show'); }
+  }, {passive:true});
+})();
 
+// ── YouTube遅延読み込み（サムネ＋再生ボタン。クリックで初めて読み込み）──
+document.querySelectorAll('.yt-wrap iframe').forEach(function(f){
+  const ds=f.getAttribute('data-src')||f.getAttribute('src')||'';
+  const m=ds.match(/embed\/([\w-]+)/);
+  if(!m) return;
+  const id=m[1];
+  const w=f.closest('.yt-wrap');
+  w.classList.add('yt-facade');
+  w.style.backgroundImage="url(https://i.ytimg.com/vi/"+id+"/hqdefault.jpg)";
+  w.innerHTML='<button class="yt-play" aria-label="動画を再生">▶</button>';
+  w.addEventListener('click', function(){
+    const ifr=document.createElement('iframe');
+    ifr.src="https://www.youtube.com/embed/"+id+"?autoplay=1&rel=0";
+    ifr.setAttribute('allow','accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+    ifr.setAttribute('allowfullscreen','');
+    w.classList.remove('yt-facade');
+    w.style.backgroundImage='';
+    w.innerHTML='';
+    w.appendChild(ifr);
+  }, {once:true});
+});
+
+// ── 共有リンク（#schedule 等）で開いた場合、その画面を表示 ──
+(function(){
+  const n=(location.hash||'').slice(1);
+  if(n && document.getElementById('sec-'+n)){ _setSection(n,null); }
+})();
 
 </script>
 </body>
