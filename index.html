@@ -379,6 +379,13 @@ footer strong{color:var(--gold-light);font-weight:400}
 .yt-wrap.yt-facade:hover .yt-play{background:rgba(255,0,0,.98)}
 /* ── 追加: JS無効時 ── */
 .noscript-warn{background:var(--crimson);color:#fff;text-align:center;padding:14px;font-size:13px;line-height:1.6}
+/* ── 追加: トップお知らせバナー ── */
+.notice-banner{background:linear-gradient(135deg,#FFC93C,#FFB400);border:2px solid #e09b00;border-radius:10px;padding:14px 16px;margin-bottom:16px;display:flex;gap:12px;align-items:flex-start;box-shadow:0 3px 12px rgba(224,155,0,.25);animation:noticePulse 2.4s ease-in-out infinite}
+@keyframes noticePulse{0%,100%{box-shadow:0 3px 12px rgba(224,155,0,.25)}50%{box-shadow:0 3px 18px rgba(224,155,0,.5)}}
+.notice-banner .nb-icon{font-size:26px;flex-shrink:0;line-height:1.2}
+.notice-banner .nb-title{font-size:14px;font-weight:900;color:#4a2c00;margin-bottom:4px;letter-spacing:.02em}
+.notice-banner .nb-body{font-size:12.5px;color:#5d3a00;line-height:1.7}
+.notice-banner .nb-body strong{color:#9b1b30}
 </style>
 </head>
 <body>
@@ -432,6 +439,15 @@ footer strong{color:var(--gold-light);font-weight:400}
 <!-- ── HOME ── -->
 <div class="section active" id="sec-home">
 
+  <!-- ── お知らせ：練習時間の変更 ── -->
+  <div class="notice-banner">
+    <div class="nb-icon">📢</div>
+    <div>
+      <div class="nb-title">【重要】8月23日から練習時間が変わります</div>
+      <div class="nb-body">8月23日（日）の第6回練習より、<strong>17:50集合／19:30練習終了</strong>に変更になりました。<br>お間違えのないようお越しください。（練習日程のページにも反映済みです）<br>※すでに「📅+」でGoogleカレンダーに登録済みの方は、旧時刻のままになっています。お手数ですが、8/23以降の回を一度削除して、練習日程のページから登録し直してください。</div>
+    </div>
+  </div>
+
   <!-- ── なぜ第九を歌うのか ── -->
   <div class="meaning-card">
     <div class="meaning-label">Why we sing</div>
@@ -459,7 +475,7 @@ footer strong{color:var(--gold-light);font-weight:400}
 
   <div class="slabel"><div class="licon">🎬</div>映像アーカイブ</div>
   <div class="cblock" style="cursor:pointer" onclick="showSection('video',null)">
-    <div class="cbh"><div class="cnum" style="background:#1a1208">▶</div><span class="ctitle">2011年 世田谷第九合唱祭 / 2025年 九州アジア平和フェスタ</span></div>
+    <div class="cbh"><div class="cnum" style="background:#1a1208">▶</div><span class="ctitle">結団式（2026.6.21）/ 2011年 世田谷第九合唱祭 / 2025年 九州アジア平和フェスタ</span></div>
     <div class="cbody" style="display:flex;justify-content:space-between;align-items:center;gap:12px">
       <p style="font-size:13px;color:var(--muted);line-height:1.7">先輩たちの歓喜の歌声を観て、本番への思いを高めよう！</p>
       <div style="background:#1a1208;color:var(--gold-light);padding:10px 16px;border-radius:4px;font-size:13px;font-weight:700;white-space:nowrap;flex-shrink:0">観る →</div>
@@ -557,6 +573,23 @@ footer strong{color:var(--gold-light);font-weight:400}
   <div class="vid-header">
     <h2>🎬 映像アーカイブ</h2>
     <p>先輩たちの歓喜の歌声を観て、本番への思いを高めよう！</p>
+  </div>
+
+  <!-- 2026年 結団式 -->
+  <div class="slabel"><div class="licon" style="background:#5B3FE0">🎉</div>2026年6月21日 Re:Freude合唱 結団式</div>
+  <div class="cblock">
+    <div class="cbh">
+      <div class="cnum" style="background:#5B3FE0">▶</div>
+      <span class="ctitle">リ・フロイデ合唱 結団式（2026年6月21日）</span>
+    </div>
+    <div class="cbody">
+      <div class="yt-wrap">
+        <iframe data-src="https://www.youtube.com/embed/9jqe-JkIM6Y" allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+        </iframe>
+      </div>
+      <p class="enote" style="margin-top:10px">🎉 私たちの挑戦はここから始まった！ 結団式の感動をもう一度。</p>
+    </div>
   </div>
 
   <!-- 2011年 世田谷 -->
@@ -834,12 +867,14 @@ footer strong{color:var(--gold-light);font-weight:400}
   <div class="slabel"><div class="licon">📖</div>合唱指導のススメ</div>
   <div class="cblock"><div class="cbh"><div class="cnum" style="background:#5d4037">1</div><span class="ctitle">合唱指導のススメ①</span></div><div class="cbody"><div class="eplace"><div class="icon">📄</div><div>コンテンツを埋め込み</div></div></div></div>
   <div class="slabel"><div class="licon">🎬</div>技術指導動画</div>
-  <div class="cblock"><div class="cbh"><div class="cnum" style="background:#5d4037">1</div><span class="ctitle">技術指導動画①</span></div><div class="cbody"><div class="eplace"><div class="icon">🎬</div><div>YouTube動画を埋め込み</div></div></div></div>
+  <div class="cblock"><div class="cbh"><div class="cnum" style="background:#5d4037">1</div><span class="ctitle">呼吸法と歌う姿勢</span></div><div class="cbody"><div class="yt-wrap"><iframe data-src="https://www.youtube.com/embed/LCPk8mOHQvQ" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div><p class="enote" style="margin-top:10px">🫁 歌声の土台は呼吸と姿勢から。練習前にチェック！</p></div></div>
   <div class="slabel"><div class="licon">🎙</div>発声練習動画</div>
-  <div class="cblock"><div class="cbh"><div class="cnum" style="background:#5d4037">1</div><span class="ctitle">発声練習動画①</span></div><div class="cbody"><div class="eplace"><div class="icon">🎬</div><div>YouTube動画を埋め込み</div></div></div></div>
+  <div class="cblock"><div class="cbh"><div class="cnum" style="background:#5d4037">1</div><span class="ctitle">発声練習</span></div><div class="cbody"><div class="yt-wrap"><iframe data-src="https://www.youtube.com/embed/UsRgsnCAtI0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div><p class="enote" style="margin-top:10px">🎙 のどを開いて、響く声へ。おうちでの自主練にも！</p></div></div>
+  <div class="slabel"><div class="licon">🗣</div>発音練習動画</div>
+  <div class="cblock"><div class="cbh"><div class="cnum" style="background:#5d4037">1</div><span class="ctitle">発音練習</span></div><div class="cbody"><div class="yt-wrap"><iframe data-src="https://www.youtube.com/embed/qK9Da8lCFXU" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div><p class="enote" style="margin-top:10px">🗣 ドイツ語の発音はここでマスター。歌詞がぐっと歌いやすくなります！</p></div></div>
   <div class="icards">
-    <div class="icard"><h3>📅 本番情報</h3><p>本番日：2026年11月29日（日）<br>午後・夜の2回公演予定<br>リハーサル：11月28日（土）</p><a class="map-link dark" href="https://www.google.com/maps/search/?api=1&query=%E5%89%B5%E4%BE%A1%E5%AD%A6%E4%BC%9A%E6%9D%B1%E4%BA%AC%E6%B1%A0%E7%94%B0%E8%A8%98%E5%BF%B5%E8%AC%9B%E5%A0%82+%E4%B8%96%E7%94%B0%E8%B0%B7%E5%8C%BA%E7%94%A8%E8%B3%803-1-1" target="_blank" rel="noopener">📍 会場の地図</a></div>
-    <div class="icard"><h3>📝 スケジュール</h3><p>6月21日（日）17:00〜 結団式<br>7月〜 毎週日曜 19:00〜20:30<br>東京池田記念講堂 2F講堂<br>※8月9日・16日はお休み</p></div>
+    <div class="icard"><h3>📅 本番情報</h3><p>本番日：2026年11月29日（日）<br>第1回公演：12:30集合／14:00スタート<br>第2回公演：16:00集合／17:30スタート<br>リハーサル：11月28日（土）</p><a class="map-link dark" href="https://www.google.com/maps/search/?api=1&query=%E5%89%B5%E4%BE%A1%E5%AD%A6%E4%BC%9A%E6%9D%B1%E4%BA%AC%E6%B1%A0%E7%94%B0%E8%A8%98%E5%BF%B5%E8%AC%9B%E5%A0%82+%E4%B8%96%E7%94%B0%E8%B0%B7%E5%8C%BA%E7%94%A8%E8%B3%803-1-1" target="_blank" rel="noopener">📍 会場の地図</a></div>
+    <div class="icard"><h3>📝 スケジュール</h3><p>6月21日（日）17:00〜 結団式<br>7月〜 毎週日曜 19:00〜20:30<br><strong>8月23日〜 毎週日曜 17:50集合／19:30終了</strong><br>東京池田記念講堂 2F講堂<br>※8月9日・16日はお休み</p></div>
   </div>
 </div>
 
@@ -866,7 +901,7 @@ footer strong{color:var(--gold-light);font-weight:400}
 
 <script>
 // ── COUNTDOWN ──
-const TARGET=new Date('2026-11-29T13:00:00+09:00');
+const TARGET=new Date('2026-11-29T14:00:00+09:00');
 function updateCD(){
   const diff=TARGET-new Date();
   if(diff<=0){document.querySelector('.cdbar').innerHTML='<div style="color:var(--gold-light);font-family:Noto Serif JP,serif;font-size:22px;font-weight:700;text-align:center;position:relative;padding:20px">🎉 本番当日！フロイデー！！！</div>';return;}
@@ -887,22 +922,22 @@ const SCH=[
   {date:'2026-07-19',title:'第3回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'D(257-264)・E(282-292) Deine Zauber〜diesem Bund ※男声は237〜Freude!あり'},
   {date:'2026-07-26',title:'第4回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'G(313-330)① Küsse gab〜vor Gott'},
   {date:'2026-08-02',title:'第5回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'G(313-330)① Küsse gab〜vor Gott'},
-  {date:'2026-08-23',title:'第6回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'(595-626)① Seid um〜Vater wohnen'},
-  {date:'2026-08-30',title:'第7回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'(595-626)② Seid um〜Vater wohnen'},
-  {date:'2026-09-06',title:'第8回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'(631-654) Ihr stürzt〜vor Gott'},
-  {date:'2026-09-13',title:'第9回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'(631-654) Ihr stürzt〜vor Gott'},
-  {date:'2026-09-20',title:'第10回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'(655-729)① Freude schöner〜Heiligtum / Seid um〜ganzen Welt ※可能なら4パート別'},
-  {date:'2026-09-27',title:'第11回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'(655-729)② Freude schöner〜Heiligtum / Seid um〜ganzen Welt ※可能なら4パート別'},
-  {date:'2026-10-04',title:'第12回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'(655-729)③ Freude schöner〜Heiligtum / Seid um〜ganzen Welt ※男女別'},
-  {date:'2026-10-11',title:'第13回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'R(730-762) Ihr stürzt〜Vater wohnen'},
-  {date:'2026-10-18',title:'第14回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'男声(411-431) Laufet, Brüder〜zum Siegen / 女声総復習'},
-  {date:'2026-10-25',title:'第15回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'S(795-832) Deine Zauber〜Alle Menschen'},
-  {date:'2026-11-01',title:'第16回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'(855-920)① Deine Zauber〜Götterfunken'},
-  {date:'2026-11-08',title:'第17回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'(855-920)② Deine Zauber〜Götterfunken'},
-  {date:'2026-11-15',title:'第18回 全曲通し①',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'全曲①'},
-  {date:'2026-11-22',title:'第19回 全曲通し②',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'全曲②'},
+  {date:'2026-08-23',title:'第6回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',song:'(595-626)① Seid um〜Vater wohnen'},
+  {date:'2026-08-30',title:'第7回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',song:'(595-626)② Seid um〜Vater wohnen'},
+  {date:'2026-09-06',title:'第8回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',song:'(631-654) Ihr stürzt〜vor Gott'},
+  {date:'2026-09-13',title:'第9回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',song:'(631-654) Ihr stürzt〜vor Gott'},
+  {date:'2026-09-20',title:'第10回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',song:'(655-729)① Freude schöner〜Heiligtum / Seid um〜ganzen Welt ※可能なら4パート別'},
+  {date:'2026-09-27',title:'第11回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',song:'(655-729)② Freude schöner〜Heiligtum / Seid um〜ganzen Welt ※可能なら4パート別'},
+  {date:'2026-10-04',title:'第12回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',song:'(655-729)③ Freude schöner〜Heiligtum / Seid um〜ganzen Welt ※男女別'},
+  {date:'2026-10-11',title:'第13回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',song:'R(730-762) Ihr stürzt〜Vater wohnen'},
+  {date:'2026-10-18',title:'第14回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',song:'男声(411-431) Laufet, Brüder〜zum Siegen / 女声総復習'},
+  {date:'2026-10-25',title:'第15回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',song:'S(795-832) Deine Zauber〜Alle Menschen'},
+  {date:'2026-11-01',title:'第16回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',song:'(855-920)① Deine Zauber〜Götterfunken'},
+  {date:'2026-11-08',title:'第17回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',song:'(855-920)② Deine Zauber〜Götterfunken'},
+  {date:'2026-11-15',title:'第18回 全曲通し①',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',song:'全曲①'},
+  {date:'2026-11-22',title:'第19回 全曲通し②',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',song:'全曲②'},
   {date:'2026-11-28',title:'リハーサル',detail:'本番会場にて（時間別途連絡）',badge:'badge-rh',btext:'リハーサル',start:'10:00',end:'17:00',song:'通し'},
-  {date:'2026-11-29',title:'🎶 本番！Re:Freude',detail:'13:00〜 午後・夜の2回公演',badge:'badge-c',btext:'本番！',start:'13:00',end:'21:00',song:'通し'},
+  {date:'2026-11-29',title:'🎶 本番！Re:Freude',detail:'第1回公演 12:30集合／14:00スタート ・ 第2回公演 16:00集合／17:30スタート',badge:'badge-c',btext:'本番！',start:'12:30',end:'19:30',song:'通し'},
 ];
 const DOW=['日','月','火','水','木','金','土'];
 const MON=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
@@ -1094,7 +1129,7 @@ const FPARTS=[
     {q:'2011年の世田谷の先輩たちはどんな思いで取り組んでいたんですか？',who:'白石書記長',a:'「様々な困難、圧迫に晒されている時代の閉塞を、青年の歓喜の歌声で打ち破りたい」「何があってもがんばって生きていく、その爆発的な生命力をメッセージしていきたい」と。\n\n先輩たちはこの言葉を胸に練習に打ち込み、本番では大歓喜で歌い上げたんです。私たちもその精神を引き継いでいきましょう！'}
   ]},
   {title:'スケジュールを確認！',qas:[
-    {q:'本番までのスケジュールを教えてください！',who:'中島ユース委員長',a:'6月21日（日）17:00〜 結団式（東京池田記念講堂 2F講堂）でいよいよ本格スタート！ 7月5日（日）から毎週日曜を軸に練習を行います。\n\n練習は11月まで続き、11月28日（土）がリハーサル、そして11月29日（日）が本番です！ 午後と夜の2回公演を予定しています。\n\n欠席者フォロー（動画共有など）やオンラインも併用しながら、柔軟な練習体制を整えていきます。まずは結団式に集まりましょう！'}
+    {q:'本番までのスケジュールを教えてください！',who:'中島ユース委員長',a:'6月21日（日）17:00〜 結団式（東京池田記念講堂 2F講堂）でいよいよ本格スタート！ 7月5日（日）から毎週日曜を軸に練習を行います。\n\n練習は11月まで続き、11月28日（土）がリハーサル、そして11月29日（日）が本番です！ 午後と夜の2回公演を予定しています。\n\nまずは結団式に集まりましょう！'}
   ]},
   {title:'家族や先輩への感謝',qas:[
     {q:'親や壮年・女性部の先輩はどう関わるんですか？',who:'中島ユース委員長',a:'今回のフェスは「世代を超えた絆を築き、100周年への誓いを立てる」ことも大きな狙い。出演は青年世代が基本ですが、壮年・女性部の先輩方の支えは不可欠です。\n\n先輩方は「皆さんの成長した姿を見るのが一番うれしい」と言ってくださいます。皆さんが壁を破る歓喜の姿を見せること。それが最高の親孝行であり、恩返しです！'}
