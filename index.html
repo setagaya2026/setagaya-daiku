@@ -386,6 +386,37 @@ footer strong{color:var(--gold-light);font-weight:400}
 .notice-banner .nb-title{font-size:14px;font-weight:900;color:#4a2c00;margin-bottom:4px;letter-spacing:.02em}
 .notice-banner .nb-body{font-size:12.5px;color:#5d3a00;line-height:1.7}
 .notice-banner .nb-body strong{color:#9b1b30}
+/* ── 追加: 次回練習の練習箇所 ── */
+.next-bar-song{margin-top:8px;background:rgba(255,212,59,.16);border:1px solid rgba(255,212,59,.45);border-radius:6px;padding:7px 10px;font-size:13px;font-weight:700;color:#FFD43B;line-height:1.5}
+.next-bar-song .nbs-lbl{font-size:10px;letter-spacing:.15em;color:rgba(255,255,255,.7);display:block;margin-bottom:2px;font-weight:400}
+/* ── 追加: 補習バッジ ── */
+.badge-h{background:#efe6ff;color:#5B3FE0}
+.sch-rec-link{display:inline-block;margin-top:5px;font-size:11px;font-weight:700;color:#5B3FE0;text-decoration:none;background:#efe6ff;border-radius:12px;padding:2px 9px;cursor:pointer}
+/* ── 追加: 参考動画と楽譜の注意書き ── */
+.warn-note{background:#fff8e6;border:1.5px solid #f0c060;border-left:5px solid #e0a020;border-radius:6px;padding:11px 14px;margin:0 0 14px;font-size:12.5px;line-height:1.75;color:#5d3a00}
+.warn-note strong{color:#9b1b30}
+/* ── 追加: 練習録画 ── */
+.rec-date{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.08em;margin:14px 0 6px}
+.rec-chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.rec-chip{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:#eee;color:#444}
+.rec-chip.S{background:#fde8e8;color:#c0392b}.rec-chip.A{background:#fdf0e0;color:#b9770e}.rec-chip.T{background:#e6f2fb;color:#1a5276}.rec-chip.B{background:#e8f5ec;color:#1e7a45}
+.rec-empty{font-size:12.5px;color:var(--muted);padding:10px 0}
+.rec-group{font-family:'Noto Serif JP',serif;font-size:14px;font-weight:700;color:#1a5276;border-bottom:2px solid #1a5276;padding-bottom:5px;margin:18px 0 4px}
+.rec-group:first-child{margin-top:4px}
+.rec-date{background:#eef3f8;border-radius:6px;padding:8px 12px;color:#1a3a57;font-size:13px}
+.rec-song{font-size:12px;font-weight:700;color:#9b1b30;margin-top:3px;letter-spacing:0}
+.rec-card-song{font-size:11.5px;font-weight:700;color:#9b1b30;margin-top:6px}
+/* ── 追加: 補習まとめカード（トップ） ── */
+.hosyu-card{background:linear-gradient(135deg,#1a5276,#0f3a57);border-radius:10px;padding:16px 18px;margin-bottom:16px;color:#fff;box-shadow:0 4px 14px rgba(15,58,87,.3)}
+.hosyu-card .hc-title{font-family:'Noto Serif JP',serif;font-size:16px;font-weight:700;margin-bottom:6px;line-height:1.4}
+.hosyu-card .hc-body{font-size:12.5px;line-height:1.75;color:rgba(255,255,255,.88)}
+.hosyu-card .hc-body strong{color:#FFD43B}
+.hosyu-card .hc-range{margin:10px 0 12px;display:flex;flex-direction:column;gap:4px}
+.hosyu-card .hc-range span{background:rgba(255,255,255,.12);border-left:3px solid #FFD43B;padding:5px 10px;font-size:12px;border-radius:0 4px 4px 0}
+.hosyu-card .hc-btns{display:flex;gap:8px;flex-wrap:wrap}
+.hosyu-card .hc-btn{flex:1;min-width:140px;background:#fff;color:#1a5276;border:none;border-radius:8px;padding:11px 12px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;text-align:center;transition:transform .15s}
+.hosyu-card .hc-btn:hover{transform:translateY(-1px)}
+.hosyu-card .hc-btn.f{background:#FFD43B;color:#4a2c00}
 </style>
 </head>
 <body>
@@ -439,12 +470,27 @@ footer strong{color:var(--gold-light);font-weight:400}
 <!-- ── HOME ── -->
 <div class="section active" id="sec-home">
 
+  <!-- ── 補習まとめ（8/2までの内容を8/22・8/29に補習）── -->
+  <div class="hosyu-card">
+    <div class="hc-title">🎥 補習の録画で追いつこう！</div>
+    <div class="hc-body">第1〜5回（7/5〜8/2）の練習内容を、<strong>8/22（土）男声</strong>・<strong>8/29（土）女声</strong>の補習で実施しました。<br>欠席した方・復習したい方は、録画でしっかり追いつけます。</div>
+    <div class="hc-range">
+      <span>📖 p.33〜37　M（543-590）Freude schöner〜Flügel weilt</span>
+      <span>📖 p.14・16・18〜19　D（257-264）Deine Zauber〜Flügel weilt／E（282-292）Ja! Wer〜diesem Bund</span>
+      <span>📖 p.22〜24　G（313-330）① Küsse gab〜vor Gott</span>
+    </div>
+    <div class="hc-btns">
+      <button class="hc-btn" onclick="goRecArchive('2026-08-22')">♂ 男声補習（8/22）の録画</button>
+      <button class="hc-btn f" onclick="goRecArchive('2026-08-29')">♀ 女声補習（8/29）の録画</button>
+    </div>
+  </div>
+
   <!-- ── お知らせ：練習時間の変更 ── -->
   <div class="notice-banner">
     <div class="nb-icon">📢</div>
     <div>
-      <div class="nb-title">【重要】8月23日から練習時間が変わります</div>
-      <div class="nb-body">8月23日（日）の第6回練習より、<strong>17:50集合／19:30練習終了</strong>に変更になりました。<br>お間違えのないようお越しください。（練習日程のページにも反映済みです）<br>※すでに「📅+」でGoogleカレンダーに登録済みの方は、旧時刻のままになっています。お手数ですが、8/23以降の回を一度削除して、練習日程のページから登録し直してください。</div>
+      <div class="nb-title">【重要】8月23日から練習時間が変わりました</div>
+      <div class="nb-body">8月23日（日）の第6回練習より、<strong>17:50集合／19:30練習終了</strong>に変わりました。<br>お間違えのないようお越しください。（練習日程のページにも反映済みです）<br>※「📅+」で以前にGoogleカレンダーに登録した方は、旧時刻のままになっています。お手数ですが、8/23以降の回を一度削除して、練習日程のページから登録し直してください。</div>
     </div>
   </div>
 
@@ -469,13 +515,14 @@ footer strong{color:var(--gold-light);font-weight:400}
       <div class="next-bar-lbl">NEXT PRACTICE</div>
       <div class="next-bar-date" id="home-next-date">確認中...</div>
       <div class="next-bar-sub" id="home-next-sub"></div>
+      <div class="next-bar-song" id="home-next-song" style="display:none"><span class="nbs-lbl">🎼 今回の練習箇所</span><span id="home-next-song-text"></span></div>
     </div>
     <button class="next-bar-btn" onclick="showSection('schedule',null)">日程一覧 →</button>
   </div>
 
   <div class="slabel"><div class="licon">🎬</div>映像アーカイブ</div>
   <div class="cblock" style="cursor:pointer" onclick="showSection('video',null)">
-    <div class="cbh"><div class="cnum" style="background:#1a1208">▶</div><span class="ctitle">結団式（2026.6.21）/ 2011年 世田谷第九合唱祭 / 2025年 九州アジア平和フェスタ</span></div>
+    <div class="cbh"><div class="cnum" style="background:#1a1208">▶</div><span class="ctitle">練習の録画・補習 / 結団式 / 2011年 世田谷 / 2025年 九州</span></div>
     <div class="cbody" style="display:flex;justify-content:space-between;align-items:center;gap:12px">
       <p style="font-size:13px;color:var(--muted);line-height:1.7">先輩たちの歓喜の歌声を観て、本番への思いを高めよう！</p>
       <div style="background:#1a1208;color:var(--gold-light);padding:10px 16px;border-radius:4px;font-size:13px;font-weight:700;white-space:nowrap;flex-shrink:0">観る →</div>
@@ -573,6 +620,16 @@ footer strong{color:var(--gold-light);font-weight:400}
   <div class="vid-header">
     <h2>🎬 映像アーカイブ</h2>
     <p>先輩たちの歓喜の歌声を観て、本番への思いを高めよう！</p>
+  </div>
+
+  <!-- 練習の録画アーカイブ（JSのRECSから自動描画） -->
+  <div class="slabel" id="rec-archive"><div class="licon" style="background:#1a5276">📹</div>練習の録画アーカイブ</div>
+  <div class="cblock">
+    <div class="cbh"><div class="cnum" style="background:#1a5276">🎥</div><span class="ctitle">合同練習・補習の録画（欠席した日のキャッチアップに）</span></div>
+    <div class="cbody">
+      <p class="enote" style="margin:0 0 4px">🎥 参加できなかった日も、ここで追いつけます。自分のパートの録画は各パートページにも表示されます。</p>
+      <div id="rec-archive-list"></div>
+    </div>
   </div>
 
   <!-- 2026年 結団式 -->
@@ -794,6 +851,7 @@ footer strong{color:var(--gold-light);font-weight:400}
 <!-- ── SOPRANO ── -->
 <div class="section" id="sec-soprano">
   <div class="ph phs"><h2>🎤 ソプラノ（Soprano）</h2><p>練習動画コンテンツ</p></div>
+  <div class="warn-note">⚠️ <strong>参考動画と楽譜は必ずしも一致していません。</strong>練習動画（参考動画）はテンポ・繰り返し・カット・歌詞の割り方などが、私たちが使っている楽譜と異なる場合があります。<strong>練習で指揮者・指導者から受けた指示を優先</strong>し、動画は音取りやイメージづくりの参考としてご活用ください。</div>
   <div class="cblock">
     <div class="cbh"><div class="cnum" style="background:#c0392b">▶</div><span class="ctitle">ソプラノ 練習動画</span></div>
     <div class="cbody">
@@ -804,11 +862,13 @@ footer strong{color:var(--gold-light);font-weight:400}
       </div>
     </div>
   </div>
+  <div class="rec-part" data-part="S"></div>
 </div>
 
 <!-- ── ALTO ── -->
 <div class="section" id="sec-alto">
   <div class="ph pha"><h2>🎤 アルト（Alto）</h2><p>練習動画コンテンツ</p></div>
+  <div class="warn-note">⚠️ <strong>参考動画と楽譜は必ずしも一致していません。</strong>練習動画（参考動画）はテンポ・繰り返し・カット・歌詞の割り方などが、私たちが使っている楽譜と異なる場合があります。<strong>練習で指揮者・指導者から受けた指示を優先</strong>し、動画は音取りやイメージづくりの参考としてご活用ください。</div>
   <div class="cblock">
     <div class="cbh"><div class="cnum" style="background:#8e44ad">▶</div><span class="ctitle">アルト 練習動画</span></div>
     <div class="cbody">
@@ -819,11 +879,13 @@ footer strong{color:var(--gold-light);font-weight:400}
       </div>
     </div>
   </div>
+  <div class="rec-part" data-part="A"></div>
 </div>
 
 <!-- ── TENOR ── -->
 <div class="section" id="sec-tenor">
   <div class="ph pht"><h2>🎤 テノール（Tenor）</h2><p>練習動画コンテンツ</p></div>
+  <div class="warn-note">⚠️ <strong>参考動画と楽譜は必ずしも一致していません。</strong>練習動画（参考動画）はテンポ・繰り返し・カット・歌詞の割り方などが、私たちが使っている楽譜と異なる場合があります。<strong>練習で指揮者・指導者から受けた指示を優先</strong>し、動画は音取りやイメージづくりの参考としてご活用ください。</div>
   <div class="cblock">
     <div class="cbh"><div class="cnum" style="background:#2471a3">1</div><span class="ctitle">第1テノール 練習動画</span></div>
     <div class="cbody">
@@ -844,11 +906,13 @@ footer strong{color:var(--gold-light);font-weight:400}
       </div>
     </div>
   </div>
+  <div class="rec-part" data-part="T"></div>
 </div>
 
 <!-- ── BASS ── -->
 <div class="section" id="sec-bass">
   <div class="ph phb"><h2>🎤 バス（Bass）</h2><p>練習動画コンテンツ</p></div>
+  <div class="warn-note">⚠️ <strong>参考動画と楽譜は必ずしも一致していません。</strong>練習動画（参考動画）はテンポ・繰り返し・カット・歌詞の割り方などが、私たちが使っている楽譜と異なる場合があります。<strong>練習で指揮者・指導者から受けた指示を優先</strong>し、動画は音取りやイメージづくりの参考としてご活用ください。</div>
   <div class="cblock">
     <div class="cbh"><div class="cnum" style="background:#1e8449">▶</div><span class="ctitle">バス 練習動画</span></div>
     <div class="cbody">
@@ -859,6 +923,7 @@ footer strong{color:var(--gold-light);font-weight:400}
       </div>
     </div>
   </div>
+  <div class="rec-part" data-part="B"></div>
 </div>
 
 <!-- ── INFO ── -->
@@ -915,29 +980,33 @@ updateCD();setInterval(updateCD,1000);
 
 // ── SCHEDULE ──
 // ★ 練習日を追加・変更する場合はここを編集してください
+// ★ 練習箇所は song（小節・練習記号）に加えて page（楽譜のページ）も書けます。例: page:'12〜15'
+//   page を入れると、ホームの「今回の練習箇所」と日程一覧に「📖 楽譜 p.12〜15」が先頭に表示されます。
 const SCH=[
   {date:'2026-06-21',title:'結団式',detail:'17:00〜 東京池田記念講堂 2F講堂',badge:'badge-sp',btext:'結団式',start:'17:00',end:'19:00',song:''},
-  {date:'2026-07-05',title:'第1回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'M(543-590) Freude schöner〜Flügel weilt'},
-  {date:'2026-07-12',title:'第2回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'M(543-590) Freude schöner〜Flügel weilt'},
-  {date:'2026-07-19',title:'第3回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'D(257-264)・E(282-292) Deine Zauber〜diesem Bund ※男声は237〜Freude!あり'},
-  {date:'2026-07-26',title:'第4回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'G(313-330)① Küsse gab〜vor Gott'},
-  {date:'2026-08-02',title:'第5回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',song:'G(313-330)① Küsse gab〜vor Gott'},
-  {date:'2026-08-23',title:'第6回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',song:'(595-626)① Seid um〜Vater wohnen'},
-  {date:'2026-08-30',title:'第7回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',song:'(595-626)② Seid um〜Vater wohnen'},
-  {date:'2026-09-06',title:'第8回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',song:'(631-654) Ihr stürzt〜vor Gott'},
-  {date:'2026-09-13',title:'第9回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',song:'(631-654) Ihr stürzt〜vor Gott'},
-  {date:'2026-09-20',title:'第10回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',song:'(655-729)① Freude schöner〜Heiligtum / Seid um〜ganzen Welt ※可能なら4パート別'},
-  {date:'2026-09-27',title:'第11回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',song:'(655-729)② Freude schöner〜Heiligtum / Seid um〜ganzen Welt ※可能なら4パート別'},
-  {date:'2026-10-04',title:'第12回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',song:'(655-729)③ Freude schöner〜Heiligtum / Seid um〜ganzen Welt ※男女別'},
-  {date:'2026-10-11',title:'第13回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',song:'R(730-762) Ihr stürzt〜Vater wohnen'},
-  {date:'2026-10-18',title:'第14回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',song:'男声(411-431) Laufet, Brüder〜zum Siegen / 女声総復習'},
-  {date:'2026-10-25',title:'第15回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',song:'S(795-832) Deine Zauber〜Alle Menschen'},
-  {date:'2026-11-01',title:'第16回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',song:'(855-920)① Deine Zauber〜Götterfunken'},
-  {date:'2026-11-08',title:'第17回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',song:'(855-920)② Deine Zauber〜Götterfunken'},
-  {date:'2026-11-15',title:'第18回 全曲通し①',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',song:'全曲①'},
-  {date:'2026-11-22',title:'第19回 全曲通し②',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',song:'全曲②'},
-  {date:'2026-11-28',title:'リハーサル',detail:'本番会場にて（時間別途連絡）',badge:'badge-rh',btext:'リハーサル',start:'10:00',end:'17:00',song:'通し'},
-  {date:'2026-11-29',title:'🎶 本番！Re:Freude',detail:'第1回公演 12:30集合／14:00スタート ・ 第2回公演 16:00集合／17:30スタート',badge:'badge-c',btext:'本番！',start:'12:30',end:'19:30',song:'通し'},
+  {date:'2026-07-05',title:'第1回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',page:'33〜37',song:'M(543-590) Freude schöner〜Flügel weilt'},
+  {date:'2026-07-12',title:'第2回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',page:'14・16・18〜19',song:'D(257-264) Deine Zauber〜Flügel weilt／E(282-292) Ja! Wer〜diesem Bund'},
+  {date:'2026-07-19',title:'第3回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',page:'',song:'7/5・7/12の復習 ※男声はお休み（女声のみ）'},
+  {date:'2026-07-26',title:'第4回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',page:'22〜24',song:'G(313-330)① Küsse gab〜vor Gott'},
+  {date:'2026-08-02',title:'第5回 合同練習',detail:'19:00〜20:30 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'19:00',end:'20:30',page:'22〜24',song:'G(313-330)① Küsse gab〜vor Gott'},
+  {date:'2026-08-22',title:'男声（テノール・バス）補習練習',detail:'第1〜5回（〜8/2）の内容を補習 東京池田記念講堂',badge:'badge-h',btext:'補習',start:'',end:'',rec:true,page:'33〜37／14〜19／22〜24',song:'第1〜5回の内容（M・D・E・G）'},
+  {date:'2026-08-23',title:'第6回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',rec:true,page:'38〜41',song:'(595-626)① Seid um〜Vater wohnen'},
+  {date:'2026-08-29',title:'女声（ソプラノ・アルト）補習練習',detail:'第1〜5回（〜8/2）の内容を補習 東京池田記念講堂',badge:'badge-h',btext:'補習',start:'',end:'',rec:true,page:'33〜37／14〜19／22〜24',song:'第1〜5回の内容（M・D・E・G）'},
+  {date:'2026-08-30',title:'第7回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',rec:true,page:'38〜41',song:'(595-626)② Seid um〜Vater wohnen'},
+  {date:'2026-09-06',title:'第8回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',page:'41〜43',song:'(631-654) Ihr stürzt〜er wohnen'},
+  {date:'2026-09-13',title:'第9回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',page:'41〜43',song:'(631-654) Ihr stürzt〜er wohnen'},
+  {date:'2026-09-20',title:'第10回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',page:'44〜56',song:'(655-729)① Freude schöner〜Heiligtum／Seid um〜ganzen Welt'},
+  {date:'2026-09-27',title:'第11回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',page:'44〜56',song:'(655-729)② Freude schöner〜Heiligtum／Seid um〜ganzen Welt'},
+  {date:'2026-10-04',title:'第12回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',page:'44〜56',song:'(655-729)③ Freude schöner〜Heiligtum／Seid um〜ganzen Welt'},
+  {date:'2026-10-11',title:'第13回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',page:'56〜59',song:'R(730-762) Ihr stürzt〜Vater wohnen'},
+  {date:'2026-10-18',title:'第14回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',page:'27〜29',song:'男声(411-431) Laufet, Brüder〜zum Siegen／女声 総復習'},
+  {date:'2026-10-25',title:'第15回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',page:'62〜65',song:'S(795-832) Deine Zauber〜Alle Menschen'},
+  {date:'2026-11-01',title:'第16回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',page:'67〜75',song:'(855-920)① Deine Zauber〜Götterfunken'},
+  {date:'2026-11-08',title:'第17回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',page:'67〜75',song:'(855-920)② Deine Zauber〜Götterfunken'},
+  {date:'2026-11-15',title:'第18回 全曲通し①',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',page:'',song:'全曲①'},
+  {date:'2026-11-22',title:'第19回 全曲通し②',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',page:'',song:'全曲②'},
+  {date:'2026-11-28',title:'リハーサル',detail:'本番会場にて（時間別途連絡）',badge:'badge-rh',btext:'リハーサル',start:'10:00',end:'17:00',page:'',song:'通し'},
+  {date:'2026-11-29',title:'🎶 本番！Re:Freude',detail:'第1回公演 12:30集合／14:00スタート ・ 第2回公演 16:00集合／17:30スタート',badge:'badge-c',btext:'本番！',start:'12:30',end:'19:30',page:'',song:'通し'},
 ];
 const DOW=['日','月','火','水','木','金','土'];
 const MON=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
@@ -959,6 +1028,13 @@ function gcalUrl(ev){
   return `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${ds}/${de}&details=${detail}&location=${location}`;
 }
 
+// 練習箇所の表示文字列（楽譜ページを先頭に）
+function songLabel(ev){
+  const parts=[];
+  if(ev.page) parts.push('📖 楽譜 p.'+ev.page);
+  if(ev.song) parts.push(ev.song);
+  return parts.join('｜');
+}
 function buildSch(){
   const c=document.getElementById('sch-items');
   const today=new Date();today.setHours(0,0,0,0);
@@ -979,14 +1055,18 @@ function buildSch(){
         ${(!past&&!nf)?'<span class="sch-next-tag">🔜 次回</span><br>':''}
         <div class="sch-title">${ev.title}</div>
         <div class="sch-sub">${ev.detail}</div>
-        ${ev.song ? `<div class="sch-song">🎼 ${ev.song}</div>` : ''}
+        ${songLabel(ev) ? `<div class="sch-song">🎼 ${songLabel(ev)}</div>` : ''}
+        ${ev.rec ? `<a class="sch-rec-link" onclick="goRecArchive('${ev.date}')">🎥 この日の練習録画を見る</a>` : ''}
       </div>
       <span class="badge ${ev.badge}" style="margin-right:6px">${ev.btext}</span>
       <a href="${gcalUrl(ev)}" target="_blank" class="gcal-add-btn" title="Googleカレンダーに追加">📅+</a>
     `;
     if(!past&&!nf){ el.classList.add('next'); }
     c.appendChild(el);
-    if(!past&&!nf){nf=true;document.getElementById('home-next-date').textContent=`${d.getMonth()+1}月${d.getDate()}日（${DOW[d.getDay()]}）${ev.title}`;document.getElementById('home-next-sub').textContent=ev.detail;}
+    if(!past&&!nf){nf=true;document.getElementById('home-next-date').textContent=`${d.getMonth()+1}月${d.getDate()}日（${DOW[d.getDay()]}）${ev.title}`;document.getElementById('home-next-sub').textContent=ev.detail;
+      const sb=document.getElementById('home-next-song');
+      const sl=songLabel(ev); if(sl){ document.getElementById('home-next-song-text').textContent=sl; sb.style.display='block'; } else { sb.style.display='none'; }
+    }
   });
   if(!nf){document.getElementById('home-next-date').textContent='2026年11月29日（日）本番！';document.getElementById('home-next-sub').textContent='フロイデー！！！';}
 }
@@ -1077,20 +1157,20 @@ function st(btn,type,part){
 // ── FREUDE VOICE DATA ──
 const FPARTS=[
   {title:'そもそも、なぜ今「第九」なの？',qas:[
-    {q:'合唱と信心は関係あるんですか？',who:'近田青年部長',a:'一見つながりがなさそうですが、実は大ありなんです！ 私たちの合唱は、悩みや願いを祈りながら仲間と挑戦していく信心の実践です。合唱の中で団結が生まれ、信心も深まり、歓喜と成長につながっていきます！\n\nベートーベンは、難聴という大きな苦しみを抱えながらも「第九」をつくり上げました。その姿は「どんな苦しみも希望に変えていける」という仏法の精神そのもの。人間革命の最高の舞台なんです。'},
+    {q:'合唱と信心は関係あるんですか？',who:'白石青年部長',a:'一見つながりがなさそうですが、実は大ありなんです！ 私たちの合唱は、悩みや願いを祈りながら仲間と挑戦していく信心の実践です。合唱の中で団結が生まれ、信心も深まり、歓喜と成長につながっていきます！\n\nベートーベンは、難聴という大きな苦しみを抱えながらも「第九」をつくり上げました。その姿は「どんな苦しみも希望に変えていける」という仏法の精神そのもの。人間革命の最高の舞台なんです。'},
     {q:'世田谷と「第九」って、何か特別な関係があるんですか？',who:'久里池田華陽会委員長',a:'大アリです！ 2011年11月27日、池田講堂で400名のフロイデ合唱団が富士交響楽団と共に「歓喜の歌」を大合唱しました。その時、池田先生は世田谷を「心の故郷」と呼んでくださったんです。\n\nあれから15年。今度は私たちが「Re:Freude（リ・フロイデ）～わたしたちの新しい歓喜の歌～」として、2030年へ向けた新たな出発を切るんです。先輩たちの思いを胸に、自分たちの歓喜のドラマを起こしましょう！'},
     {q:'「自分の壁を破る歓喜のドラマを起こす」とはどういうことですか？',who:'比留間男子部長',a:'第九に込められた、苦悩を乗り越えて喜びをつかむという精神は、私たちが現実の課題に立ち向かう姿そのものです。仕事のこと、人間関係のこと、将来への不安......誰もが何かしらの「壁」を抱えていますよね。\n\n池田先生は「生きよう。自分にもまだできることがある。それだけを考えて生きよう」と語られています。一人ひとりが困難に負けず、自分を変えていく歓喜の連鎖をここ世田谷から巻き起こす。それが今回のフェスの心なんです。'}
   ]},
   {title:'活動の意義をもっと深く！',qas:[
     {q:'今回の祭典は「必ず一生涯の思い出になる！」って言われたけど何でですか？',who:'松浦学生部長',a:'心と心を結び合うことの喜びを謳い上げた「第九」を合唱することは、必ず平和の道を開く力になる。その偉業に自分も声で連なることができる。これって、スゴいことじゃないですか。\n\n600名の仲間と歌い上げるあの瞬間は、忘れられない一日になること間違いなし！'},
-    {q:'見栄えを重視したイベントとは違うんですか？ 何が狙いなんですか？',who:'白石書記長',a:'今回のフェスは、単なるイベントではなく、人材育成と共感拡大の場、そして社会へ開かれた平和の連帯の場と位置づけています。\n\n狙いは4つ。「公共性の創出」「弘教拡大」「人材躍進」「広布後継」です。本番の完成度よりも、同世代の横のつながりを感じられるプロセスを重視する。青年世代がホッと息をつける温かい居場所を、共に創り上げていきましょう！'}
+    {q:'見栄えを重視したイベントとは違うんですか？ 何が狙いなんですか？',who:'並里書記長',a:'今回のフェスは、単なるイベントではなく、人材育成と共感拡大の場、そして社会へ開かれた平和の連帯の場と位置づけています。\n\n狙いは4つ。「公共性の創出」「弘教拡大」「人材躍進」「広布後継」です。本番の完成度よりも、同世代の横のつながりを感じられるプロセスを重視する。青年世代がホッと息をつける温かい居場所を、共に創り上げていきましょう！'}
   ]},
   {title:'世田谷の歴史と師弟の原点',qas:[
     {q:'池田先生と「第九」の歴史って、どんなものがあるんですか？',who:'比留間男子部長',a:'1990年11月、池田先生は「第九の合唱を行ってはどうだろうか」と提案されました。ところが宗門はそれに「外道礼賛だ」と難癖をつけた。この文化否定が第2次宗門事件の発端になったんです。\n\n世田谷は2011年に400名で第九を合唱。先生は「今日の会合は、2030年への出発です」と万感の期待を寄せてくださった。あの原点を今、私たちが受け継ぐんです。'},
-    {q:'「魂の独立記念日」って何ですか？ 第九とどう関係するんですか？',who:'白石書記長',a:'1991年11月28日、宗門が学会に破門通告を送りつけた日です。でも学会はそこから世界宗教へと大飛翔した。だからこの日は「魂の独立記念日」と呼ばれています。\n\n第2次宗門事件は「第九をドイツ語で歌うのは外道礼賛」という言いがかりから始まった。だから世田谷が第九を歌うことには、師匠への後継の誓いが込められているんです。'}
+    {q:'「魂の独立記念日」って何ですか？ 第九とどう関係するんですか？',who:'並里書記長',a:'1991年11月28日、宗門が学会に破門通告を送りつけた日です。でも学会はそこから世界宗教へと大飛翔した。だからこの日は「魂の独立記念日」と呼ばれています。\n\n第2次宗門事件は「第九をドイツ語で歌うのは外道礼賛」という言いがかりから始まった。だから世田谷が第九を歌うことには、師匠への後継の誓いが込められているんです。'}
   ]},
   {title:'練習の雰囲気ってどんな感じ？',qas:[
-    {q:'周りの人のテンションが高過ぎて、ちょっと......。',who:'近田青年部長',a:'ちょ～分かります、その気持ち！ 僕も初めて学生部の会合に参加した時、ついていけずに引いちゃいましたもん（笑）。でも、先輩と一緒に活動していくうちに、いつの間にか盛り上げる側になってました（笑）。\n\n焦らなくて大丈夫！ 不安も緊張も全て、真剣に臨んでいる証し！「フロイデ！」と大きく声を出してみましょう。'},
+    {q:'周りの人のテンションが高過ぎて、ちょっと......。',who:'白石青年部長',a:'ちょ～分かります、その気持ち！ 僕も初めて学生部の会合に参加した時、ついていけずに引いちゃいましたもん（笑）。でも、先輩と一緒に活動していくうちに、いつの間にか盛り上げる側になってました（笑）。\n\n焦らなくて大丈夫！ 不安も緊張も全て、真剣に臨んでいる証し！「フロイデ！」と大きく声を出してみましょう。'},
     {q:'練習って歌うだけ？ 知らない人ばかりだと緊張するんですが......。',who:'久里池田華陽会委員長',a:'実は練習は歌だけじゃないんです！ 開催大綱にも「練習の前半は、互いの近況や推し活、仕事の悩みを共有する話す時間を取る」とあります。最初は信心に直結しなくても全然OK。\n\nお気に入りのカフェや推しの話題で盛り上がるのもアリ。心の距離がぐっと縮まって、悩みや相談ごとまで話せるようになったりして最高の友情になること間違いなし！'}
   ]},
   {title:'青年世代の居場所をつくる',qas:[
@@ -1098,7 +1178,7 @@ const FPARTS=[
   ]},
   {title:'歌への不安を吹き飛ばそう！',qas:[
     {q:'わたし、音痴なんです。周りに迷惑をかけるんじゃないかと不安で......',who:'比留間男子部長',a:'その気持ち、めっちゃ分かります！ 実は私も歌うのが苦手で......。特にドイツ語だし、最初は全然、上手く歌えませんでした。\n\n練習中は思いっきり歌ってみて、失敗しても全然大丈夫！ 周りの人の歌声に耳を傾け、みんなと心を合わせようと努めること。皆と一緒に歌える楽しさを感じながら努力するうちに、声がピタッと重なるようになりました。'},
-    {q:'ドイツ語ってマジで意味不明なんですけど、大丈夫ですか？',who:'近田青年部長',a:'安心してください！ 今回は本番でも楽譜を見ながら歌えますので、歌詞を丸暗記する必要はありません。\n\nコツは通勤中や家事をしながら音源を繰り返し聴くこと。メロディーと一緒に言葉が自然と出てきます。600人で歌うんだから、多少つまずいても大丈夫！ 大事なのは心を込めて歌うことです。'}
+    {q:'ドイツ語ってマジで意味不明なんですけど、大丈夫ですか？',who:'白石青年部長',a:'安心してください！ 今回は本番でも楽譜を見ながら歌えますので、歌詞を丸暗記する必要はありません。\n\nコツは通勤中や家事をしながら音源を繰り返し聴くこと。メロディーと一緒に言葉が自然と出てきます。600人で歌うんだから、多少つまずいても大丈夫！ 大事なのは心を込めて歌うことです。'}
   ]},
   {title:'友人を誘いたい！ 声かけのヒント',qas:[
     {q:'あんまり乗り気じゃない子と参加したいけど......声をかけるのが緊張します。',who:'中島ユース委員長',a:'分かる分かる！ 集まりに声をかけるのって勇気が要るよね。相手が強制的に感じるんじゃないかって不安になったりして......。\n\nでも、まずは自分の思いを素直に伝えればいいんじゃないかな。気負わずに自分らしく！ 一緒に頑張ろう！'},
@@ -1109,14 +1189,14 @@ const FPARTS=[
     {q:'池田先生はベートーベンについてどう語られていますか？',who:'松浦学生部長',a:'先生は「苦悩を突き抜けよ！と金の汗を流し、自己の課題に立ち向かった、幾つものドラマがあるだろう。努力と持続と勝利！ この生命の歓びの勝鬨こそ、われらの第九の伝統である」と語られています。\n\nまた「生きよう。自分にもまだできることがある。それだけを考えて生きよう」とも。第九を歌うことは、この先生の精神を我が胸に刻むことでもあるんです。'}
   ]},
   {title:'3つの実践項目について',qas:[
-    {q:'「3つの実践項目」って何ですか？',who:'白石書記長',a:'今回のフェスは人間革命の飛躍台。だからこそ3つのことに挑戦しましょう。\n\n①「朝晩の勤行・唱題を実践する」——勝利の根本は強き祈りです。②「新・人間革命の研鑽に励む」——第九や平和に関する章を中心に。③「1日1回の自主トレに励む」——スマホ音源等でスキマ時間に実践です。\n\nこの3つを通して、合唱だけでなく、信心も生活も全部勝つ自分になっていくんです！'}
+    {q:'「3つの実践項目」って何ですか？',who:'並里書記長',a:'今回のフェスは人間革命の飛躍台。だからこそ3つのことに挑戦しましょう。\n\n①「朝晩の勤行・唱題を実践する」——勝利の根本は強き祈りです。②「新・人間革命の研鑽に励む」——第九や平和に関する章を中心に。③「1日1回の自主トレに励む」——スマホ音源等でスキマ時間に実践です。\n\nこの3つを通して、合唱だけでなく、信心も生活も全部勝つ自分になっていくんです！'}
   ]},
   {title:'2030年への誓い',qas:[
-    {q:'「2030年に向けた師匠との約束」って何ですか？',who:'近田青年部長',a:'15年前の2011年、池田先生は「今日の会合は、2030年への出発です」と万感の期待を寄せてくださいました。「皆さんは、これからの人生の目標を立ててください。その目標に向かって、自らの羽を広げ、どこまでも飛び抜いていかれるか。楽しみにも、私たちは見つめていきます」と。\n\nいよいよその2030年まであと4年。先生との約束を果たすのは、今この時を生きる私たちです。「壁を破った」と胸を張れる実証をつかみ取り、先生に勝利のご報告をしていきましょう！'}
+    {q:'「2030年に向けた師匠との約束」って何ですか？',who:'白石青年部長',a:'15年前の2011年、池田先生は「今日の会合は、2030年への出発です」と万感の期待を寄せてくださいました。「皆さんは、これからの人生の目標を立ててください。その目標に向かって、自らの羽を広げ、どこまでも飛び抜いていかれるか。楽しみにも、私たちは見つめていきます」と。\n\nいよいよその2030年まであと4年。先生との約束を果たすのは、今この時を生きる私たちです。「壁を破った」と胸を張れる実証をつかみ取り、先生に勝利のご報告をしていきましょう！'}
   ]},
   {title:'練習に行けない！ という不安',qas:[
     {q:'練習に一回も参加できてません。さすがにヤバくないですか？',who:'比留間男子部長',a:'全くヤバくない！ ぜ～んぜん間に合います。もっと大切なのは「皆と心を合わせて挑戦しよう」「自分の殻を破ろう」と以前の自分より一歩でも変わっていくことだと思います！\n\n本番では楽譜を見ながら歌えます。スマホで音源を聴きながら、スキマ時間に口ずさんでみてください。'},
-    {q:'仕事が忙しくて練習日に行けそうにないんですが......。',who:'白石書記長',a:'大丈夫です！ 地域分散型やハイブリッド型（オンライン併用）を取り入れて、誰もが無理なく集える柔軟な体制を整えていきます。\n\n欠席者のフォロー（動画共有など）も行います。大事なのは「参加しよう」という一念。その心が大切なんです。'}
+    {q:'仕事が忙しくて練習日に行けそうにないんですが......。',who:'並里書記長',a:'大丈夫です！ 地域分散型やハイブリッド型（オンライン併用）を取り入れて、誰もが無理なく集える柔軟な体制を整えていきます。\n\n欠席者のフォロー（動画共有など）も行います。大事なのは「参加しよう」という一念。その心が大切なんです。'}
   ]},
   {title:'平和への思いを形に',qas:[
     {q:'フェスの「参加型ブース」って何をするんですか？',who:'久里池田華陽会委員長',a:'平和をテーマにした参加型ブースも企画しています。例えば「世田谷平和地域学」として区内各地域の戦跡調査や戦争体験の聞き取りの展示。平和学習に取り組む学生団体等とのコラボレーション企画も検討中です。\n\n地域社会に開かれた平和の連帯の場にしたい。未入会の友人を客席やブースに招待して、共感と対話の輪を広げていくんです。'}
@@ -1125,8 +1205,8 @@ const FPARTS=[
     {q:'「弘教拡大」も狙いに入ってますが、折伏しないとダメですか？',who:'中島ユース委員長',a:'折伏に「しないとダメ」ということはないですよ。でも、第九の練習を通して自分が変わった、元気になった、友達ができたということを、素直に周りの人に語ってみてほしい。それ自体が最高の対話なんです。\n\n池田先生は「人と会う勇気、語る勇気をもつことだ。対話の選択そのものが平和の勝利であり、人間性の勝利である」と語られています。'}
   ]},
   {title:'先輩たちの挑戦に学ぶ',qas:[
-    {q:'これまでの第九の取り組みでは、どんなドラマが生まれたんですか？',who:'白石書記長',a:'2011年の世田谷第九合唱祭では、練習を重ねるごとにどんどん明るく前向きになる友の姿がありました。タテ・ヨコ・ナナメ、多様な世代間の励ましの絆が生まれたんです。\n\n2025年の九州の祭典でも、ある池田華陽会のメンバーは、兄がダンスに出演予定だったのに練習中に脳腫瘍が見つかった。当日は「兄の分まで！」と声高らかに歌唱。2日後、兄も手術を無事乗り越えた。挑戦を通して「負けない心」を築いた一人一人が英雄なんです。'},
-    {q:'2011年の世田谷の先輩たちはどんな思いで取り組んでいたんですか？',who:'白石書記長',a:'「様々な困難、圧迫に晒されている時代の閉塞を、青年の歓喜の歌声で打ち破りたい」「何があってもがんばって生きていく、その爆発的な生命力をメッセージしていきたい」と。\n\n先輩たちはこの言葉を胸に練習に打ち込み、本番では大歓喜で歌い上げたんです。私たちもその精神を引き継いでいきましょう！'}
+    {q:'これまでの第九の取り組みでは、どんなドラマが生まれたんですか？',who:'並里書記長',a:'2011年の世田谷第九合唱祭では、練習を重ねるごとにどんどん明るく前向きになる友の姿がありました。タテ・ヨコ・ナナメ、多様な世代間の励ましの絆が生まれたんです。\n\n2025年の九州の祭典でも、ある池田華陽会のメンバーは、兄がダンスに出演予定だったのに練習中に脳腫瘍が見つかった。当日は「兄の分まで！」と声高らかに歌唱。2日後、兄も手術を無事乗り越えた。挑戦を通して「負けない心」を築いた一人一人が英雄なんです。'},
+    {q:'2011年の世田谷の先輩たちはどんな思いで取り組んでいたんですか？',who:'並里書記長',a:'「様々な困難、圧迫に晒されている時代の閉塞を、青年の歓喜の歌声で打ち破りたい」「何があってもがんばって生きていく、その爆発的な生命力をメッセージしていきたい」と。\n\n先輩たちはこの言葉を胸に練習に打ち込み、本番では大歓喜で歌い上げたんです。私たちもその精神を引き継いでいきましょう！'}
   ]},
   {title:'スケジュールを確認！',qas:[
     {q:'本番までのスケジュールを教えてください！',who:'中島ユース委員長',a:'6月21日（日）17:00〜 結団式（東京池田記念講堂 2F講堂）でいよいよ本格スタート！ 7月5日（日）から毎週日曜を軸に練習を行います。\n\n練習は11月まで続き、11月28日（土）がリハーサル、そして11月29日（日）が本番です！ 午後と夜の2回公演を予定しています。\n\nまずは結団式に集まりましょう！'}
@@ -1138,13 +1218,13 @@ const FPARTS=[
     {q:'練習をしてきましたが、もうすぐ終わってしまいます。なんか寂しいかも。',who:'松浦学生部長',a:'その気持ち、分かる～。あっという間に本番ですからね。\n\nドイツ語に悪戦苦闘したこと、隣にいたメンバーと仲良くなったこと、皆で励まし合った日々は、すごい財産になったんじゃないかな。\n\nいよいよ本番。精いっぱい練習して、思いっきり歌って、自分自身の新たな出発にしましょう！ フロイデ！！'}
   ]},
   {title:'本番直前！ 緊張をパワーに',qas:[
-    {q:'本番まであと少し。すっごく緊張してきました......。',who:'近田青年部長',a:'ついに来ましたね！ 「うまく歌おう」と気負わなくていい。これまでお世話になった人、歌を聞いて元気になってもらいたい人——その人のために精いっぱいやり遂げたらどうでしょう。きっと最高の舞台になるはず。\n\n楽譜を見ながら歌えますから、歌詞が飛ぶ心配もありません。大丈夫！ しっかり祈って、よく寝て、よく食べて、大きく深呼吸。エネルギー100%でいきましょう！ フロイデー！'}
+    {q:'本番まであと少し。すっごく緊張してきました......。',who:'白石青年部長',a:'ついに来ましたね！ 「うまく歌おう」と気負わなくていい。これまでお世話になった人、歌を聞いて元気になってもらいたい人——その人のために精いっぱいやり遂げたらどうでしょう。きっと最高の舞台になるはず。\n\n楽譜を見ながら歌えますから、歌詞が飛ぶ心配もありません。大丈夫！ しっかり祈って、よく寝て、よく食べて、大きく深呼吸。エネルギー100%でいきましょう！ フロイデー！'}
   ]},
   {title:'本番当日の心得',qas:[
     {q:'本番当日、気をつけることはありますか？',who:'比留間男子部長',a:'まず体調管理！ 前日は十分に睡眠を取り、食事もしっかりと。\n\n2011年の先輩たちからの申し送りでは「清潔感あふれる身だしなみで参加してください」「荷物は最小限に」「公共交通機関を使って来てください」とのこと。1回目と2回目の間に軽く食事を取る時間がありますので、おにぎりなど手軽に食べられるものを持参すると良いですよ。\n\nそして何より大事なのは、最高の歓喜の心で臨むこと。600名の仲間と共に、歓喜の歌を歌い上げましょう！'}
   ]},
   {title:'ここから始まる新しい物語',qas:[
-    {q:'フェスが終わった後は、どうなるんですか？',who:'近田青年部長',a:'フェスは終着ではなく出発です！\n\n池田先生は「若い時の苦労は一生涯の宝となる。だからこそ、真剣勝負で目の前の課題に、一つ一つ挑んでいただきたい」と語られています。\n\n11月29日に刻んだ歓喜の原点を胸に、一人一人が「壁を破った」と言える実証を示していきましょう。2011年の先輩たちが15年間走り抜いてきたように、今度は私たちが創立100周年の2030年へ走り抜く番です。フロイデー！！！'}
+    {q:'フェスが終わった後は、どうなるんですか？',who:'白石青年部長',a:'フェスは終着ではなく出発です！\n\n池田先生は「若い時の苦労は一生涯の宝となる。だからこそ、真剣勝負で目の前の課題に、一つ一つ挑んでいただきたい」と語られています。\n\n11月29日に刻んだ歓喜の原点を胸に、一人一人が「壁を破った」と言える実証を示していきましょう。2011年の先輩たちが15年間走り抜いてきたように、今度は私たちが創立100周年の2030年へ走り抜く番です。フロイデー！！！'}
   ]}
 ];
 
@@ -1322,6 +1402,62 @@ document.querySelectorAll('.kb-head').forEach(function(h){
     if(window.scrollY>400){ t.classList.add('show'); } else { t.classList.remove('show'); }
   }, {passive:true});
 })();
+
+// ── 練習の録画（RECS）──
+// ★ 毎週の録画はここに1行足すだけ。並び順は自動（補習が一番上に固定、その下は新しい日付が上）。
+//   その日の「楽譜ページ・練習箇所」はスケジュール（SCH）から自動で表示されるので、ここには書かなくてOK。
+//   id は YouTube の URL「youtu.be/○○○」の ○○○ の部分。parts は S=ソプラノ A=アルト T=テノール B=バス（該当するものを入れる）
+const RECS=[
+  {date:'2026-08-22',title:'男声 補習練習（第1〜5回の内容）',id:'yI0sUw5_GDM',parts:['T','B']},
+  {date:'2026-08-23',title:'男声パート 合唱練習',       id:'NWjhqaY3haE',parts:['T','B']},
+  {date:'2026-08-23',title:'女声パート（講堂）',         id:'i9CYqCKHSMw',parts:['S','A']},
+  {date:'2026-08-23',title:'女声パート（元初の間）',     id:'WVwedpkdMv8',parts:['S','A']},
+  {date:'2026-08-29',title:'女声 補習練習（第1〜5回の内容）',id:'yp9G0D7IJ2o',parts:['S','A']},
+  {date:'2026-08-30',title:'女声パート',               id:'CkDFs5-Nfpk',parts:['S','A']},
+  {date:'2026-08-30',title:'男声パート（テノール）',     id:'yGLWq7Gusms',parts:['T']},
+  {date:'2026-08-30',title:'男声パート（バス）',         id:'pdwQlc5pv94',parts:['B']},
+  {date:'2026-08-30',title:'男女パート合同',           id:'kiwCednRpTc',parts:['S','A','T','B']},
+];
+const PART_NAME={S:'ソプラノ',A:'アルト',T:'テノール',B:'バス'};
+function recDateLabel(ds){ const [y,m,d]=ds.split('-').map(Number); const dt=new Date(y,m-1,d); return `${m}月${d}日（${['日','月','火','水','木','金','土'][dt.getDay()]}）`; }
+function recEv(ds){ return SCH.find(e=>e.date===ds); }   // その日の練習情報（楽譜ページ・練習箇所）
+function recCard(r, withSong){
+  const chips=r.parts.map(p=>`<span class="rec-chip ${p}">${PART_NAME[p]}</span>`).join('');
+  const ev=recEv(r.date); const sl=(withSong&&ev)?songLabel(ev):'';
+  return `<div class="cblock" style="margin-bottom:12px"><div class="cbh"><div class="cnum" style="background:#1a5276">▶</div><span class="ctitle" style="font-size:13px">${r.title}</span></div>
+    <div class="cbody"><div class="yt-wrap"><iframe data-src="https://www.youtube.com/embed/${r.id}" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div>${sl?`<div class="rec-card-song">🎼 ${sl}</div>`:''}<div class="rec-chips">${chips}</div></div></div>`;
+}
+function recDateHead(ds){
+  const ev=recEv(ds); const sl=ev?songLabel(ev):'';
+  return `<div class="rec-date" id="rec-${ds}">📅 ${recDateLabel(ds)}${ev?'　'+ev.title:''}${sl?`<div class="rec-song">🎼 ${sl}</div>`:''}</div>`;
+}
+(function renderRecs(){
+  const list=document.getElementById('rec-archive-list');
+  if(list){
+    // 補習（スケジュールで badge-h の日）は一番上に固定、その下に毎週の録画を「新しい日付が上」で並べる
+    const pinned=SCH.filter(e=>e.badge==='badge-h').map(e=>e.date);
+    const recDates=[...new Set(RECS.map(r=>r.date))];
+    const pinDates=recDates.filter(d=>pinned.includes(d)).sort();
+    const weekDates=recDates.filter(d=>!pinned.includes(d)).sort().reverse();
+    const block=ds=>recDateHead(ds)+RECS.filter(r=>r.date===ds).map(r=>recCard(r,false)).join('');
+    let html='';
+    if(pinDates.length) html+='<div class="rec-group">🎯 補習（第1〜5回の内容）</div>'+pinDates.map(block).join('');
+    if(weekDates.length) html+='<div class="rec-group">📹 毎週の練習録画（新しい日付が上）</div>'+weekDates.map(block).join('');
+    list.innerHTML = html || '<div class="rec-empty">まだ録画はありません。</div>';
+  }
+  // 各パートページ：自分のパートに関係する録画だけ、新しい順（練習箇所つき）
+  document.querySelectorAll('.rec-part').forEach(box=>{
+    const p=box.dataset.part; const mine=RECS.filter(r=>r.parts.includes(p)).sort((a,b)=>b.date.localeCompare(a.date));
+    box.innerHTML = `<div class="slabel"><div class="licon" style="background:#1a5276">🎥</div>${PART_NAME[p]}の練習録画</div>`
+      + (mine.length ? mine.map(r=>recCard(Object.assign({},r,{title:recDateLabel(r.date)+' '+r.title}),true)).join('')
+                     : '<div class="rec-empty">まだ録画はありません。</div>');
+  });
+})();
+// スケジュールの「録画を見る」→ 映像アーカイブの該当日へ
+function goRecArchive(ds){
+  showSection('video',null);
+  setTimeout(()=>{ const t=document.getElementById('rec-'+ds)||document.getElementById('rec-archive'); if(t) t.scrollIntoView({behavior:'smooth',block:'start'}); },350);
+}
 
 // ── YouTube遅延読み込み（サムネ＋再生ボタン。クリックで初めて読み込み）──
 document.querySelectorAll('.yt-wrap iframe').forEach(function(f){
