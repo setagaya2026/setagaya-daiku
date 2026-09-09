@@ -406,6 +406,26 @@ footer strong{color:var(--gold-light);font-weight:400}
 .rec-date{background:#eef3f8;border-radius:6px;padding:8px 12px;color:#1a3a57;font-size:13px}
 .rec-song{font-size:12px;font-weight:700;color:#9b1b30;margin-top:3px;letter-spacing:0}
 .rec-card-song{font-size:11.5px;font-weight:700;color:#9b1b30;margin-top:6px}
+/* ── 追加: パート早わかりガイド ── */
+.part-guide{background:#fff;border:1.5px solid rgba(0,0,0,.1);border-radius:10px;margin-bottom:14px;overflow:hidden}
+.part-guide summary{list-style:none;cursor:pointer;padding:12px 14px;font-size:13.5px;font-weight:700;color:var(--dark);display:flex;align-items:center;gap:8px;background:#faf6ef}
+.part-guide summary::-webkit-details-marker{display:none}
+.part-guide summary::after{content:'▼';margin-left:auto;font-size:10px;color:var(--muted);transition:transform .2s}
+.part-guide[open] summary::after{transform:rotate(180deg)}
+.pg-body{padding:12px 14px 14px}
+.pg-lead{font-size:12.5px;color:#444;line-height:1.7;margin-bottom:10px}
+.pg-grid{display:grid;grid-template-columns:auto 1fr 1fr;gap:6px;align-items:stretch}
+.pg-head{font-size:11px;font-weight:700;color:#fff;text-align:center;padding:8px 6px;border-radius:6px;display:flex;align-items:center;justify-content:center;letter-spacing:.05em}
+.pg-head.f{background:#c0392b}.pg-head.m{background:#1a5276}
+.pg-scale{font-size:10px;color:var(--muted);text-align:center;display:flex;flex-direction:column;justify-content:space-between;padding:2px 0;line-height:1.3}
+.pg-scale span{display:block}
+.pg-cell{border-radius:6px;padding:9px 8px;text-align:center;color:#fff}
+.pg-cell .n{font-size:14px;font-weight:900;display:block}
+.pg-cell .s{font-size:10.5px;opacity:.9;display:block;margin-top:2px}
+.pg-cell.S{background:linear-gradient(135deg,#e74c3c,#c0392b)}.pg-cell.A{background:linear-gradient(135deg,#e67e22,#b9770e)}
+.pg-cell.T{background:linear-gradient(135deg,#3498db,#1a5276)}.pg-cell.B{background:linear-gradient(135deg,#27ae60,#1e7a45)}
+.pg-hint{margin-top:10px;background:#fff8e6;border-left:4px solid #e0a020;border-radius:0 6px 6px 0;padding:8px 12px;font-size:12px;line-height:1.7;color:#5d3a00}
+.pg-hint strong{color:#9b1b30}
 /* ── 追加: 補習まとめカード（トップ） ── */
 .hosyu-card{background:linear-gradient(135deg,#1a5276,#0f3a57);border-radius:10px;padding:16px 18px;margin-bottom:16px;color:#fff;box-shadow:0 4px 14px rgba(15,58,87,.3)}
 .hosyu-card .hc-title{font-family:'Noto Serif JP',serif;font-size:16px;font-weight:700;margin-bottom:6px;line-height:1.4}
@@ -559,6 +579,26 @@ footer strong{color:var(--gold-light);font-weight:400}
     </div>
   </div>
 
+  <!-- パート早わかりガイド -->
+  <details class="part-guide" id="part-guide">
+    <summary>🎵 パートってなに？ ソプラノ・アルト・テノール・バスの違い</summary>
+    <div class="pg-body">
+      <div class="pg-lead">合唱は<strong>4つの声の高さ</strong>に分かれて歌います。女性は「ソプラノ」か「アルト」、男性は「テノール」か「バス」のどちらかです。</div>
+      <div class="pg-grid">
+        <div class="pg-scale"><span></span><span>声の<br>高さ</span><span></span></div>
+        <div class="pg-head f">👩 女声（女性）</div>
+        <div class="pg-head m">👨 男声（男性）</div>
+        <div class="pg-scale"><span>↑ 高い</span><span></span><span></span></div>
+        <div class="pg-cell S"><span class="n">ソプラノ</span><span class="s">女声の高い声</span></div>
+        <div class="pg-cell T"><span class="n">テノール</span><span class="s">男声の高い声</span></div>
+        <div class="pg-scale"><span></span><span></span><span>↓ 低い</span></div>
+        <div class="pg-cell A"><span class="n">アルト</span><span class="s">女声の低い声</span></div>
+        <div class="pg-cell B"><span class="n">バス</span><span class="s">男声の低い声</span></div>
+      </div>
+      <div class="pg-hint">💡 <strong>迷ったら：</strong>高い声がラクに出るなら「高い方」、低めの声が楽なら「低い方」が目安です。無理に高い声を出す必要はありません。最終的には練習でパートリーダーや指導者に相談して決めましょう。</div>
+    </div>
+  </details>
+
   <!-- パート選択（未設定の場合に表示） -->
   <div id="mypart-select">
     <p style="font-size:13px;color:var(--muted);margin-bottom:12px">
@@ -566,16 +606,16 @@ footer strong{color:var(--gold-light);font-weight:400}
     </p>
     <div class="part-select-grid">
       <div class="part-select-card ps-s" onclick="selectPart('soprano','ソプラノ','🎤')">
-        <div class="part-select-inner"><span class="part-select-label">ソプラノ</span><span class="part-select-sub">Soprano</span></div>
+        <div class="part-select-inner"><span class="part-select-label">ソプラノ</span><span class="part-select-sub">女声・高い声</span></div>
       </div>
       <div class="part-select-card ps-a" onclick="selectPart('alto','アルト','🎤')">
-        <div class="part-select-inner"><span class="part-select-label">アルト</span><span class="part-select-sub">Alto</span></div>
+        <div class="part-select-inner"><span class="part-select-label">アルト</span><span class="part-select-sub">女声・低い声</span></div>
       </div>
       <div class="part-select-card ps-t" onclick="selectPart('tenor','テノール','🎤')">
-        <div class="part-select-inner"><span class="part-select-label">テノール</span><span class="part-select-sub">Tenor</span></div>
+        <div class="part-select-inner"><span class="part-select-label">テノール</span><span class="part-select-sub">男声・高い声</span></div>
       </div>
       <div class="part-select-card ps-b" onclick="selectPart('bass','バス','🎤')">
-        <div class="part-select-inner"><span class="part-select-label">バス</span><span class="part-select-sub">Bass</span></div>
+        <div class="part-select-inner"><span class="part-select-label">バス</span><span class="part-select-sub">男声・低い声</span></div>
       </div>
     </div>
     <p class="mypart-set-note">📱 このサイトを閉じても次回から自動で覚えています</p>
@@ -583,10 +623,10 @@ footer strong{color:var(--gold-light);font-weight:400}
 
   <!-- 全パート一覧（常に表示） -->
   <div class="parts-grid" style="margin-top:16px">
-    <a class="pcard cs" onclick="showSection('soprano',null)"><div class="pci"><span class="plabel">ソプラノ</span><span class="psub">Soprano</span></div></a>
-    <a class="pcard ca" onclick="showSection('alto',null)"><div class="pci"><span class="plabel">アルト</span><span class="psub">Alto</span></div></a>
-    <a class="pcard ct" onclick="showSection('tenor',null)"><div class="pci"><span class="plabel">テノール</span><span class="psub">Tenor</span></div></a>
-    <a class="pcard cb" onclick="showSection('bass',null)"><div class="pci"><span class="plabel">バス</span><span class="psub">Bass</span></div></a>
+    <a class="pcard cs" onclick="showSection('soprano',null)"><div class="pci"><span class="plabel">ソプラノ</span><span class="psub">女声・高い声</span></div></a>
+    <a class="pcard ca" onclick="showSection('alto',null)"><div class="pci"><span class="plabel">アルト</span><span class="psub">女声・低い声</span></div></a>
+    <a class="pcard ct" onclick="showSection('tenor',null)"><div class="pci"><span class="plabel">テノール</span><span class="psub">男声・高い声</span></div></a>
+    <a class="pcard cb" onclick="showSection('bass',null)"><div class="pci"><span class="plabel">バス</span><span class="psub">男声・低い声</span></div></a>
   </div>
 </div>
 
@@ -850,7 +890,7 @@ footer strong{color:var(--gold-light);font-weight:400}
 
 <!-- ── SOPRANO ── -->
 <div class="section" id="sec-soprano">
-  <div class="ph phs"><h2>🎤 ソプラノ（Soprano）</h2><p>練習動画コンテンツ</p></div>
+  <div class="ph phs"><h2>🎤 ソプラノ（Soprano）</h2><p>女声の高い声のパート ｜ 練習動画コンテンツ</p></div>
   <div class="warn-note">⚠️ <strong>参考動画と楽譜は必ずしも一致していません。</strong>練習動画（参考動画）はテンポ・繰り返し・カット・歌詞の割り方などが、私たちが使っている楽譜と異なる場合があります。<strong>練習で指揮者・指導者から受けた指示を優先</strong>し、動画は音取りやイメージづくりの参考としてご活用ください。</div>
   <div class="cblock">
     <div class="cbh"><div class="cnum" style="background:#c0392b">▶</div><span class="ctitle">ソプラノ 練習動画</span></div>
@@ -867,7 +907,7 @@ footer strong{color:var(--gold-light);font-weight:400}
 
 <!-- ── ALTO ── -->
 <div class="section" id="sec-alto">
-  <div class="ph pha"><h2>🎤 アルト（Alto）</h2><p>練習動画コンテンツ</p></div>
+  <div class="ph pha"><h2>🎤 アルト（Alto）</h2><p>女声の低い声のパート ｜ 練習動画コンテンツ</p></div>
   <div class="warn-note">⚠️ <strong>参考動画と楽譜は必ずしも一致していません。</strong>練習動画（参考動画）はテンポ・繰り返し・カット・歌詞の割り方などが、私たちが使っている楽譜と異なる場合があります。<strong>練習で指揮者・指導者から受けた指示を優先</strong>し、動画は音取りやイメージづくりの参考としてご活用ください。</div>
   <div class="cblock">
     <div class="cbh"><div class="cnum" style="background:#8e44ad">▶</div><span class="ctitle">アルト 練習動画</span></div>
@@ -884,7 +924,7 @@ footer strong{color:var(--gold-light);font-weight:400}
 
 <!-- ── TENOR ── -->
 <div class="section" id="sec-tenor">
-  <div class="ph pht"><h2>🎤 テノール（Tenor）</h2><p>練習動画コンテンツ</p></div>
+  <div class="ph pht"><h2>🎤 テノール（Tenor）</h2><p>男声の高い声のパート ｜ 練習動画コンテンツ</p></div>
   <div class="warn-note">⚠️ <strong>参考動画と楽譜は必ずしも一致していません。</strong>練習動画（参考動画）はテンポ・繰り返し・カット・歌詞の割り方などが、私たちが使っている楽譜と異なる場合があります。<strong>練習で指揮者・指導者から受けた指示を優先</strong>し、動画は音取りやイメージづくりの参考としてご活用ください。</div>
   <div class="cblock">
     <div class="cbh"><div class="cnum" style="background:#2471a3">1</div><span class="ctitle">第1テノール 練習動画</span></div>
@@ -911,7 +951,7 @@ footer strong{color:var(--gold-light);font-weight:400}
 
 <!-- ── BASS ── -->
 <div class="section" id="sec-bass">
-  <div class="ph phb"><h2>🎤 バス（Bass）</h2><p>練習動画コンテンツ</p></div>
+  <div class="ph phb"><h2>🎤 バス（Bass）</h2><p>男声の低い声のパート ｜ 練習動画コンテンツ</p></div>
   <div class="warn-note">⚠️ <strong>参考動画と楽譜は必ずしも一致していません。</strong>練習動画（参考動画）はテンポ・繰り返し・カット・歌詞の割り方などが、私たちが使っている楽譜と異なる場合があります。<strong>練習で指揮者・指導者から受けた指示を優先</strong>し、動画は音取りやイメージづくりの参考としてご活用ください。</div>
   <div class="cblock">
     <div class="cbh"><div class="cnum" style="background:#1e8449">▶</div><span class="ctitle">バス 練習動画</span></div>
@@ -1008,6 +1048,25 @@ const SCH=[
   {date:'2026-11-28',title:'リハーサル',detail:'本番会場にて（時間別途連絡）',badge:'badge-rh',btext:'リハーサル',start:'10:00',end:'17:00',page:'',song:'通し'},
   {date:'2026-11-29',title:'🎶 本番！Re:Freude',detail:'第1回公演 12:30集合／14:00スタート ・ 第2回公演 16:00集合／17:30スタート',badge:'badge-c',btext:'本番！',start:'12:30',end:'19:30',page:'',song:'通し'},
 ];
+// ── 練習の録画（RECS）──
+// ★ 毎週の録画はここに1行足すだけ。並び順は自動（補習が一番上に固定、その下は新しい日付が上）。
+//   その日の「楽譜ページ・練習箇所」はスケジュール（SCH）から自動で表示されるので、ここには書かなくてOK。
+//   id は YouTube の URL「youtu.be/○○○」の ○○○ の部分。parts は S=ソプラノ A=アルト T=テノール B=バス（該当するものを入れる）
+const RECS=[
+  {date:'2026-08-22',title:'男声 補習練習（第1〜5回の内容）',id:'yI0sUw5_GDM',parts:['T','B']},
+  {date:'2026-08-23',title:'男声パート 合唱練習',       id:'NWjhqaY3haE',parts:['T','B']},
+  {date:'2026-08-23',title:'女声パート（講堂）',         id:'i9CYqCKHSMw',parts:['S','A']},
+  {date:'2026-08-23',title:'女声パート（元初の間）',     id:'WVwedpkdMv8',parts:['S','A']},
+  {date:'2026-08-29',title:'女声 補習練習（第1〜5回の内容）',id:'yp9G0D7IJ2o',parts:['S','A']},
+  {date:'2026-08-30',title:'女声パート',               id:'CkDFs5-Nfpk',parts:['S','A']},
+  {date:'2026-08-30',title:'男声パート（テノール）',     id:'yGLWq7Gusms',parts:['T']},
+  {date:'2026-08-30',title:'男声パート（バス）',         id:'pdwQlc5pv94',parts:['B']},
+  {date:'2026-08-30',title:'男女パート合同',           id:'kiwCednRpTc',parts:['S','A','T','B']},
+  {date:'2026-09-06',title:'女声パート（ソプラノ）',     id:'7ZnHLxMqc3M',parts:['S']},
+  {date:'2026-09-06',title:'女声パート（アルト）',       id:'5Ob5iCR_nQc',parts:['A']},
+  {date:'2026-09-06',title:'男声パート（テノール）',     id:'_YlXnWIAC9A',parts:['T']},
+  {date:'2026-09-06',title:'男声パート（バス）',         id:'_9IqGHz2ciw',parts:['B']},
+];
 const DOW=['日','月','火','水','木','金','土'];
 const MON=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
 
@@ -1056,7 +1115,7 @@ function buildSch(){
         <div class="sch-title">${ev.title}</div>
         <div class="sch-sub">${ev.detail}</div>
         ${songLabel(ev) ? `<div class="sch-song">🎼 ${songLabel(ev)}</div>` : ''}
-        ${ev.rec ? `<a class="sch-rec-link" onclick="goRecArchive('${ev.date}')">🎥 この日の練習録画を見る</a>` : ''}
+        ${(ev.rec||RECS.some(r=>r.date===ev.date)) ? `<a class="sch-rec-link" onclick="goRecArchive('${ev.date}')">🎥 この日の練習録画を見る</a>` : ''}
       </div>
       <span class="badge ${ev.badge}" style="margin-right:6px">${ev.btext}</span>
       <a href="${gcalUrl(ev)}" target="_blank" class="gcal-add-btn" title="Googleカレンダーに追加">📅+</a>
@@ -1082,6 +1141,8 @@ const PART_INFO = {
 
 function initMyPart(){
   const saved = localStorage.getItem('mypart');
+  // パート未設定の人には「パート早わかり」を最初から開いておく
+  const pg=document.getElementById('part-guide'); if(pg && !(saved && PART_INFO[saved])) pg.open=true;
   if(saved && PART_INFO[saved]){
     showMyPartBanner(saved);
     // 初回アクセス時はマイパートページへ自動ジャンプ（ただし共有リンクで開いた場合は尊重）
@@ -1403,21 +1464,6 @@ document.querySelectorAll('.kb-head').forEach(function(h){
   }, {passive:true});
 })();
 
-// ── 練習の録画（RECS）──
-// ★ 毎週の録画はここに1行足すだけ。並び順は自動（補習が一番上に固定、その下は新しい日付が上）。
-//   その日の「楽譜ページ・練習箇所」はスケジュール（SCH）から自動で表示されるので、ここには書かなくてOK。
-//   id は YouTube の URL「youtu.be/○○○」の ○○○ の部分。parts は S=ソプラノ A=アルト T=テノール B=バス（該当するものを入れる）
-const RECS=[
-  {date:'2026-08-22',title:'男声 補習練習（第1〜5回の内容）',id:'yI0sUw5_GDM',parts:['T','B']},
-  {date:'2026-08-23',title:'男声パート 合唱練習',       id:'NWjhqaY3haE',parts:['T','B']},
-  {date:'2026-08-23',title:'女声パート（講堂）',         id:'i9CYqCKHSMw',parts:['S','A']},
-  {date:'2026-08-23',title:'女声パート（元初の間）',     id:'WVwedpkdMv8',parts:['S','A']},
-  {date:'2026-08-29',title:'女声 補習練習（第1〜5回の内容）',id:'yp9G0D7IJ2o',parts:['S','A']},
-  {date:'2026-08-30',title:'女声パート',               id:'CkDFs5-Nfpk',parts:['S','A']},
-  {date:'2026-08-30',title:'男声パート（テノール）',     id:'yGLWq7Gusms',parts:['T']},
-  {date:'2026-08-30',title:'男声パート（バス）',         id:'pdwQlc5pv94',parts:['B']},
-  {date:'2026-08-30',title:'男女パート合同',           id:'kiwCednRpTc',parts:['S','A','T','B']},
-];
 const PART_NAME={S:'ソプラノ',A:'アルト',T:'テノール',B:'バス'};
 function recDateLabel(ds){ const [y,m,d]=ds.split('-').map(Number); const dt=new Date(y,m-1,d); return `${m}月${d}日（${['日','月','火','水','木','金','土'][dt.getDay()]}）`; }
 function recEv(ds){ return SCH.find(e=>e.date===ds); }   // その日の練習情報（楽譜ページ・練習箇所）
