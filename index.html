@@ -386,11 +386,20 @@ footer strong{color:var(--gold-light);font-weight:400}
 .notice-banner .nb-title{font-size:14px;font-weight:900;color:#4a2c00;margin-bottom:4px;letter-spacing:.02em}
 .notice-banner .nb-body{font-size:12.5px;color:#5d3a00;line-height:1.7}
 .notice-banner .nb-body strong{color:#9b1b30}
+.nb-list{margin:6px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px}
+.nb-list li{background:rgba(255,255,255,.55);border-radius:6px;padding:8px 10px;font-size:12.5px;line-height:1.65;color:#4a2c00}
+.nb-list li strong{color:#9b1b30}
+.nb-foot{font-size:11.5px;color:#5d3a00;margin-top:8px;line-height:1.6}
+.nb-foot a{color:#9b1b30;font-weight:700;text-decoration:underline;cursor:pointer}
 /* ── 追加: 次回練習の練習箇所 ── */
 .next-bar-song{margin-top:8px;background:rgba(255,212,59,.16);border:1px solid rgba(255,212,59,.45);border-radius:6px;padding:7px 10px;font-size:13px;font-weight:700;color:#FFD43B;line-height:1.5}
 .next-bar-song .nbs-lbl{font-size:10px;letter-spacing:.15em;color:rgba(255,255,255,.7);display:block;margin-bottom:2px;font-weight:400}
 /* ── 追加: 補習バッジ ── */
 .badge-h{background:#efe6ff;color:#5B3FE0}
+.badge-x{background:#888;color:#fff}
+.sch-item.cancel{opacity:.6;background:repeating-linear-gradient(135deg,#f3f3f3,#f3f3f3 8px,#ebebeb 8px,#ebebeb 16px)}
+.sch-item.cancel .sch-title{text-decoration:line-through;color:#777}
+.sch-item.cancel .sch-sub{color:#9b1b30;font-weight:700}
 .sch-rec-link{display:inline-block;margin-top:5px;font-size:11px;font-weight:700;color:#5B3FE0;text-decoration:none;background:#efe6ff;border-radius:12px;padding:2px 9px;cursor:pointer}
 /* ── 追加: 参考動画と楽譜の注意書き ── */
 .warn-note{background:#fff8e6;border:1.5px solid #f0c060;border-left:5px solid #e0a020;border-radius:6px;padding:11px 14px;margin:0 0 14px;font-size:12.5px;line-height:1.75;color:#5d3a00}
@@ -437,6 +446,59 @@ footer strong{color:var(--gold-light);font-weight:400}
 .hosyu-card .hc-btn{flex:1;min-width:140px;background:#fff;color:#1a5276;border:none;border-radius:8px;padding:11px 12px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;text-align:center;transition:transform .15s}
 .hosyu-card .hc-btn:hover{transform:translateY(-1px)}
 .hosyu-card .hc-btn.f{background:#FFD43B;color:#4a2c00}
+
+/* ════ 2026/9 ブラッシュアップ ════ */
+/* ナビ：横スクロールできることが分かるよう右端をフェード */
+.nav-wrap{position:sticky;top:0;z-index:100}
+.nav-wrap::after{content:'';position:absolute;top:0;right:0;bottom:0;width:36px;background:linear-gradient(90deg,rgba(26,18,8,0),var(--dark));pointer-events:none;transition:opacity .2s}
+.nav-wrap.at-end::after{opacity:0}
+.nav-wrap nav{position:static;white-space:nowrap}
+/* LINEボタンの文字折り返しを防止 */
+.line-share-btn{white-space:nowrap}
+.line-icon{width:24px;height:24px;flex-shrink:0}
+/* 地図ボタン（白いカード上でも見える色に） */
+.map-link.dark{background:var(--navy-dark);color:#fff;border-color:transparent}
+/* 次回の練習：スマホでは縦並びに */
+@media(max-width:560px){
+  .next-bar{flex-direction:column;align-items:stretch;gap:12px}
+  .next-bar-icon{display:none}
+  .next-bar-btn{width:100%;padding:12px}
+}
+/* アルトの色をパートカード（紫）に統一 */
+.pg-cell.A{background:linear-gradient(135deg,#9b59b6,#7d3c98)}
+.rec-chip.A{background:#f3e6f8;color:#7d3c98}
+/* 練習日程：終了した回の折りたたみ */
+.sch-past-toggle{display:block;width:100%;background:#f3efe8;border:none;border-bottom:1px solid rgba(0,0,0,.06);padding:12px 16px;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;font-family:'Noto Sans JP',sans-serif;text-align:center}
+.sch-past-toggle:hover{background:#ece6dc}
+#sch-items.hide-past .sch-item.past{display:none}
+/* 録画アーカイブ：日付ジャンプ＆折りたたみ */
+.rec-jump{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 4px}
+.rec-jump a{font-size:11.5px;font-weight:700;background:#eef3f8;color:#1a5276;border-radius:14px;padding:5px 11px;cursor:pointer;text-decoration:none}
+.rec-jump a.pin{background:#efe6ff;color:#5B3FE0}
+details.rec-day{margin-bottom:10px}
+details.rec-day>summary{list-style:none;cursor:pointer;position:relative;padding-right:30px}
+details.rec-day>summary::-webkit-details-marker{display:none}
+details.rec-day>summary::after{content:'▼';position:absolute;right:12px;top:10px;font-size:10px;color:#1a5276;transition:transform .2s}
+details.rec-day[open]>summary::after{transform:rotate(180deg)}
+details.rec-day>summary .rec-count{display:inline-block;background:#1a5276;color:#fff;font-size:10px;border-radius:10px;padding:1px 7px;margin-left:6px;vertical-align:middle}
+details.rec-day .rec-day-body{padding-top:10px}
+/* パートページ：次回の練習箇所 */
+.part-next{background:linear-gradient(135deg,var(--navy),var(--navy-dark));color:#fff;border-radius:8px;padding:12px 14px;margin-bottom:14px}
+.part-next .pn-lbl{font-size:10px;letter-spacing:.15em;color:rgba(255,255,255,.65)}
+.part-next .pn-date{font-size:14px;font-weight:700;margin:2px 0 4px}
+.part-next .pn-song{font-size:12.5px;font-weight:700;color:#FFD43B;line-height:1.55}
+.part-next .pn-sub{font-size:11px;color:rgba(255,255,255,.7);margin-top:4px}
+.rec-more{display:block;width:100%;background:#fff;border:1.5px dashed #1a5276;color:#1a5276;border-radius:8px;padding:11px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;margin-top:4px}
+/* フロイデVoice：目次の折りたたみ・既読 */
+details.fv-toc{background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:8px;margin-bottom:18px}
+details.fv-toc>summary{list-style:none;cursor:pointer;padding:12px 14px;font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px}
+details.fv-toc>summary::-webkit-details-marker{display:none}
+details.fv-toc>summary::after{content:'▼';margin-left:auto;font-size:10px;color:var(--muted);transition:transform .2s}
+details.fv-toc[open]>summary::after{transform:rotate(180deg)}
+details.fv-toc .pidx{padding:0 12px 12px;margin-bottom:0}
+.pbtn.read .pbtn-num::after{content:' ✓ 読んだ';color:#27ae60}
+.pbtn.active.read .pbtn-num::after{color:#7fe0a4}
+.qnbtn span:last-child{display:block;font-size:12px;line-height:1.4}
 </style>
 </head>
 <body>
@@ -470,25 +532,52 @@ footer strong{color:var(--gold-light);font-weight:400}
 </div>
 
 <!-- NAV -->
+<div class="nav-wrap" id="nav-wrap">
 <nav>
   <div class="nav-inner">
-    <a class="active" onclick="showSection('home',this)">ホーム</a>
-    <a onclick="showSection('schedule',this)">📅 練習日程</a>
-    <a onclick="showSection('video',this)">🎬 映像アーカイブ</a>
-    <a onclick="showSection('freude',this)">📖 フロイデVoice</a>
-    <a onclick="showSection('daiku',this)">📜 第九の研鑽</a>
-    <a onclick="showSection('soprano',this)">ソプラノ</a>
-    <a onclick="showSection('alto',this)">アルト</a>
-    <a onclick="showSection('tenor',this)">テノール</a>
-    <a onclick="showSection('bass',this)">バス</a>
-    <a onclick="showSection('info',this)">指導・情報</a>
+    <a class="active" href="#home" onclick="showSection('home',this);return false;">ホーム</a>
+    <a href="#schedule" onclick="showSection('schedule',this);return false;">📅 練習日程</a>
+    <a href="#video" onclick="showSection('video',this);return false;">🎬 映像アーカイブ</a>
+    <a href="#freude" onclick="showSection('freude',this);return false;">📖 フロイデVoice</a>
+    <a href="#daiku" onclick="showSection('daiku',this);return false;">📜 第九の研鑽</a>
+    <a href="#soprano" onclick="showSection('soprano',this);return false;">ソプラノ</a>
+    <a href="#alto" onclick="showSection('alto',this);return false;">アルト</a>
+    <a href="#tenor" onclick="showSection('tenor',this);return false;">テノール</a>
+    <a href="#bass" onclick="showSection('bass',this);return false;">バス</a>
+    <a href="#info" onclick="showSection('info',this);return false;">指導・情報</a>
   </div>
 </nav>
+</div>
 
 <main>
 
 <!-- ── HOME ── -->
 <div class="section active" id="sec-home">
+
+  <!-- ── お知らせ（最新）── -->
+  <div class="notice-banner">
+    <div class="nb-icon">📢</div>
+    <div style="flex:1">
+      <div class="nb-title">【重要】練習日程・時間の変更のお知らせ</div>
+      <ul class="nb-list">
+        <li><b>9/20（日）第10回は台風のため中止</b>になりました。<br>→ 振替練習：<strong>10/12（月・祝）18:30〜20:00</strong>（p.56〜59 R(730-762)）</li>
+        <li><b>9/27（日）から練習時間を30分延長</b>します。<br>→ <strong>17:50集合／20:00終了</strong>（19:30〜20:00は原則Tutti＝全パート合同）</li>
+      </ul>
+      <div class="nb-foot">※「📅+」でGoogleカレンダーに登録済みの方は旧時刻のままです。9/27以降の回を削除し、<a onclick="showSection('schedule',null)">練習日程</a>から登録し直してください。</div>
+    </div>
+  </div>
+
+  <div class="slabel"><div class="licon">📅</div>次回の練習</div>
+  <div class="next-bar">
+    <div class="next-bar-icon">🎵</div>
+    <div class="next-bar-info">
+      <div class="next-bar-lbl">NEXT PRACTICE</div>
+      <div class="next-bar-date" id="home-next-date">確認中...</div>
+      <div class="next-bar-sub" id="home-next-sub"></div>
+      <div class="next-bar-song" id="home-next-song" style="display:none"><span class="nbs-lbl">🎼 今回の練習箇所</span><span id="home-next-song-text"></span></div>
+    </div>
+    <button class="next-bar-btn" onclick="showSection('schedule',null)">日程一覧 →</button>
+  </div>
 
   <!-- ── 補習まとめ（8/2までの内容を8/22・8/29に補習）── -->
   <div class="hosyu-card">
@@ -505,15 +594,6 @@ footer strong{color:var(--gold-light);font-weight:400}
     </div>
   </div>
 
-  <!-- ── お知らせ：練習時間の変更 ── -->
-  <div class="notice-banner">
-    <div class="nb-icon">📢</div>
-    <div>
-      <div class="nb-title">【重要】8月23日から練習時間が変わりました</div>
-      <div class="nb-body">8月23日（日）の第6回練習より、<strong>17:50集合／19:30練習終了</strong>に変わりました。<br>お間違えのないようお越しください。（練習日程のページにも反映済みです）<br>※「📅+」で以前にGoogleカレンダーに登録した方は、旧時刻のままになっています。お手数ですが、8/23以降の回を一度削除して、練習日程のページから登録し直してください。</div>
-    </div>
-  </div>
-
   <!-- ── なぜ第九を歌うのか ── -->
   <div class="meaning-card">
     <div class="meaning-label">Why we sing</div>
@@ -526,18 +606,6 @@ footer strong{color:var(--gold-light);font-weight:400}
       <p>誰かのために歌うのではない。自分の中でまだ眠っている歓喜を、解き放つために歌う。一人の歓喜は、必ず誰かの歓喜を呼び覚ます。その連鎖こそが、世界を動かす力になる。</p>
       <p class="meaning-finale"><strong>『Re：Freude』</strong>——わたしたちの、新しい歓喜の歌。<br>2026年11月29日。<strong>次の物語は、あなたの一声から始まる。</strong></p>
     </div>
-  </div>
-
-  <div class="slabel"><div class="licon">📅</div>次回の練習</div>
-  <div class="next-bar">
-    <div class="next-bar-icon">🎵</div>
-    <div class="next-bar-info">
-      <div class="next-bar-lbl">NEXT PRACTICE</div>
-      <div class="next-bar-date" id="home-next-date">確認中...</div>
-      <div class="next-bar-sub" id="home-next-sub"></div>
-      <div class="next-bar-song" id="home-next-song" style="display:none"><span class="nbs-lbl">🎼 今回の練習箇所</span><span id="home-next-song-text"></span></div>
-    </div>
-    <button class="next-bar-btn" onclick="showSection('schedule',null)">日程一覧 →</button>
   </div>
 
   <div class="slabel"><div class="licon">🎬</div>映像アーカイブ</div>
@@ -621,8 +689,8 @@ footer strong{color:var(--gold-light);font-weight:400}
     <p class="mypart-set-note">📱 このサイトを閉じても次回から自動で覚えています</p>
   </div>
 
-  <!-- 全パート一覧（常に表示） -->
-  <div class="parts-grid" style="margin-top:16px">
+  <!-- 全パート一覧（マイパート設定後に表示。未設定時は上の選択カードと重複するので隠す） -->
+  <div class="parts-grid" id="parts-all" style="margin-top:16px;display:none">
     <a class="pcard cs" onclick="showSection('soprano',null)"><div class="pci"><span class="plabel">ソプラノ</span><span class="psub">女声・高い声</span></div></a>
     <a class="pcard ca" onclick="showSection('alto',null)"><div class="pci"><span class="plabel">アルト</span><span class="psub">女声・低い声</span></div></a>
     <a class="pcard ct" onclick="showSection('tenor',null)"><div class="pci"><span class="plabel">テノール</span><span class="psub">男声・高い声</span></div></a>
@@ -743,7 +811,10 @@ footer strong{color:var(--gold-light);font-weight:400}
     <div class="prog-lbl">進捗：<span id="prog-lbl">Part 1 / 20</span></div>
     <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:5%"></div></div>
   </div>
-  <div class="pidx" id="pidx"></div>
+  <details class="fv-toc" id="fv-toc">
+    <summary>📚 全20回の目次（タップで開く）<span id="fv-readcount" style="font-weight:400;color:var(--muted);font-size:11.5px"></span></summary>
+    <div class="pidx" id="pidx"></div>
+  </details>
   <div id="qpanels"></div>
   <div class="qnav">
     <button class="qnbtn" id="qbtn-prev" onclick="movePart(-1)" disabled><span class="nh">← 前へ</span><span id="prev-lbl">―</span></button>
@@ -978,8 +1049,8 @@ footer strong{color:var(--gold-light);font-weight:400}
   <div class="slabel"><div class="licon">🗣</div>発音練習動画</div>
   <div class="cblock"><div class="cbh"><div class="cnum" style="background:#5d4037">1</div><span class="ctitle">発音練習</span></div><div class="cbody"><div class="yt-wrap"><iframe data-src="https://www.youtube.com/embed/qK9Da8lCFXU" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div><p class="enote" style="margin-top:10px">🗣 ドイツ語の発音はここでマスター。歌詞がぐっと歌いやすくなります！</p></div></div>
   <div class="icards">
-    <div class="icard"><h3>📅 本番情報</h3><p>本番日：2026年11月29日（日）<br>第1回公演：12:30集合／14:00スタート<br>第2回公演：16:00集合／17:30スタート<br>リハーサル：11月28日（土）</p><a class="map-link dark" href="https://www.google.com/maps/search/?api=1&query=%E5%89%B5%E4%BE%A1%E5%AD%A6%E4%BC%9A%E6%9D%B1%E4%BA%AC%E6%B1%A0%E7%94%B0%E8%A8%98%E5%BF%B5%E8%AC%9B%E5%A0%82+%E4%B8%96%E7%94%B0%E8%B0%B7%E5%8C%BA%E7%94%A8%E8%B3%803-1-1" target="_blank" rel="noopener">📍 会場の地図</a></div>
-    <div class="icard"><h3>📝 スケジュール</h3><p>6月21日（日）17:00〜 結団式<br>7月〜 毎週日曜 19:00〜20:30<br><strong>8月23日〜 毎週日曜 17:50集合／19:30終了</strong><br>東京池田記念講堂 2F講堂<br>※8月9日・16日はお休み</p></div>
+    <div class="icard"><h3>📅 本番情報</h3><p>本番日：2026年11月29日（日）<br>第1回公演：12:30集合／14:00スタート<br>第2回公演：16:00集合／17:30スタート<br>リハーサル：11月28日（土）</p></div>
+    <div class="icard"><h3>📝 スケジュール</h3><p>6月21日（日）17:00〜 結団式<br>7月〜 毎週日曜 19:00〜20:30<br>8月23日〜 毎週日曜 17:50集合／19:30終了<br><strong>9月27日〜 毎週日曜 17:50集合／20:00終了</strong>（19:30〜20:00は原則Tutti）<br>東京池田記念講堂 2F講堂<br>※8月9日・16日はお休み<br>※9月20日は台風のため中止 → 10月12日（月・祝）18:30〜20:00に振替</p><a class="map-link dark" href="https://www.google.com/maps/search/?api=1&query=%E5%89%B5%E4%BE%A1%E5%AD%A6%E4%BC%9A%E6%9D%B1%E4%BA%AC%E6%B1%A0%E7%94%B0%E8%A8%98%E5%BF%B5%E8%AC%9B%E5%A0%82+%E4%B8%96%E7%94%B0%E8%B0%B7%E5%8C%BA%E7%94%A8%E8%B3%803-1-1" target="_blank" rel="noopener">📍 練習会場（東京池田記念講堂）の地図</a></div>
   </div>
 </div>
 
@@ -1034,17 +1105,18 @@ const SCH=[
   {date:'2026-08-29',title:'女声（ソプラノ・アルト）補習練習',detail:'第1〜5回（〜8/2）の内容を補習 東京池田記念講堂',badge:'badge-h',btext:'補習',start:'',end:'',rec:true,page:'33〜37／14〜19／22〜24',song:'第1〜5回の内容（M・D・E・G）'},
   {date:'2026-08-30',title:'第7回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',rec:true,page:'38〜41',song:'(595-626)② Seid um〜Vater wohnen'},
   {date:'2026-09-06',title:'第8回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',page:'41〜43',song:'(631-654) Ihr stürzt〜er wohnen'},
-  {date:'2026-09-13',title:'第9回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',page:'41〜43',song:'(631-654) Ihr stürzt〜er wohnen'},
-  {date:'2026-09-20',title:'第10回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',page:'44〜56',song:'(655-729)① Freude schöner〜Heiligtum／Seid um〜ganzen Welt'},
-  {date:'2026-09-27',title:'第11回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',page:'44〜56',song:'(655-729)② Freude schöner〜Heiligtum／Seid um〜ganzen Welt'},
-  {date:'2026-10-04',title:'第12回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',page:'44〜56',song:'(655-729)③ Freude schöner〜Heiligtum／Seid um〜ganzen Welt'},
-  {date:'2026-10-11',title:'第13回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',page:'56〜59',song:'R(730-762) Ihr stürzt〜Vater wohnen'},
-  {date:'2026-10-18',title:'第14回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',page:'27〜29',song:'男声(411-431) Laufet, Brüder〜zum Siegen／女声 総復習'},
-  {date:'2026-10-25',title:'第15回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',page:'62〜65',song:'S(795-832) Deine Zauber〜Alle Menschen'},
-  {date:'2026-11-01',title:'第16回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',page:'67〜75',song:'(855-920)① Deine Zauber〜Götterfunken'},
-  {date:'2026-11-08',title:'第17回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',page:'67〜75',song:'(855-920)② Deine Zauber〜Götterfunken'},
-  {date:'2026-11-15',title:'第18回 全曲通し①',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',page:'',song:'全曲①'},
-  {date:'2026-11-22',title:'第19回 全曲通し②',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',page:'',song:'全曲②'},
+  {date:'2026-09-13',title:'第9回 合同練習',detail:'17:50集合／19:30終了 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'19:30',page:'41〜43／44〜56',song:'(631-654)② Ihr stürzt〜er wohnen／(655-729)① Freude schöner〜Heiligtum／Seid um〜ganzen Welt'},
+  {date:'2026-09-20',title:'第10回 合同練習',detail:'台風のため中止 → 10/12（月・祝）に振替',badge:'badge-x',btext:'中止',start:'17:50',end:'19:30',cancel:true,page:'',song:'（中止）'},
+  {date:'2026-09-27',title:'第11回 合同練習',detail:'17:50集合／20:00終了（19:30〜20:00は原則Tutti） 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'20:00',page:'44〜56',song:'(655-729)② Freude schöner〜Heiligtum／Seid um〜ganzen Welt'},
+  {date:'2026-10-04',title:'第12回 合同練習',detail:'17:50集合／20:00終了（19:30〜20:00は原則Tutti） 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'20:00',page:'44〜56',song:'(655-729)③ Freude schöner〜Heiligtum／Seid um〜ganzen Welt'},
+  {date:'2026-10-11',title:'第13回 合同練習',detail:'17:50集合／20:00終了（19:30〜20:00は原則Tutti） 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'20:00',page:'44〜56',song:'(655-729)④ Freude schöner〜Heiligtum／Seid um〜ganzen Welt'},
+  {date:'2026-10-12',title:'振替練習（9/20中止分）',detail:'18:30〜20:00 東京池田記念講堂 2F講堂',badge:'badge-sp',btext:'振替',start:'18:30',end:'20:00',page:'56〜59',song:'R(730-762) Ihr stürzt〜Vater wohnen'},
+  {date:'2026-10-18',title:'第14回 合同練習',detail:'17:50集合／20:00終了（19:30〜20:00は原則Tutti） 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'20:00',page:'27〜29',song:'男声(411-431) Laufet, Brüder〜zum Siegen／女声 総復習'},
+  {date:'2026-10-25',title:'第15回 合同練習',detail:'17:50集合／20:00終了（19:30〜20:00は原則Tutti） 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'20:00',page:'62〜65',song:'S(795-832) Deine Zauber〜Alle Menschen'},
+  {date:'2026-11-01',title:'第16回 合同練習',detail:'17:50集合／20:00終了（19:30〜20:00は原則Tutti） 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'20:00',page:'67〜75',song:'(855-920)① Seid um〜Götterfunken'},
+  {date:'2026-11-08',title:'第17回 合同練習',detail:'17:50集合／20:00終了（19:30〜20:00は原則Tutti） 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'20:00',page:'67〜75',song:'(855-920)② Seid um〜Götterfunken'},
+  {date:'2026-11-15',title:'第18回 全曲通し①',detail:'17:50集合／20:00終了（19:30〜20:00は原則Tutti） 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'20:00',page:'',song:'全曲①'},
+  {date:'2026-11-22',title:'第19回 全曲通し②',detail:'17:50集合／20:00終了（19:30〜20:00は原則Tutti） 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'20:00',page:'',song:'全曲②'},
   {date:'2026-11-28',title:'リハーサル',detail:'本番会場にて（時間別途連絡）',badge:'badge-rh',btext:'リハーサル',start:'10:00',end:'17:00',page:'',song:'通し'},
   {date:'2026-11-29',title:'🎶 本番！Re:Freude',detail:'第1回公演 12:30集合／14:00スタート ・ 第2回公演 16:00集合／17:30スタート',badge:'badge-c',btext:'本番！',start:'12:30',end:'19:30',page:'',song:'通し'},
 ];
@@ -1103,10 +1175,11 @@ function buildSch(){
   const today=new Date();today.setHours(0,0,0,0);
   let nf=false;
   SCH.forEach(ev=>{
-    const d=new Date(ev.date+'T00:00:00+09:00');
+    const [yy,mm,dd]=ev.date.split('-').map(Number); const d=new Date(yy,mm-1,dd);   // 端末の時間帯に左右されない日付
     const past=d<today,isToday=d.getTime()===today.getTime();
+    const isNext=!past&&!nf&&!ev.cancel;   // 中止の回は「次回」にしない
     const el=document.createElement('div');
-    el.className='sch-item'+(past?' past':'')+(isToday?' today':'');
+    el.className='sch-item'+(past?' past':'')+(isToday&&!ev.cancel?' today':'')+(ev.cancel?' cancel':'');
     el.innerHTML=`
       <div class="sch-date">
         <div class="sch-mo">${MON[d.getMonth()]}</div>
@@ -1115,23 +1188,33 @@ function buildSch(){
       </div>
       <div class="sch-divider"></div>
       <div class="sch-info">
-        ${(!past&&!nf)?'<span class="sch-next-tag">🔜 次回</span><br>':''}
+        ${isNext?'<span class="sch-next-tag">🔜 次回</span><br>':''}
         <div class="sch-title">${ev.title}</div>
         <div class="sch-sub">${ev.detail}</div>
-        ${songLabel(ev) ? `<div class="sch-song">🎼 ${songLabel(ev)}</div>` : ''}
+        ${(!ev.cancel&&songLabel(ev)) ? `<div class="sch-song">🎼 ${songLabel(ev)}</div>` : ''}
         ${(ev.rec||RECS.some(r=>r.date===ev.date)) ? `<a class="sch-rec-link" onclick="goRecArchive('${ev.date}')">🎥 この日の練習録画を見る</a>` : ''}
       </div>
       <span class="badge ${ev.badge}" style="margin-right:6px">${ev.btext}</span>
-      <a href="${gcalUrl(ev)}" target="_blank" class="gcal-add-btn" title="Googleカレンダーに追加">📅+</a>
+      ${(ev.cancel||past) ? '' : `<a href="${gcalUrl(ev)}" target="_blank" rel="noopener" class="gcal-add-btn" title="Googleカレンダーに追加" aria-label="${ev.title}をGoogleカレンダーに追加">📅+</a>`}
     `;
-    if(!past&&!nf){ el.classList.add('next'); }
+    if(isNext){ el.classList.add('next'); }
     c.appendChild(el);
-    if(!past&&!nf){nf=true;document.getElementById('home-next-date').textContent=`${d.getMonth()+1}月${d.getDate()}日（${DOW[d.getDay()]}）${ev.title}`;document.getElementById('home-next-sub').textContent=ev.detail;
+    if(isNext){nf=true;document.getElementById('home-next-date').textContent=`${d.getMonth()+1}月${d.getDate()}日（${DOW[d.getDay()]}）${ev.title}`;document.getElementById('home-next-sub').textContent=ev.detail;
       const sb=document.getElementById('home-next-song');
       const sl=songLabel(ev); if(sl){ document.getElementById('home-next-song-text').textContent=sl; sb.style.display='block'; } else { sb.style.display='none'; }
     }
   });
   if(!nf){document.getElementById('home-next-date').textContent='2026年11月29日（日）本番！';document.getElementById('home-next-sub').textContent='フロイデー！！！';}
+  // 終了した回は折りたたむ（タップで表示）
+  const np=c.querySelectorAll('.sch-item.past').length;
+  if(np>0){
+    c.classList.add('hide-past');
+    const tb=document.createElement('button'); tb.className='sch-past-toggle';
+    const lbl=()=>c.classList.contains('hide-past')?`✅ 終了した練習（${np}回）を表示する ▼`:`終了した練習を隠す ▲`;
+    tb.textContent=lbl();
+    tb.onclick=()=>{ c.classList.toggle('hide-past'); tb.textContent=lbl(); };
+    c.insertBefore(tb,c.firstChild);
+  }
 }
 buildSch();
 
@@ -1161,6 +1244,7 @@ function showMyPartBanner(part){
   const info = PART_INFO[part];
   document.getElementById('mypart-banner').style.display = 'block';
   document.getElementById('mypart-select').style.display = 'none';
+  document.getElementById('parts-all').style.display = '';
   document.getElementById('mypart-icon').textContent = info.icon;
   document.getElementById('mypart-name').textContent = info.name;
   // ボタンの色をパートカラーに
@@ -1187,6 +1271,7 @@ function resetMyPart(){
   localStorage.removeItem('mypart');
   document.getElementById('mypart-banner').style.display = 'none';
   document.getElementById('mypart-select').style.display = 'block';
+  document.getElementById('parts-all').style.display = 'none';
   document.querySelectorAll('.part-select-card').forEach(c => c.classList.remove('selected'));
 }
 
@@ -1199,11 +1284,20 @@ function _setSection(name,link){
   const labels={home:'ホーム',schedule:'📅 練習日程',video:'🎬 映像アーカイブ',freude:'📖 フロイデVoice',daiku:'📜 第九の研鑽',soprano:'ソプラノ',alto:'アルト',tenor:'テノール',bass:'バス',info:'指導・情報'};
   if(link){link.classList.add('active');}
   else{document.querySelectorAll('nav a').forEach(a=>{if(a.textContent.trim()===labels[name])a.classList.add('active');});}
+  if(name==='freude' && typeof fvMarkRead==='function'){ fvMarkRead(curPart); }
   if(name==='schedule'){
     const nx=document.querySelector('.sch-item.next');
     if(nx){ nx.scrollIntoView({behavior:'smooth',block:'center'}); return; }
   }
-  window.scrollTo({top:0,behavior:'smooth'});
+  // ホーム以外はヒーロー部分を飛ばして本文の先頭へ（ナビは上部に固定表示）
+  if(name==='home'){ window.scrollTo({top:0,behavior:'smooth'}); }
+  else{
+    const nw=document.getElementById('nav-wrap'); const mn=document.querySelector('main');
+    const y=mn.getBoundingClientRect().top+window.scrollY-(nw?nw.offsetHeight:0);
+    window.scrollTo({top:Math.max(0,y),behavior:'smooth'});
+  }
+  // 選択中のタブがナビ内で見えるように
+  const act=document.querySelector('nav a.active'); if(act&&act.scrollIntoView){ const nv=document.querySelector('nav'); nv.scrollTo({left:act.offsetLeft-nv.clientWidth/2+act.offsetWidth/2,behavior:'smooth'}); }
 }
 function showSection(name,link){
   _setSection(name,link);
@@ -1294,6 +1388,13 @@ const FPARTS=[
 ];
 
 let curPart=0;
+function fvRead(){ try{ return JSON.parse(localStorage.getItem('fv-read')||'[]'); }catch(e){ return []; } }
+function fvMarkRead(i){
+  const r=fvRead(); if(!r.includes(i)){ r.push(i); try{ localStorage.setItem('fv-read',JSON.stringify(r)); }catch(e){} }
+  try{ localStorage.setItem('fv-last',String(i)); }catch(e){}
+  document.querySelectorAll('.pbtn').forEach((b,k)=>b.classList.toggle('read',r.includes(k)));
+  const rc=document.getElementById('fv-readcount'); if(rc) rc.textContent='　既読 '+r.length+' / '+FPARTS.length;
+}
 function buildFreude(){
   const idx=document.getElementById('pidx'),panels=document.getElementById('qpanels');
   idx.innerHTML='';panels.innerHTML='';
@@ -1301,7 +1402,7 @@ function buildFreude(){
     const btn=document.createElement('button');
     btn.className='pbtn'+(i===0?' active':'');
     btn.innerHTML='<span class="pbtn-num">Part '+(i+1)+'</span><span class="pbtn-title">'+p.title+'</span>';
-    btn.onclick=()=>goPart(i);idx.appendChild(btn);
+    btn.onclick=()=>{ document.getElementById('fv-toc').open=false; goPart(i); };idx.appendChild(btn);
     const panel=document.createElement('div');
     panel.className='qpanel'+(i===0?' active':'');panel.id='qp-'+i;
     let html='<div class="qpart-title">Part '+(i+1)+'　'+p.title+'</div>';
@@ -1312,25 +1413,32 @@ function buildFreude(){
     });
     panel.innerHTML=html;panels.appendChild(panel);
   });
-  updateQNav();
+  // 前回の続きから（最後に開いたPartを表示）
+  let last=0; try{ last=parseInt(localStorage.getItem('fv-last')||'0',10)||0; }catch(e){}
+  if(last>0 && last<FPARTS.length) goPart(last,true); else updateQNav();
+  const r=fvRead(); document.querySelectorAll('.pbtn').forEach((b,k)=>b.classList.toggle('read',r.includes(k)));
+  const rc=document.getElementById('fv-readcount'); if(rc) rc.textContent='　既読 '+r.length+' / '+FPARTS.length;
 }
-function goPart(i){
+function goPart(i,noScroll){
   document.querySelectorAll('.qpanel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.pbtn').forEach(b=>b.classList.remove('active'));
   document.getElementById('qp-'+i).classList.add('active');
   document.querySelectorAll('.pbtn')[i].classList.add('active');
   curPart=i;updateQNav();
-  // Q&Aパネルの先頭にスクロール
+  if(noScroll) return;
+  fvMarkRead(i);
+  // Q&Aパネルの先頭にスクロール（固定ナビの高さ分ずらす）
   setTimeout(()=>{
-    document.getElementById('qp-'+i).scrollIntoView({behavior:'smooth',block:'start'});
+    const el=document.getElementById('qp-'+i); const nw=document.getElementById('nav-wrap');
+    window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-(nw?nw.offsetHeight:0)-10,behavior:'smooth'});
   },50);
 }
 function movePart(d){const n=curPart+d;if(n>=0&&n<FPARTS.length)goPart(n);}
 function updateQNav(){
   document.getElementById('qbtn-prev').disabled=curPart===0;
   document.getElementById('qbtn-next').disabled=curPart===FPARTS.length-1;
-  document.getElementById('prev-lbl').textContent=curPart>0?'Part '+curPart:'―';
-  document.getElementById('next-lbl').textContent=curPart<FPARTS.length-1?'Part '+(curPart+2):'―';
+  document.getElementById('prev-lbl').textContent=curPart>0?'Part '+curPart+' '+FPARTS[curPart-1].title:'―';
+  document.getElementById('next-lbl').textContent=curPart<FPARTS.length-1?'Part '+(curPart+2)+' '+FPARTS[curPart+1].title:'―';
   document.getElementById('prog-fill').style.width=Math.round(((curPart+1)/FPARTS.length)*100)+'%';
   document.getElementById('prog-lbl').textContent='Part '+(curPart+1)+' / '+FPARTS.length;
 }
@@ -1459,6 +1567,13 @@ document.querySelectorAll('.kb-head').forEach(function(h){
   });
 });
 
+// ── ナビ：右端まで来たらフェードを消す ──
+(function(){
+  const nw=document.getElementById('nav-wrap'); const nv=nw&&nw.querySelector('nav'); if(!nv) return;
+  const chk=()=>nw.classList.toggle('at-end', nv.scrollLeft+nv.clientWidth>=nv.scrollWidth-4);
+  nv.addEventListener('scroll',chk,{passive:true}); window.addEventListener('resize',chk); chk();
+})();
+
 // ── トップへ戻るボタンの表示制御 ──
 (function(){
   const t=document.getElementById('toTop');
@@ -1477,9 +1592,9 @@ function recCard(r, withSong){
   return `<div class="cblock" style="margin-bottom:12px"><div class="cbh"><div class="cnum" style="background:#1a5276">▶</div><span class="ctitle" style="font-size:13px">${r.title}</span></div>
     <div class="cbody"><div class="yt-wrap"><iframe data-src="https://www.youtube.com/embed/${r.id}" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div>${sl?`<div class="rec-card-song">🎼 ${sl}</div>`:''}<div class="rec-chips">${chips}</div></div></div>`;
 }
-function recDateHead(ds){
+function recDateHead(ds,cnt){
   const ev=recEv(ds); const sl=ev?songLabel(ev):'';
-  return `<div class="rec-date" id="rec-${ds}">📅 ${recDateLabel(ds)}${ev?'　'+ev.title:''}${sl?`<div class="rec-song">🎼 ${sl}</div>`:''}</div>`;
+  return `<div class="rec-date">📅 ${recDateLabel(ds)}${ev?'　'+ev.title:''}<span class="rec-count">${cnt}本</span>${sl?`<div class="rec-song">🎼 ${sl}</div>`:''}</div>`;
 }
 (function renderRecs(){
   const list=document.getElementById('rec-archive-list');
@@ -1489,24 +1604,38 @@ function recDateHead(ds){
     const recDates=[...new Set(RECS.map(r=>r.date))];
     const pinDates=recDates.filter(d=>pinned.includes(d)).sort();
     const weekDates=recDates.filter(d=>!pinned.includes(d)).sort().reverse();
-    const block=ds=>recDateHead(ds)+RECS.filter(r=>r.date===ds).map(r=>recCard(r,false)).join('');
-    let html='';
-    if(pinDates.length) html+='<div class="rec-group">🎯 補習（第1〜5回の内容）</div>'+pinDates.map(block).join('');
-    if(weekDates.length) html+='<div class="rec-group">📹 毎週の練習録画（新しい日付が上）</div>'+weekDates.map(block).join('');
-    list.innerHTML = html || '<div class="rec-empty">まだ録画はありません。</div>';
+    const md=ds=>{const [y,m,d]=ds.split('-').map(Number);return m+'/'+d;};
+    // 日付ジャンプ
+    let html='<div class="rec-jump">'+pinDates.map(d=>`<a class="pin" onclick="goRecArchive('${d}')">補習 ${md(d)}</a>`).join('')+weekDates.map(d=>`<a onclick="goRecArchive('${d}')">${md(d)}</a>`).join('')+'</div>';
+    // 日付ごとに折りたたみ（最新の週だけ最初から開く）
+    const block=(ds,open)=>{const rs=RECS.filter(r=>r.date===ds);return `<details class="rec-day" id="rec-${ds}"${open?' open':''}><summary>${recDateHead(ds,rs.length)}</summary><div class="rec-day-body">${rs.map(r=>recCard(r,false)).join('')}</div></details>`;};
+    if(pinDates.length) html+='<div class="rec-group">🎯 補習（第1〜5回の内容）</div>'+pinDates.map(d=>block(d,false)).join('');
+    if(weekDates.length) html+='<div class="rec-group">📹 毎週の練習録画（新しい日付が上）</div>'+weekDates.map((d,i)=>block(d,i===0)).join('');
+    list.innerHTML = recDates.length ? html : '<div class="rec-empty">まだ録画はありません。</div>';
   }
-  // 各パートページ：自分のパートに関係する録画だけ、新しい順（練習箇所つき）
+  // 各パートページ：次回の練習箇所＋自分のパートの録画（新しい順、最初は最新4本）
+  const today=new Date(); today.setHours(0,0,0,0);
+  const nx=SCH.find(e=>{const [y,m,d]=e.date.split('-').map(Number);return !e.cancel && new Date(y,m-1,d)>=today;});
   document.querySelectorAll('.rec-part').forEach(box=>{
     const p=box.dataset.part; const mine=RECS.filter(r=>r.parts.includes(p)).sort((a,b)=>b.date.localeCompare(a.date));
-    box.innerHTML = `<div class="slabel"><div class="licon" style="background:#1a5276">🎥</div>${PART_NAME[p]}の練習録画</div>`
-      + (mine.length ? mine.map(r=>recCard(Object.assign({},r,{title:recDateLabel(r.date)+' '+r.title}),true)).join('')
-                     : '<div class="rec-empty">まだ録画はありません。</div>');
+    const SHOW=4;
+    let html='';
+    if(nx){ const sl=songLabel(nx); const wn=box.parentElement.querySelector('.warn-note'); if(wn) wn.insertAdjacentHTML('afterend',`<div class="part-next"><div class="pn-lbl">🔜 次回の練習（予習はここ！）</div><div class="pn-date">${recDateLabel(nx.date)} ${nx.title}</div>${sl?`<div class="pn-song">${sl}</div>`:''}<div class="pn-sub">${nx.detail}</div></div>`); }
+    html+=`<div class="slabel"><div class="licon" style="background:#1a5276">🎥</div>${PART_NAME[p]}の練習録画</div>`;
+    if(!mine.length){ html+='<div class="rec-empty">まだ録画はありません。</div>'; }
+    else{
+      html+=mine.map((r,i)=>`<div class="rec-item"${i>=SHOW?' style="display:none"':''}>`+recCard(Object.assign({},r,{title:recDateLabel(r.date)+' '+r.title}),true)+'</div>').join('');
+      if(mine.length>SHOW) html+=`<button class="rec-more" onclick="this.parentElement.querySelectorAll('.rec-item').forEach(x=>x.style.display='');this.remove();">▼ 過去の録画をもっと見る（あと${mine.length-SHOW}本）</button>`;
+    }
+    box.innerHTML=html;
   });
 })();
-// スケジュールの「録画を見る」→ 映像アーカイブの該当日へ
+// スケジュールの「録画を見る」／日付ジャンプ → 映像アーカイブの該当日を開いて表示
 function goRecArchive(ds){
-  showSection('video',null);
-  setTimeout(()=>{ const t=document.getElementById('rec-'+ds)||document.getElementById('rec-archive'); if(t) t.scrollIntoView({behavior:'smooth',block:'start'}); },350);
+  if(!document.getElementById('sec-video').classList.contains('active')) showSection('video',null);
+  const t=document.getElementById('rec-'+ds);
+  if(t&&t.tagName==='DETAILS') t.open=true;
+  setTimeout(()=>{ const x=t||document.getElementById('rec-archive'); if(x){ const nw=document.getElementById('nav-wrap'); const y=x.getBoundingClientRect().top+window.scrollY-(nw?nw.offsetHeight:0)-8; window.scrollTo({top:y,behavior:'smooth'}); } },450);
 }
 
 // ── YouTube遅延読み込み（サムネ＋再生ボタン。クリックで初めて読み込み）──
