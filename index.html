@@ -554,16 +554,17 @@ details.fv-toc .pidx{padding:0 12px 12px;margin-bottom:0}
 <!-- ── HOME ── -->
 <div class="section active" id="sec-home">
 
-  <!-- ── お知らせ（最新）── -->
-  <div class="notice-banner">
+  <!-- ── お知らせ（最新）──
+       ★ 各項目の data-until="YYYY-MM-DD" を過ぎると自動で非表示。全部消えたらバナーごと消えます -->
+  <div class="notice-banner" id="notice-banner">
     <div class="nb-icon">📢</div>
     <div style="flex:1">
-      <div class="nb-title">【重要】練習日程・時間の変更のお知らせ</div>
+      <div class="nb-title">【重要】練習日程・時間のお知らせ</div>
       <ul class="nb-list">
-        <li><b>9/20（日）第10回は台風のため中止</b>になりました。<br>→ 振替練習：<strong>10/12（月・祝）18:30〜20:00</strong>（p.56〜59 R(730-762)）</li>
-        <li><b>9/27（日）から練習時間を30分延長</b>します。<br>→ <strong>17:50集合／20:00終了</strong>（19:30〜20:00は原則Tutti＝全パート合同）</li>
+        <li data-until="2026-10-12"><b>10/12（月・祝）は振替練習</b>があります（9/20の台風中止分）。<br>→ <strong>18:30〜20:00</strong>　📖 p.56〜59 R(730-762)<br><span style="font-size:11.5px">※日曜ではなく<b>月曜（祝日）</b>です。時間もいつもと違うのでご注意ください。</span></li>
+        <li data-until="2026-10-18"><b>9/27（日）から練習時間が30分延長</b>になりました。<br>→ <strong>17:50集合／20:00終了</strong>（19:30〜20:00は原則Tutti＝全パート合同）</li>
       </ul>
-      <div class="nb-foot">※「📅+」でGoogleカレンダーに登録済みの方は旧時刻のままです。9/27以降の回を削除し、<a onclick="showSection('schedule',null)">練習日程</a>から登録し直してください。</div>
+      <div class="nb-foot" data-until="2026-10-18">※以前に「📅+」でGoogleカレンダーに登録した方は旧時刻のままです。9/27以降の回を削除し、<a onclick="showSection('schedule',null)">練習日程</a>から登録し直してください。</div>
     </div>
   </div>
 
@@ -1039,9 +1040,11 @@ details.fv-toc .pidx{padding:0 12px 12px;margin-bottom:0}
 
 <!-- ── INFO ── -->
 <div class="section" id="sec-info">
-  <div class="ph" style="background:linear-gradient(135deg,#5d4037,#3e2723)"><h2>📋 指導・情報</h2><p>合唱指導・技術指導動画・発声練習・本番情報など</p></div>
+  <div class="ph" style="background:linear-gradient(135deg,#5d4037,#3e2723)"><h2>📋 指導・情報</h2><p>呼吸法・発声・発音の指導動画と、本番・スケジュール情報</p></div>
+  <!-- 【準備中・非表示】資料が届いたらコメントを外して掲載
   <div class="slabel"><div class="licon">📖</div>合唱指導のススメ</div>
   <div class="cblock"><div class="cbh"><div class="cnum" style="background:#5d4037">1</div><span class="ctitle">合唱指導のススメ①</span></div><div class="cbody"><div class="eplace"><div class="icon">📄</div><div>コンテンツを埋め込み</div></div></div></div>
+  -->
   <div class="slabel"><div class="licon">🎬</div>技術指導動画</div>
   <div class="cblock"><div class="cbh"><div class="cnum" style="background:#5d4037">1</div><span class="ctitle">呼吸法と歌う姿勢</span></div><div class="cbody"><div class="yt-wrap"><iframe data-src="https://www.youtube.com/embed/LCPk8mOHQvQ" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div><p class="enote" style="margin-top:10px">🫁 歌声の土台は呼吸と姿勢から。練習前にチェック！</p></div></div>
   <div class="slabel"><div class="licon">🎙</div>発声練習動画</div>
@@ -1117,8 +1120,8 @@ const SCH=[
   {date:'2026-11-08',title:'第17回 合同練習',detail:'17:50集合／20:00終了（19:30〜20:00は原則Tutti） 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'20:00',page:'67〜75',song:'(855-920)② Seid um〜Götterfunken'},
   {date:'2026-11-15',title:'第18回 全曲通し①',detail:'17:50集合／20:00終了（19:30〜20:00は原則Tutti） 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'20:00',page:'',song:'全曲①'},
   {date:'2026-11-22',title:'第19回 全曲通し②',detail:'17:50集合／20:00終了（19:30〜20:00は原則Tutti） 東京池田記念講堂 2F講堂',badge:'badge-n',btext:'練習',start:'17:50',end:'20:00',page:'',song:'全曲②'},
-  {date:'2026-11-28',title:'リハーサル',detail:'本番会場にて（時間別途連絡）',badge:'badge-rh',btext:'リハーサル',start:'10:00',end:'17:00',page:'',song:'通し'},
-  {date:'2026-11-29',title:'🎶 本番！Re:Freude',detail:'第1回公演 12:30集合／14:00スタート ・ 第2回公演 16:00集合／17:30スタート',badge:'badge-c',btext:'本番！',start:'12:30',end:'19:30',page:'',song:'通し'},
+  {date:'2026-11-28',title:'リハーサル',detail:'本番会場にて（時間は別途連絡）',badge:'badge-rh',btext:'リハーサル',allday:true,noloc:true,start:'',end:'',page:'',song:'通し'},
+  {date:'2026-11-29',title:'🎶 本番！Re:Freude',noloc:true,detail:'第1回公演 12:30集合／14:00スタート ・ 第2回公演 16:00集合／17:30スタート',badge:'badge-c',btext:'本番！',start:'12:30',end:'19:30',page:'',song:'通し'},
 ];
 // ── 練習の録画（RECS）──
 // ★ 毎週の録画はここに1行足すだけ。並び順は自動（補習が一番上に固定、その下は新しい日付が上）。
@@ -1142,6 +1145,10 @@ const RECS=[
   {date:'2026-09-13',title:'女声パート（アルト）',       id:'DvtPnHAe_-M',parts:['A']},
   {date:'2026-09-13',title:'男声パート（テノール）',     id:'P14M2_UuufE',parts:['T']},
   {date:'2026-09-13',title:'男声パート（バス）',         id:'eLrEv1OSdGs',parts:['B']},
+  {date:'2026-09-27',title:'女声パート（ソプラノ）',     id:'qK70SdQ1HxA',parts:['S']},
+  {date:'2026-09-27',title:'女声パート（アルト）',       id:'7DBnsdoc8yo',parts:['A']},
+  {date:'2026-09-27',title:'男声パート（テノール）',     id:'A5DoOpiquXQ',parts:['T']},
+  {date:'2026-09-27',title:'男声パート（バス）',         id:'G3k17028meI',parts:['B']},
 ];
 const DOW=['日','月','火','水','木','金','土'];
 const MON=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
@@ -1155,12 +1162,19 @@ function gcalUrl(ev){
     const date = new Date(Date.UTC(y, mo-1, d, utcH, m, 0));
     return date.toISOString().replace(/[-:]/g,'').replace('.000','');
   }
-  const ds = toGcalDT(ev.date, ev.start || '19:00');
-  const de = toGcalDT(ev.date, ev.end   || '20:30');
+  let ds, de;
+  if(ev.allday){   // 時間未定の予定は「終日」で登録
+    const [y,mo,d]=ev.date.split('-').map(Number); const f=x=>x.toISOString().slice(0,10).replace(/-/g,'');
+    ds=f(new Date(Date.UTC(y,mo-1,d))); de=f(new Date(Date.UTC(y,mo-1,d+1)));
+  }else{
+    ds = toGcalDT(ev.date, ev.start || '19:00');
+    de = toGcalDT(ev.date, ev.end   || '20:30');
+  }
   const title = encodeURIComponent('【Re:Freude】'+ev.title);
   const detail = encodeURIComponent(ev.detail+'\n\n世田谷ユースアクションフェス 2026.11.29');
   const location = encodeURIComponent('創価学会東京池田記念講堂, 日本、〒158-0097 東京都世田谷区用賀３丁目１−１ 創価学会東京池田記念講堂');
-  return `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${ds}/${de}&details=${detail}&location=${location}`;
+  // 本番・リハは会場が練習会場と異なる可能性があるため場所を入れない
+  return `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${ds}/${de}&details=${detail}`+(ev.noloc?'':`&location=${location}`);
 }
 
 // 練習箇所の表示文字列（楽譜ページを先頭に）
@@ -1566,6 +1580,14 @@ document.querySelectorAll('.kb-head').forEach(function(h){
     h.parentElement.classList.toggle('open');
   });
 });
+
+// ── お知らせの掲載期限（data-until を過ぎたら非表示）──
+(function(){
+  const t=new Date(); t.setHours(0,0,0,0);
+  document.querySelectorAll('[data-until]').forEach(el=>{ const [y,m,d]=el.dataset.until.split('-').map(Number); if(t>new Date(y,m-1,d)) el.style.display='none'; });
+  const nb=document.getElementById('notice-banner');
+  if(nb && ![...nb.querySelectorAll('.nb-list li')].some(li=>li.style.display!=='none')) nb.style.display='none';
+})();
 
 // ── ナビ：右端まで来たらフェードを消す ──
 (function(){
