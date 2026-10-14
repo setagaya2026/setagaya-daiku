@@ -499,6 +499,58 @@ details.fv-toc .pidx{padding:0 12px 12px;margin-bottom:0}
 .pbtn.read .pbtn-num::after{content:' ✓ 読んだ';color:#27ae60}
 .pbtn.active.read .pbtn-num::after{color:#7fe0a4}
 .qnbtn span:last-child{display:block;font-size:12px;line-height:1.4}
+
+/* ════ みんなで描く、歓喜の一枚（モザイク）════ */
+.mz{background:#1a1208;border-radius:12px;padding:16px 16px 14px;margin-bottom:16px;color:#f3e9d6;box-shadow:0 6px 20px rgba(26,18,8,.28)}
+.mz-title{font-family:'Noto Serif JP',serif;font-size:17px;font-weight:700;color:#fff;margin-bottom:4px}
+.mz-lead{font-size:12.5px;line-height:1.75;color:rgba(243,233,214,.82);margin-bottom:12px}
+.mz-lead a{color:#e8c06a;text-decoration:underline;cursor:pointer}
+.mz-frame{position:relative;border-radius:6px;overflow:hidden;background:#17110b;border:1px solid rgba(201,150,58,.35)}
+.mz-frame canvas{display:block;width:100%;height:auto}
+.mz-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12.5px;color:rgba(243,233,214,.7);background:rgba(23,17,11,.6)}
+.mz-stats{display:flex;justify-content:space-between;gap:8px;margin:10px 2px 6px;font-size:11px;color:rgba(243,233,214,.65)}
+.mz-stats b{display:block;font-size:17px;color:#e8c06a;font-family:'Noto Serif JP',serif;line-height:1.2}
+.mz-bar{height:5px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;margin-bottom:14px}
+.mz-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#c9963a,#ffd43b);transition:width .8s ease}
+.mz-q{font-size:12px;color:rgba(243,233,214,.8);margin-bottom:7px}
+.mz-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.mz-chip{background:transparent;border:1.5px solid rgba(232,192,106,.45);color:#f3e9d6;border-radius:18px;padding:7px 12px;font-size:12.5px;cursor:pointer;font-family:'Noto Sans JP',sans-serif}
+.mz-chip[aria-pressed="true"]{background:#e8c06a;border-color:#e8c06a;color:#1a1208;font-weight:700}
+.mz-btn{width:100%;background:#e8c06a;color:#1a1208;border:none;border-radius:8px;padding:13px;font-size:14.5px;font-weight:900;cursor:pointer;font-family:'Noto Sans JP',sans-serif}
+.mz-btn:disabled{background:rgba(232,192,106,.25);color:rgba(243,233,214,.55);cursor:default}
+.mz-btn.done{background:transparent;border:1.5px solid rgba(232,192,106,.5);color:#e8c06a}
+.mz-msg{min-height:1em;font-size:12px;line-height:1.6;margin-top:8px;color:#ffd9a0}
+.mz-mine{font-size:11.5px;color:rgba(243,233,214,.6);margin-top:6px;border-top:1px solid rgba(255,255,255,.08);padding-top:8px}
+.mz-mine b{color:#e8c06a}
+.mz-chip:focus-visible,.mz-btn:focus-visible{outline:2px solid #fff;outline-offset:2px}
+
+/* ════ 青年よ広布の山を登れ（パート別練習音源）════ */
+.ph-seinen{background:linear-gradient(160deg,#1f3a2e 0%,#2d5440 55%,#c9963a 140%)}
+.sn-lead{font-size:13px;line-height:1.85;color:#3a3226;margin-bottom:12px}
+.sn-player{background:#fff;border-radius:10px;border:1px solid rgba(0,0,0,.08);border-left:6px solid var(--pc);padding:12px 14px;margin-bottom:12px}
+.sn-player.mine{box-shadow:0 0 0 2px var(--pc);}
+.sn-top{display:flex;align-items:baseline;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.sn-name{font-size:16px;font-weight:900;color:var(--pc)}
+.sn-sub{font-size:11.5px;color:var(--muted)}
+.sn-minetag{margin-left:auto;font-size:10.5px;font-weight:700;background:var(--pc);color:#fff;border-radius:10px;padding:2px 9px}
+.sn-player audio{width:100%;height:40px}
+.sn-ctl{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.sn-ctl button{background:#f4f0e8;border:1px solid rgba(0,0,0,.08);border-radius:16px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:'Noto Sans JP',sans-serif;color:#3a3226}
+.sn-ctl button[aria-pressed="true"]{background:var(--pc);border-color:var(--pc);color:#fff;font-weight:700}
+.sn-ctl button:focus-visible{outline:2px solid var(--pc);outline-offset:2px}
+.sn-home{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#1f3a2e,#2d5440);border-radius:10px;padding:14px 16px;margin-bottom:16px;color:#fff;cursor:pointer;text-decoration:none}
+.sn-home .snh-ic{font-size:30px;flex-shrink:0}
+.sn-home .snh-t{font-weight:700;font-size:14px;line-height:1.5}
+.sn-home .snh-s{font-size:11.5px;color:rgba(255,255,255,.75);margin-top:2px}
+.sn-home .snh-new{display:inline-block;background:#ffd43b;color:#1f3a2e;font-size:10px;font-weight:900;border-radius:8px;padding:1px 7px;margin-right:6px;vertical-align:2px}
+.sn-home .snh-go{margin-left:auto;background:#fff;color:#1f3a2e;border-radius:16px;padding:7px 12px;font-size:12px;font-weight:700;white-space:nowrap}
+
+/* 録画：全体練習・広布の山 */
+.rec-chip.all{background:#fdf0d5;color:#8a5a00;font-size:11px}
+.rec-chip.sn{background:#e3efe8;color:#1f3a2e}
+.cblock.rec-tutti{border:1.5px solid #e2b866}
+details.rec-day>summary .rec-count.tutti{background:#b7791f}
+.rec-card-sn{font-size:12px;font-weight:700;color:#1f3a2e;background:#e3efe8;border-radius:6px;padding:5px 9px;margin-top:8px;display:inline-block}
 </style>
 </head>
 <body>
@@ -544,6 +596,7 @@ details.fv-toc .pidx{padding:0 12px 12px;margin-bottom:0}
     <a href="#alto" onclick="showSection('alto',this);return false;">アルト</a>
     <a href="#tenor" onclick="showSection('tenor',this);return false;">テノール</a>
     <a href="#bass" onclick="showSection('bass',this);return false;">バス</a>
+    <a href="#seinen" onclick="showSection('seinen',this);return false;">⛰️ 広布の山を登れ</a>
     <a href="#info" onclick="showSection('info',this);return false;">指導・情報</a>
   </div>
 </nav>
@@ -579,6 +632,37 @@ details.fv-toc .pidx{padding:0 12px 12px;margin-bottom:0}
     </div>
     <button class="next-bar-btn" onclick="showSection('schedule',null)">日程一覧 →</button>
   </div>
+
+  <!-- ── 青年よ広布の山を登れ（ホームの入口）── -->
+  <a class="sn-home" onclick="showSection('seinen',null)">
+    <div class="snh-ic">⛰️</div>
+    <div><div class="snh-t"><span class="snh-new" data-until="2026-10-25">NEW</span>フィナーレ曲『青年よ広布の山を登れ』</div><div class="snh-s">パート別の練習音源を公開しました</div></div>
+    <div class="snh-go">音源を聴く</div>
+  </a>
+
+  <!-- ── みんなで描く、歓喜の一枚（実践の1日1タップで絵が完成）── -->
+  <section class="mz" id="mosaic" aria-labelledby="mz-title">
+    <div class="mz-title" id="mz-title">🖼️ みんなで描く、歓喜の一枚</div>
+    <div class="mz-lead"><a onclick="showSection('freude',null);setTimeout(()=>goPart(8),300)">3つの実践</a>のどれか1つでも挑戦した日は、ピースを1つ置こう。一人ひとりの挑戦で、本番11/29までに1枚の絵を完成させます。</div>
+    <div class="mz-frame"><canvas id="mz-canvas" role="img" aria-label="みんなの挑戦で少しずつ現れる絵"></canvas><div class="mz-loading" id="mz-loading">みんなの絵を読み込んでいます…</div></div>
+    <div class="mz-stats">
+      <div><b id="mz-pct">–</b>完成度</div>
+      <div style="text-align:center"><b id="mz-total">–</b>みんなのピース</div>
+      <div style="text-align:right"><b id="mz-today">–</b>今日のピース</div>
+    </div>
+    <div class="mz-bar"><i id="mz-bar"></i></div>
+    <div id="mz-form">
+      <div class="mz-q">今日挑戦したもの（1つ以上えらぶ）</div>
+      <div class="mz-chips">
+        <button type="button" class="mz-chip" data-t="g" aria-pressed="false">🙏 勤行・唱題</button>
+        <button type="button" class="mz-chip" data-t="k" aria-pressed="false">📖 新・人間革命の研鑽</button>
+        <button type="button" class="mz-chip" data-t="j" aria-pressed="false">🎵 自主トレ</button>
+      </div>
+    </div>
+    <button type="button" class="mz-btn" id="mz-btn" disabled>ピースを置く</button>
+    <div class="mz-msg" id="mz-msg" role="status" aria-live="polite"></div>
+    <div class="mz-mine">あなたが置いたピース <b id="mz-mycount">0</b> 個（連続 <b id="mz-streak">0</b> 日）</div>
+  </section>
 
   <!-- ── 補習まとめ（8/2までの内容を8/22・8/29に補習）── -->
   <div class="hosyu-card">
@@ -1038,6 +1122,16 @@ details.fv-toc .pidx{padding:0 12px 12px;margin-bottom:0}
   <div class="rec-part" data-part="B"></div>
 </div>
 
+<!-- ── 青年よ広布の山を登れ（パート別練習音源）── -->
+<div class="section" id="sec-seinen">
+  <div class="ph ph-seinen"><h2>⛰️ 青年よ広布の山を登れ</h2><p>フィナーレで歌う曲 ｜ パート別練習音源</p></div>
+  <p class="sn-lead">ユースアクションフェスの最後に、全員で『青年よ広布の山を登れ』を歌うことになりました。<br>下の練習音源で、自分のパートを繰り返し聴いて音を覚えましょう。スキマ時間の自主トレにもどうぞ。</p>
+  <div class="warn-note">⚠️ <strong>練習音源と、実際の練習での指示が異なる場合があります。</strong>そのときは<strong>指揮者・指導者の指示を優先</strong>してください。</div>
+  <p style="font-size:12px;color:var(--muted);margin:0 0 12px">自分のパートが分からない方は <a style="color:var(--crimson);font-weight:700;cursor:pointer;text-decoration:underline" onclick="showSection('home',null);setTimeout(()=>{const g=document.getElementById('part-guide');g.open=true;g.scrollIntoView({behavior:'smooth',block:'center'});},400)">パートってなに？</a> をご覧ください。</p>
+  <div id="sn-list"></div>
+  <div id="sn-recs"></div>
+</div>
+
 <!-- ── INFO ── -->
 <div class="section" id="sec-info">
   <div class="ph" style="background:linear-gradient(135deg,#5d4037,#3e2723)"><h2>📋 指導・情報</h2><p>呼吸法・発声・発音の指導動画と、本番・スケジュール情報</p></div>
@@ -1127,6 +1221,8 @@ const SCH=[
 // ★ 毎週の録画はここに1行足すだけ。並び順は自動（補習が一番上に固定、その下は新しい日付が上）。
 //   その日の「楽譜ページ・練習箇所」はスケジュール（SCH）から自動で表示されるので、ここには書かなくてOK。
 //   id は YouTube の URL「youtu.be/○○○」の ○○○ の部分。parts は S=ソプラノ A=アルト T=テノール B=バス（該当するものを入れる）
+//   全体練習（全パート合同）の録画は kind:'tutti' を付ける → 「👥 全体練習」の印が付き、その日の一番上に表示
+//   『青年よ広布の山を登れ』の録画は song:'seinen' を付ける → 曲名が表示され、広布の山のページにも出る
 const RECS=[
   {date:'2026-08-22',title:'男声 補習練習（第1〜5回の内容）',id:'yI0sUw5_GDM',parts:['T','B']},
   {date:'2026-08-23',title:'男声パート 合唱練習',       id:'NWjhqaY3haE',parts:['T','B']},
@@ -1149,6 +1245,17 @@ const RECS=[
   {date:'2026-09-27',title:'女声パート（アルト）',       id:'7DBnsdoc8yo',parts:['A']},
   {date:'2026-09-27',title:'男声パート（テノール）',     id:'A5DoOpiquXQ',parts:['T']},
   {date:'2026-09-27',title:'男声パート（バス）',         id:'G3k17028meI',parts:['B']},
+  {date:'2026-10-04',title:'全体練習（全パート合同）',   id:'PUBS5pOQOaI',parts:['S','A','T','B'],kind:'tutti'},
+  {date:'2026-10-04',title:'女声パート（ソプラノ）第九', id:'l40LOuVSfXI',parts:['S']},
+  {date:'2026-10-04',title:'女声パート（ソプラノ）青年よ広布の山を登れ',id:'zsW-IuIzSB0',parts:['S'],song:'seinen'},
+  {date:'2026-10-04',title:'女声パート（アルト）',       id:'WumP_Jf6R94',parts:['A']},
+  {date:'2026-10-04',title:'男声パート（テノール）',     id:'UHKcf3X0Y_k',parts:['T']},
+  {date:'2026-10-04',title:'男声パート（バス）',         id:'_tm3yTLaoyU',parts:['B']},
+  {date:'2026-10-11',title:'全体練習（全パート合同）',   id:'criIMeGwLec',parts:['S','A','T','B'],kind:'tutti'},
+  {date:'2026-10-11',title:'女声パート（ソプラノ）',     id:'cLE8is_8PNU',parts:['S']},
+  {date:'2026-10-11',title:'女声パート（アルト）',       id:'ObAOKx22xqI',parts:['A']},
+  {date:'2026-10-11',title:'男声パート（テノール）',     id:'ZQI3zu4IhJ4',parts:['T']},
+  {date:'2026-10-11',title:'男声パート（バス）',         id:'0gPODC9Iw0g',parts:['B']},
 ];
 const DOW=['日','月','火','水','木','金','土'];
 const MON=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
@@ -1295,7 +1402,7 @@ function _setSection(name,link){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
   document.getElementById('sec-'+name).classList.add('active');
-  const labels={home:'ホーム',schedule:'📅 練習日程',video:'🎬 映像アーカイブ',freude:'📖 フロイデVoice',daiku:'📜 第九の研鑽',soprano:'ソプラノ',alto:'アルト',tenor:'テノール',bass:'バス',info:'指導・情報'};
+  const labels={home:'ホーム',schedule:'📅 練習日程',video:'🎬 映像アーカイブ',freude:'📖 フロイデVoice',daiku:'📜 第九の研鑽',soprano:'ソプラノ',alto:'アルト',tenor:'テノール',bass:'バス',seinen:'⛰️ 広布の山を登れ',info:'指導・情報'};
   if(link){link.classList.add('active');}
   else{document.querySelectorAll('nav a').forEach(a=>{if(a.textContent.trim()===labels[name])a.classList.add('active');});}
   if(name==='freude' && typeof fvMarkRead==='function'){ fvMarkRead(curPart); }
@@ -1581,6 +1688,140 @@ document.querySelectorAll('.kb-head').forEach(function(h){
   });
 });
 
+// ── みんなで描く、歓喜の一枚 ──
+// ★ Apps Script を公開したら、そのURL（https://script.google.com/macros/s/……/exec）を下の '' の中に貼る。
+//   空のままだとこのコーナーは表示されません（確認用：URLの末尾に ?mosaic-demo を付けるとデモ表示）。
+const MOSAIC_API='';
+(function(){
+  const root=document.getElementById('mosaic'); if(!root) return;
+  const demo=/[?&]mosaic-demo/.test(location.search);
+  if(!MOSAIC_API && !demo){ root.style.display='none'; return; }
+  const LS={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v);}catch(e){return d;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
+  const jst=d=>(d||new Date()).toLocaleDateString('sv-SE',{timeZone:'Asia/Tokyo'});
+  const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let dev=LS.get('mz-dev','');
+  if(!/^[a-z0-9]{8,40}$/.test(dev)){ const a=new Uint8Array(16); (window.crypto||{getRandomValues:x=>x.map(()=>Math.random()*256|0)}).getRandomValues(a); dev=Array.from(a,b=>(b%36).toString(36)).join(''); LS.set('mz-dev',dev); }
+  const $=id=>document.getElementById(id);
+
+  // ── 絵（すべてコードで描いたオリジナル）──
+  const W=720,H=540; const cv=$('mz-canvas'), ctx=cv.getContext('2d'); cv.width=W; cv.height=H;
+  const art=document.createElement('canvas'); art.width=W; art.height=H;
+  function rng(s){return function(){s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+  function drawArt(){
+    const g=art.getContext('2d'), r=rng(1129), y0=H*0.66;
+    let gr=g.createLinearGradient(0,0,0,y0); gr.addColorStop(0,'#0c1530'); gr.addColorStop(.42,'#3b1a48'); gr.addColorStop(.72,'#9b1b30'); gr.addColorStop(.9,'#e8893a'); gr.addColorStop(1,'#f7c860');
+    g.fillStyle=gr; g.fillRect(0,0,W,y0);
+    for(let i=0;i<70;i++){ g.fillStyle=`rgba(255,245,220,${.25+r()*.6})`; const s=r()*1.8+.6; g.beginPath(); g.arc(r()*W,r()*y0*.45,s,0,7); g.fill(); }
+    const sx=W/2, sy=y0+6;
+    g.save(); g.globalAlpha=.10; g.fillStyle='#ffe6a0';
+    for(let i=0;i<18;i++){ const a=Math.PI+Math.PI*(i+.5)/18; g.beginPath(); g.moveTo(sx,sy); g.lineTo(sx+Math.cos(a-.035)*900,sy+Math.sin(a-.035)*900); g.lineTo(sx+Math.cos(a+.035)*900,sy+Math.sin(a+.035)*900); g.fill(); }
+    g.restore();
+    gr=g.createRadialGradient(sx,sy,10,sx,sy,280); gr.addColorStop(0,'rgba(255,238,170,1)'); gr.addColorStop(.25,'rgba(255,205,110,.85)'); gr.addColorStop(1,'rgba(255,150,60,0)');
+    g.fillStyle=gr; g.fillRect(0,0,W,y0);
+    g.fillStyle='#fff0bf'; g.beginPath(); g.arc(sx,sy,64,Math.PI,0); g.fill();
+    // 街並み
+    g.fillStyle='#3a1424'; let x=0; while(x<W){ const w=18+r()*38, hh=12+r()*46; g.fillRect(x,y0-hh,w,hh+2); x+=w+r()*4; }
+    gr=g.createLinearGradient(0,y0,0,H); gr.addColorStop(0,'#2a1020'); gr.addColorStop(1,'#0f0806'); g.fillStyle=gr; g.fillRect(0,y0,W,H-y0);
+    // 音符
+    g.textAlign='center'; g.textBaseline='middle';
+    [[110,150,40,'♪'],[610,120,46,'♫'],[190,250,30,'♫'],[540,235,32,'♪'],[80,300,26,'♩'],[650,300,28,'♪']].forEach(([nx,ny,s,c],i)=>{ g.save(); g.translate(nx,ny); g.rotate((i%2?.18:-.15)); g.fillStyle='rgba(255,212,80,.92)'; g.font=`${s}px serif`; g.fillText(c,0,0); g.restore(); });
+    // 題字
+    g.fillStyle='#ffd978'; g.font=`700 66px 'Noto Serif JP', serif`; g.fillText('Re:Freude',W/2,H*0.15);
+    g.fillStyle='rgba(255,255,255,.88)'; g.font=`400 22px 'Noto Serif JP', serif`; g.fillText('わたしたちの新しい歓喜の歌',W/2,H*0.15+50);
+    // 合唱団（4パートの色）
+    const parts=['#6a2027','#4b2560','#1f3d5c','#1f4a33'];
+    [[y0+46,12,34],[y0+88,14,30],[y0+134,16,27],[y0+182,18,24]].forEach(([ry,hr,step])=>{
+      for(let px=step/2+(ry%2?6:0); px<W; px+=step){
+        const c=parts[Math.min(3,Math.floor(px/(W/4)))];
+        g.fillStyle=c; g.beginPath(); g.ellipse(px,ry+hr*1.9,hr*1.25,hr*1.3,0,Math.PI,0); g.fill();
+        g.fillStyle='#1a0e0b'; g.beginPath(); g.arc(px,ry,hr,0,7); g.fill();
+        g.strokeStyle='rgba(255,200,110,.45)'; g.lineWidth=1.4; g.beginPath(); g.arc(px,ry,hr,Math.PI*1.1,Math.PI*1.9); g.stroke();
+      }
+    });
+  }
+
+  // ── モザイク ──
+  let st={total:0,today:0,goal:3000,open:true}, cells=0, cols=0, rows=0, order=[], shown=0;
+  function layout(goal){
+    cols=Math.max(10,Math.round(Math.sqrt(goal*W/H))); rows=Math.ceil(goal/cols); cells=cols*rows;
+    const r=rng(20261129); order=Array.from({length:cells},(_,i)=>i);
+    for(let i=cells-1;i>0;i--){ const j=Math.floor(r()*(i+1)); [order[i],order[j]]=[order[j],order[i]]; }
+  }
+  const revealed=t=>t>=st.goal?cells:Math.min(cells,Math.round(t*cells/st.goal));
+  function paint(n,hl){
+    const tw=W/cols, th=H/rows;
+    ctx.fillStyle='#17110b'; ctx.fillRect(0,0,W,H);
+    const vr=rng(7);
+    for(let i=0;i<cells;i++){ const x=(i%cols)*tw, y=Math.floor(i/cols)*th; const v=34+Math.floor(vr()*10); ctx.fillStyle=`rgb(${v},${v-8},${v-16})`; ctx.fillRect(x+.6,y+.6,tw-1.2,th-1.2); }
+    for(let k=0;k<n;k++){ const i=order[k], x=(i%cols)*tw, y=Math.floor(i/cols)*th; ctx.drawImage(art,x,y,tw,th,x,y,tw,th); }
+    if(hl!=null && hl<cells){ const i=order[hl], x=(i%cols)*tw, y=Math.floor(i/cols)*th; ctx.strokeStyle='#fff'; ctx.lineWidth=3; ctx.strokeRect(x-3,y-3,tw+6,th+6); ctx.strokeStyle='#ffd43b'; ctx.lineWidth=2; ctx.strokeRect(x-3,y-3,tw+6,th+6); }
+    shown=n;
+  }
+  function animateTo(n,hl){
+    if(reduce||n<=shown){ paint(n,hl); return; }
+    const from=shown, t0=performance.now(), dur=Math.min(1600,300+(n-from)*2);
+    (function step(t){ const p=Math.min(1,(t-t0)/dur); paint(Math.round(from+(n-from)*(1-Math.pow(1-p,3))), p===1?hl:null); if(p<1) requestAnimationFrame(step); })(t0);
+  }
+  function stats(){
+    const pct=Math.min(100,st.total/st.goal*100);
+    $('mz-pct').textContent=(pct<10&&pct>0?pct.toFixed(1):Math.floor(pct))+'%';
+    $('mz-total').textContent=st.total.toLocaleString()+' / '+st.goal.toLocaleString();
+    $('mz-today').textContent=st.today.toLocaleString();
+    $('mz-bar').style.width=pct+'%';
+    if(st.total>=st.goal) $('mz-title').textContent='🎉 みんなで描いた、歓喜の一枚（完成！）';
+  }
+  // ── 自分の記録 ──
+  function mine(){
+    const days=LS.get('mz-days',[]); $('mz-mycount').textContent=days.length;
+    let s=0, d=new Date(); if(!days.includes(jst(d))) d=new Date(d.getTime()-864e5);
+    while(days.includes(jst(d))){ s++; d=new Date(d.getTime()-864e5); }
+    $('mz-streak').textContent=s;
+    return days.includes(jst());
+  }
+  function setDone(){ $('mz-form').style.display='none'; const b=$('mz-btn'); b.disabled=true; b.classList.add('done'); b.textContent='✅ 今日のピースを置きました。また明日！'; }
+  function syncBtn(){ const any=[...root.querySelectorAll('.mz-chip')].some(c=>c.getAttribute('aria-pressed')==='true'); $('mz-btn').disabled=!any||!st.open; }
+  root.querySelectorAll('.mz-chip').forEach(c=>c.addEventListener('click',()=>{ c.setAttribute('aria-pressed',c.getAttribute('aria-pressed')==='true'?'false':'true'); syncBtn(); }));
+
+  // ── 通信 ──
+  async function api(params){
+    if(demo){ let t=LS.get('mz-demo-total',1234), td=LS.get('mz-demo-today',38);
+      if(params.action==='tap'){ t++; td++; LS.set('mz-demo-total',t); LS.set('mz-demo-today',td); }
+      return {ok:true,total:t,today:td,goal:3000,open:true}; }
+    const q=new URLSearchParams(Object.assign({_:Date.now()},params));
+    const r=await fetch(MOSAIC_API+(MOSAIC_API.includes('?')?'&':'?')+q,{redirect:'follow'});
+    if(!r.ok) throw new Error('http '+r.status); return r.json();
+  }
+  function apply(d){ if(!d||typeof d.total!=='number') return false; const g=d.goal||st.goal; if(g!==st.goal||!cells){ st.goal=g; layout(g); } Object.assign(st,d); stats(); return true; }
+  async function load(anim){
+    try{ const d=await api({}); if(apply(d)){ $('mz-loading').style.display='none'; anim?animateTo(revealed(st.total)):paint(revealed(st.total)); if(!st.open&&!mine()){ $('mz-msg').textContent='現在、ピースの受付を一時停止しています。'; } syncBtn(); } }
+    catch(e){ $('mz-loading').textContent='絵を読み込めませんでした。通信状態を確認して、ページを再読み込みしてください。'; }
+  }
+  $('mz-btn').addEventListener('click',async()=>{
+    const t=[...root.querySelectorAll('.mz-chip[aria-pressed="true"]')].map(c=>c.dataset.t);
+    if(!t.length||mine()) return;
+    const b=$('mz-btn'); b.disabled=true; b.textContent='ピースを置いています…'; $('mz-msg').textContent='';
+    try{
+      const d=await api({action:'tap',d:dev,t:t.join(',')});
+      if(d.ok){ apply(d); const days=LS.get('mz-days',[]); if(!days.includes(jst())){ days.push(jst()); LS.set('mz-days',days.slice(-400)); } mine(); setDone();
+        const k=revealed(st.total)-1; animateTo(revealed(st.total),k);
+        $('mz-msg').textContent=`🎉 ピースを置きました！ あなたは ${st.total.toLocaleString()} 個目。金色の枠があなたのピースです。`;
+        return; }
+      apply(d);
+      const M={dup:'今日のピースはもう置いてあります。また明日！',cap:'今日はたくさんの挑戦が集まったため、受付を締め切りました。また明日！',busy:'いま混み合っています。1分ほど待ってからもう一度押してください。',closed:'現在、ピースの受付を一時停止しています。',bad:'送信内容に問題がありました。ページを再読み込みしてください。'};
+      $('mz-msg').textContent=M[d.err]||'ピースを置けませんでした。もう一度押してください。';
+      if(d.err==='dup'){ const days=LS.get('mz-days',[]); if(!days.includes(jst())){ days.push(jst()); LS.set('mz-days',days); } mine(); setDone(); return; }
+    }catch(e){ $('mz-msg').textContent='通信できませんでした。電波の良いところで、もう一度押してください。'; }
+    b.textContent='ピースを置く'; syncBtn();
+  });
+
+  drawArt();
+  if(mine()) setDone();
+  const start=()=>{ drawArt(); load(true); };
+  (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(start,start);
+  // ホームを見ている間は2分ごとに最新の状態に
+  setInterval(()=>{ if(document.visibilityState==='visible'&&document.getElementById('sec-home').classList.contains('active')) load(false); },120000);
+})();
+
 // ── お知らせの掲載期限（data-until を過ぎたら非表示）──
 (function(){
   const t=new Date(); t.setHours(0,0,0,0);
@@ -1609,14 +1850,21 @@ const PART_NAME={S:'ソプラノ',A:'アルト',T:'テノール',B:'バス'};
 function recDateLabel(ds){ const [y,m,d]=ds.split('-').map(Number); const dt=new Date(y,m-1,d); return `${m}月${d}日（${['日','月','火','水','木','金','土'][dt.getDay()]}）`; }
 function recEv(ds){ return SCH.find(e=>e.date===ds); }   // その日の練習情報（楽譜ページ・練習箇所）
 function recCard(r, withSong){
-  const chips=r.parts.map(p=>`<span class="rec-chip ${p}">${PART_NAME[p]}</span>`).join('');
-  const ev=recEv(r.date); const sl=(withSong&&ev)?songLabel(ev):'';
-  return `<div class="cblock" style="margin-bottom:12px"><div class="cbh"><div class="cnum" style="background:#1a5276">▶</div><span class="ctitle" style="font-size:13px">${r.title}</span></div>
-    <div class="cbody"><div class="yt-wrap"><iframe data-src="https://www.youtube.com/embed/${r.id}" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div>${sl?`<div class="rec-card-song">🎼 ${sl}</div>`:''}<div class="rec-chips">${chips}</div></div></div>`;
+  const tutti=r.kind==='tutti', sn=r.song==='seinen';
+  const chips = tutti ? '<span class="rec-chip all">👥 全体練習（全パート合同）</span>'
+                      : r.parts.map(p=>`<span class="rec-chip ${p}">${PART_NAME[p]}</span>`).join('');
+  const ev=recEv(r.date);
+  const sl = sn ? '' : ((withSong&&ev)?songLabel(ev):'');
+  const color = sn ? '#2d5440' : (tutti ? '#b7791f' : '#1a5276');
+  return `<div class="cblock${tutti?' rec-tutti':''}" style="margin-bottom:12px"><div class="cbh"><div class="cnum" style="background:${color}">${tutti?'👥':'▶'}</div><span class="ctitle" style="font-size:13px">${r.title}</span></div>
+    <div class="cbody"><div class="yt-wrap"><iframe data-src="https://www.youtube.com/embed/${r.id}" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div>${sn?'<div class="rec-card-sn">⛰️ 曲：青年よ広布の山を登れ（第九ではありません）</div>':''}${sl?`<div class="rec-card-song">🎼 ${sl}</div>`:''}<div class="rec-chips">${chips}${sn?'<span class="rec-chip sn">⛰️ 広布の山を登れ</span>':''}</div></div></div>`;
 }
-function recDateHead(ds,cnt){
+// 同じ日の中の並び順：全体練習 → ソプラノ → アルト → テノール → バス
+const REC_ORDER={S:1,A:2,T:3,B:4};
+function recSortDay(a,b){ const ka=a.kind==='tutti'?0:REC_ORDER[a.parts[0]], kb=b.kind==='tutti'?0:REC_ORDER[b.parts[0]]; return ka-kb; }
+function recDateHead(ds,cnt,hasTutti){
   const ev=recEv(ds); const sl=ev?songLabel(ev):'';
-  return `<div class="rec-date">📅 ${recDateLabel(ds)}${ev?'　'+ev.title:''}<span class="rec-count">${cnt}本</span>${sl?`<div class="rec-song">🎼 ${sl}</div>`:''}</div>`;
+  return `<div class="rec-date">📅 ${recDateLabel(ds)}${ev?'　'+ev.title:''}<span class="rec-count">${cnt}本</span>${hasTutti?'<span class="rec-count tutti">👥 全体練習あり</span>':''}${sl?`<div class="rec-song">🎼 ${sl}</div>`:''}</div>`;
 }
 (function renderRecs(){
   const list=document.getElementById('rec-archive-list');
@@ -1630,7 +1878,7 @@ function recDateHead(ds,cnt){
     // 日付ジャンプ
     let html='<div class="rec-jump">'+pinDates.map(d=>`<a class="pin" onclick="goRecArchive('${d}')">補習 ${md(d)}</a>`).join('')+weekDates.map(d=>`<a onclick="goRecArchive('${d}')">${md(d)}</a>`).join('')+'</div>';
     // 日付ごとに折りたたみ（最新の週だけ最初から開く）
-    const block=(ds,open)=>{const rs=RECS.filter(r=>r.date===ds);return `<details class="rec-day" id="rec-${ds}"${open?' open':''}><summary>${recDateHead(ds,rs.length)}</summary><div class="rec-day-body">${rs.map(r=>recCard(r,false)).join('')}</div></details>`;};
+    const block=(ds,open)=>{const rs=RECS.filter(r=>r.date===ds).sort(recSortDay);return `<details class="rec-day" id="rec-${ds}"${open?' open':''}><summary>${recDateHead(ds,rs.length,rs.some(r=>r.kind==='tutti'))}</summary><div class="rec-day-body">${rs.map(r=>recCard(r,false)).join('')}</div></details>`;};
     if(pinDates.length) html+='<div class="rec-group">🎯 補習（第1〜5回の内容）</div>'+pinDates.map(d=>block(d,false)).join('');
     if(weekDates.length) html+='<div class="rec-group">📹 毎週の練習録画（新しい日付が上）</div>'+weekDates.map((d,i)=>block(d,i===0)).join('');
     list.innerHTML = recDates.length ? html : '<div class="rec-empty">まだ録画はありません。</div>';
@@ -1639,7 +1887,7 @@ function recDateHead(ds,cnt){
   const today=new Date(); today.setHours(0,0,0,0);
   const nx=SCH.find(e=>{const [y,m,d]=e.date.split('-').map(Number);return !e.cancel && new Date(y,m-1,d)>=today;});
   document.querySelectorAll('.rec-part').forEach(box=>{
-    const p=box.dataset.part; const mine=RECS.filter(r=>r.parts.includes(p)).sort((a,b)=>b.date.localeCompare(a.date));
+    const p=box.dataset.part; const mine=RECS.filter(r=>r.parts.includes(p)).sort((a,b)=>b.date.localeCompare(a.date)||((a.kind==='tutti')-(b.kind==='tutti')));
     const SHOW=4;
     let html='';
     if(nx){ const sl=songLabel(nx); const wn=box.parentElement.querySelector('.warn-note'); if(wn) wn.insertAdjacentHTML('afterend',`<div class="part-next"><div class="pn-lbl">🔜 次回の練習（予習はここ！）</div><div class="pn-date">${recDateLabel(nx.date)} ${nx.title}</div>${sl?`<div class="pn-song">${sl}</div>`:''}<div class="pn-sub">${nx.detail}</div></div>`); }
@@ -1651,6 +1899,10 @@ function recDateHead(ds,cnt){
     }
     box.innerHTML=html;
   });
+  // 広布の山のページ：『青年よ広布の山を登れ』の練習録画
+  const snr=document.getElementById('sn-recs');
+  if(snr){ const rs=RECS.filter(r=>r.song==='seinen').sort((a,b)=>b.date.localeCompare(a.date));
+    snr.innerHTML = rs.length ? `<div class="slabel"><div class="licon" style="background:#2d5440">🎥</div>この曲の練習録画</div>`+rs.map(r=>recCard(Object.assign({},r,{title:recDateLabel(r.date)+' '+r.title}),false)).join('') : ''; }
 })();
 // スケジュールの「録画を見る」／日付ジャンプ → 映像アーカイブの該当日を開いて表示
 function goRecArchive(ds){
@@ -1659,6 +1911,37 @@ function goRecArchive(ds){
   if(t&&t.tagName==='DETAILS') t.open=true;
   setTimeout(()=>{ const x=t||document.getElementById('rec-archive'); if(x){ const nw=document.getElementById('nav-wrap'); const y=x.getBoundingClientRect().top+window.scrollY-(nw?nw.offsetHeight:0)-8; window.scrollTo({top:y,behavior:'smooth'}); } },450);
 }
+
+// ── 青年よ広布の山を登れ：パート別練習音源 ──
+// ★ 音源ファイルは seinen フォルダに置く。差し替える場合は src を書き換える
+const SEINEN=[
+  {key:'soprano',name:'ソプラノ',sub:'女声・高い声（主旋律）',src:'seinen/seinen-soprano.m4a',color:'#c0392b'},
+  {key:'alto',   name:'アルト',  sub:'女声・低い声',          src:'seinen/seinen-alto.m4a',   color:'#8e44ad'},
+  {key:'tenor',  name:'テノール',sub:'男声・高い声',          src:'seinen/seinen-tenor.m4a',  color:'#1a5276'},
+  {key:'bass',   name:'バス',    sub:'男声・低い声',          src:'seinen/seinen-bass.m4a',   color:'#1e7a45'},
+];
+(function(){
+  let mine=null; try{ mine=localStorage.getItem('mypart'); }catch(e){}
+  const card=(s,isMine)=>`<div class="sn-player${isMine?' mine':''}" style="--pc:${s.color}">
+      <div class="sn-top"><span class="sn-name">${s.name}</span><span class="sn-sub">${s.sub}</span>${isMine?'<span class="sn-minetag">あなたのパート</span>':''}</div>
+      <audio controls preload="metadata" src="${s.src}" title="青年よ広布の山を登れ ${s.name}"></audio>
+      <div class="sn-ctl"><button type="button" data-rate="0.75" aria-pressed="false">ゆっくり（0.75倍）</button><button type="button" data-rate="1" aria-pressed="true">ふつうの速さ</button><button type="button" data-loop aria-pressed="false">🔁 くり返し</button></div>
+    </div>`;
+  // 専用ページ：マイパートを一番上に
+  const list=document.getElementById('sn-list');
+  if(list){ const arr=[...SEINEN].sort((a,b)=>(b.key===mine)-(a.key===mine)); list.innerHTML=arr.map(s=>card(s,s.key===mine)).join(''); }
+  // 各パートページ：自分のパートの音源を録画の上に
+  SEINEN.forEach(s=>{ const box=document.querySelector(`#sec-${s.key} .rec-part`); if(box) box.insertAdjacentHTML('beforebegin',`<div class="slabel"><div class="licon" style="background:#2d5440">⛰️</div>青年よ広布の山を登れ（${s.name}）</div>`+card(s,false)); });
+  // 速さ・くり返し
+  document.addEventListener('click',e=>{
+    const b=e.target.closest('.sn-ctl button'); if(!b) return;
+    const pl=b.closest('.sn-player'), au=pl.querySelector('audio');
+    if(b.hasAttribute('data-loop')){ au.loop=!au.loop; b.setAttribute('aria-pressed',String(au.loop)); }
+    else{ const r=parseFloat(b.dataset.rate); au.defaultPlaybackRate=r; au.playbackRate=r; pl.querySelectorAll('[data-rate]').forEach(x=>x.setAttribute('aria-pressed',String(x===b))); }
+  });
+  // 1つ再生したら、ほかの音源は止める（重なり防止）
+  document.addEventListener('play',e=>{ if(e.target.tagName!=='AUDIO') return; document.querySelectorAll('audio').forEach(a=>{ if(a!==e.target) a.pause(); }); },true);
+})();
 
 // ── YouTube遅延読み込み（サムネ＋再生ボタン。クリックで初めて読み込み）──
 document.querySelectorAll('.yt-wrap iframe').forEach(function(f){
