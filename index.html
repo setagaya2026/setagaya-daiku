@@ -1913,12 +1913,12 @@ function goRecArchive(ds){
 }
 
 // ── 青年よ広布の山を登れ：パート別練習音源 ──
-// ★ 音源ファイルは seinen フォルダに置く。差し替える場合は src を書き換える
+// ★ 音源ファイルは index.html と同じ一番上の階層に置く（seinen-soprano.m4a など）。差し替える場合は src を書き換える
 const SEINEN=[
-  {key:'soprano',name:'ソプラノ',sub:'女声・高い声（主旋律）',src:'seinen/seinen-soprano.m4a',color:'#c0392b'},
-  {key:'alto',   name:'アルト',  sub:'女声・低い声',          src:'seinen/seinen-alto.m4a',   color:'#8e44ad'},
-  {key:'tenor',  name:'テノール',sub:'男声・高い声',          src:'seinen/seinen-tenor.m4a',  color:'#1a5276'},
-  {key:'bass',   name:'バス',    sub:'男声・低い声',          src:'seinen/seinen-bass.m4a',   color:'#1e7a45'},
+  {key:'soprano',name:'ソプラノ',sub:'女声・高い声（主旋律）',src:'seinen-soprano.m4a',color:'#c0392b'},
+  {key:'alto',   name:'アルト',  sub:'女声・低い声',          src:'seinen-alto.m4a',   color:'#8e44ad'},
+  {key:'tenor',  name:'テノール',sub:'男声・高い声',          src:'seinen-tenor.m4a',  color:'#1a5276'},
+  {key:'bass',   name:'バス',    sub:'男声・低い声',          src:'seinen-bass.m4a',   color:'#1e7a45'},
 ];
 (function(){
   let mine=null; try{ mine=localStorage.getItem('mypart'); }catch(e){}
