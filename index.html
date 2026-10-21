@@ -551,6 +551,9 @@ details.fv-toc .pidx{padding:0 12px 12px;margin-bottom:0}
 .cblock.rec-tutti{border:1.5px solid #e2b866}
 details.rec-day>summary .rec-count.tutti{background:#b7791f}
 .rec-card-sn{font-size:12px;font-weight:700;color:#1f3a2e;background:#e3efe8;border-radius:6px;padding:5px 9px;margin-top:8px;display:inline-block}
+
+.mz-demo{background:#fff3c4;color:#4a2c00;border-radius:8px;padding:9px 11px;font-size:11.5px;line-height:1.65;margin-bottom:12px}
+.mz-demo button{display:block;margin-top:6px;background:#4a2c00;color:#fff3c4;border:none;border-radius:14px;padding:5px 12px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif}
 </style>
 </head>
 <body>
@@ -1256,6 +1259,11 @@ const RECS=[
   {date:'2026-10-11',title:'女声パート（アルト）',       id:'ObAOKx22xqI',parts:['A']},
   {date:'2026-10-11',title:'男声パート（テノール）',     id:'ZQI3zu4IhJ4',parts:['T']},
   {date:'2026-10-11',title:'男声パート（バス）',         id:'0gPODC9Iw0g',parts:['B']},
+  {date:'2026-10-18',title:'全体練習（全パート合同）',   id:'AX91NzPxdWw',parts:['S','A','T','B'],kind:'tutti'},
+  {date:'2026-10-18',title:'女声パート（ソプラノ）',     id:'AtnrVzLFgMM',parts:['S']},
+  {date:'2026-10-18',title:'女声パート（アルト）',       id:'k9gggcJz0IQ',parts:['A']},
+  {date:'2026-10-18',title:'男声パート（テノール）',     id:'awGjl8lrdNo',parts:['T']},
+  {date:'2026-10-18',title:'男声パート（バス）',         id:'GJCEH9PyW6E',parts:['B']},
 ];
 const DOW=['日','月','火','水','木','金','土'];
 const MON=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
@@ -1695,7 +1703,10 @@ const MOSAIC_API='';
 (function(){
   const root=document.getElementById('mosaic'); if(!root) return;
   const demo=/[?&]mosaic-demo/.test(location.search);
+  const DK=demo?'mz-demo-days':'mz-days';   // 試作版で押した記録は本番と別に保存
   if(!MOSAIC_API && !demo){ root.style.display='none'; return; }
+  if(demo){ root.insertAdjacentHTML('afterbegin','<div class="mz-demo">🔧 <b>試作版（デモ表示）</b>　数字は仮のものです。押した記録はこの端末にだけ残り、ほかの人には反映されません。<button type="button" id="mz-demo-reset">もう一度押せるようにする</button></div>');
+    document.getElementById('mz-demo-reset').onclick=()=>{ try{ localStorage.removeItem('mz-demo-days'); }catch(e){} location.reload(); }; }
   const LS={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v);}catch(e){return d;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
   const jst=d=>(d||new Date()).toLocaleDateString('sv-SE',{timeZone:'Asia/Tokyo'});
   const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1772,7 +1783,7 @@ const MOSAIC_API='';
   }
   // ── 自分の記録 ──
   function mine(){
-    const days=LS.get('mz-days',[]); $('mz-mycount').textContent=days.length;
+    const days=LS.get(DK,[]); $('mz-mycount').textContent=days.length;
     let s=0, d=new Date(); if(!days.includes(jst(d))) d=new Date(d.getTime()-864e5);
     while(days.includes(jst(d))){ s++; d=new Date(d.getTime()-864e5); }
     $('mz-streak').textContent=s;
@@ -1802,14 +1813,14 @@ const MOSAIC_API='';
     const b=$('mz-btn'); b.disabled=true; b.textContent='ピースを置いています…'; $('mz-msg').textContent='';
     try{
       const d=await api({action:'tap',d:dev,t:t.join(',')});
-      if(d.ok){ apply(d); const days=LS.get('mz-days',[]); if(!days.includes(jst())){ days.push(jst()); LS.set('mz-days',days.slice(-400)); } mine(); setDone();
+      if(d.ok){ apply(d); const days=LS.get(DK,[]); if(!days.includes(jst())){ days.push(jst()); LS.set(DK,days.slice(-400)); } mine(); setDone();
         const k=revealed(st.total)-1; animateTo(revealed(st.total),k);
         $('mz-msg').textContent=`🎉 ピースを置きました！ あなたは ${st.total.toLocaleString()} 個目。金色の枠があなたのピースです。`;
         return; }
       apply(d);
       const M={dup:'今日のピースはもう置いてあります。また明日！',cap:'今日はたくさんの挑戦が集まったため、受付を締め切りました。また明日！',busy:'いま混み合っています。1分ほど待ってからもう一度押してください。',closed:'現在、ピースの受付を一時停止しています。',bad:'送信内容に問題がありました。ページを再読み込みしてください。'};
       $('mz-msg').textContent=M[d.err]||'ピースを置けませんでした。もう一度押してください。';
-      if(d.err==='dup'){ const days=LS.get('mz-days',[]); if(!days.includes(jst())){ days.push(jst()); LS.set('mz-days',days); } mine(); setDone(); return; }
+      if(d.err==='dup'){ const days=LS.get(DK,[]); if(!days.includes(jst())){ days.push(jst()); LS.set(DK,days); } mine(); setDone(); return; }
     }catch(e){ $('mz-msg').textContent='通信できませんでした。電波の良いところで、もう一度押してください。'; }
     b.textContent='ピースを置く'; syncBtn();
   });
