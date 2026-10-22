@@ -554,6 +554,31 @@ details.rec-day>summary .rec-count.tutti{background:#b7791f}
 
 .mz-demo{background:#fff3c4;color:#4a2c00;border-radius:8px;padding:9px 11px;font-size:11.5px;line-height:1.65;margin-bottom:12px}
 .mz-demo button{display:block;margin-top:6px;background:#4a2c00;color:#fff3c4;border:none;border-radius:14px;padding:5px 12px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif}
+
+/* ════ 連続再生 ════ */
+.cont-card{background:#fff;border:1.5px solid #1a5276;border-radius:10px;padding:14px;margin-bottom:16px}
+.cont-head{font-size:15px;font-weight:900;color:#1a5276;margin-bottom:4px}
+.cont-n{font-size:11px;font-weight:700;background:#1a5276;color:#fff;border-radius:10px;padding:2px 8px;margin-left:4px;vertical-align:2px}
+.cont-lead{font-size:12px;color:var(--muted);line-height:1.65;margin-bottom:10px}
+.cont-tabs{display:flex;gap:6px;margin-bottom:10px}
+.cont-tabs button{flex:1;background:#eef3f8;border:1.5px solid #cbd9e6;color:#1a5276;border-radius:18px;padding:8px 6px;font-size:12.5px;cursor:pointer;font-family:'Noto Sans JP',sans-serif}
+.cont-tabs button[aria-pressed="true"]{background:#1a5276;border-color:#1a5276;color:#fff;font-weight:700}
+.cont-order{margin-top:10px;font-size:12px}
+.cont-order summary{cursor:pointer;color:#1a5276;font-weight:700}
+.cont-order ol{margin:8px 0 0 1.4em;line-height:1.8;color:#3a3226;max-height:220px;overflow:auto}
+.cont-app{display:block;text-align:center;margin-top:10px;background:#c4302b;color:#fff;border-radius:8px;padding:10px;font-size:13px;font-weight:700;text-decoration:none}
+.cont-jump{background:#eef3f8;border-radius:8px;padding:10px 12px;margin:10px 0 6px}
+.cont-jump-t{font-size:12.5px;font-weight:700;color:#1a5276;margin-bottom:7px}
+.cont-gos{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.cont-go{border:none;border-radius:8px;padding:10px 2px;font-size:12.5px;font-weight:700;color:#fff;cursor:pointer;font-family:'Noto Sans JP',sans-serif}
+.cont-go.S{background:#c0392b}.cont-go.A{background:#8e44ad}.cont-go.T{background:#1a5276}.cont-go.B{background:#1e7a45}
+.hl-card{background:#fff;border:1.5px solid #1a5276;border-radius:10px;padding:14px;margin-bottom:16px}
+.hl-t{font-size:15px;font-weight:900;color:#1a5276}
+.hl-d{font-size:13px;font-weight:700;margin:3px 0 6px;color:#2d1f0f}
+.hl-d span{display:block;font-size:11.5px;font-weight:700;color:#9b1b30;margin-top:2px}
+.hl-q{font-size:12px;color:var(--muted);margin-bottom:8px}
+.hl-all{display:block;width:100%;margin-top:8px;background:transparent;border:1.5px solid #b7791f;color:#8a5a00;border-radius:8px;padding:9px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif}
+.cont-tabs button:focus-visible,.cont-go:focus-visible,.hl-all:focus-visible{outline:2px solid #1a5276;outline-offset:2px}
 </style>
 </head>
 <body>
@@ -635,6 +660,9 @@ details.rec-day>summary .rec-count.tutti{background:#b7791f}
     </div>
     <button class="next-bar-btn" onclick="showSection('schedule',null)">日程一覧 →</button>
   </div>
+
+  <!-- ── 最新の練習録画（JSで自動表示）── -->
+  <div id="home-latest"></div>
 
   <!-- ── 青年よ広布の山を登れ（ホームの入口）── -->
   <a class="sn-home" onclick="showSection('seinen',null)">
@@ -1915,6 +1943,68 @@ function recDateHead(ds,cnt,hasTutti){
   if(snr){ const rs=RECS.filter(r=>r.song==='seinen').sort((a,b)=>b.date.localeCompare(a.date));
     snr.innerHTML = rs.length ? `<div class="slabel"><div class="licon" style="background:#2d5440">🎥</div>この曲の練習録画</div>`+rs.map(r=>recCard(Object.assign({},r,{title:recDateLabel(r.date)+' '+r.title}),false)).join('') : ''; }
 })();
+// ── パート別の連続再生（RECS に録画を足すだけで自動で更新）──
+// そのパートの録画＋全体練習を並べ、YouTubeの「playlist」機能でサイト内のまま続けて再生する
+const PART_KEY={S:'soprano',A:'alto',T:'tenor',B:'bass'};
+// 補習（第1〜5回の内容）は、日付ではなく内容の順（第5回 8/2 の直後）として並べる
+function contKey(r){ return SCH.some(e=>e.date===r.date&&e.badge==='badge-h') ? '2026-08-02~' : r.date; }
+function contList(rs,order){
+  return [...rs].sort((a,b)=>(order==='old'?contKey(a).localeCompare(contKey(b)):contKey(b).localeCompare(contKey(a)))||((a.kind==='tutti')-(b.kind==='tutti')));
+}
+function partRecs(p){ return RECS.filter(r=>r.parts.includes(p)&&r.song!=='seinen'); }
+function contEmbed(ids){ return 'https://www.youtube.com/embed/'+ids[0]+(ids.length>1?'?playlist='+ids.slice(1).join(','):''); }
+function contApp(ids){ return 'https://www.youtube.com/watch_videos?video_ids='+ids.join(','); }
+function contCard(key,label,rs){
+  const n=rs.length;
+  return `<div class="cont-card" id="cont-${key}" data-key="${key}">
+    <div class="cont-head">▶ ${label}の練習録画を連続再生 <span class="cont-n">全${n}本</span></div>
+    <div class="cont-lead">1本見終わると、次の録画が自動で始まります。画面を行き来する必要はありません。</div>
+    <div class="cont-tabs" role="group" aria-label="再生の順番"><button type="button" data-order="new" aria-pressed="true">新しい練習から</button><button type="button" data-order="old" aria-pressed="false">最初の練習から順に</button></div>
+    <div class="cont-player"></div>
+    <details class="cont-order"><summary>再生される順番を見る</summary><ol></ol></details>
+    <a class="cont-app" target="_blank" rel="noopener">YouTubeアプリで連続再生する</a>
+  </div>`;
+}
+function contRender(card,rs,order){
+  const list=contList(rs,order), ids=list.map(r=>r.id);
+  card.querySelector('.cont-player').innerHTML=`<div class="yt-wrap"><iframe data-src="${contEmbed(ids)}" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div>`;
+  ytFacade(card.querySelector('.cont-player iframe'));
+  card.querySelector('.cont-order ol').innerHTML=list.map(r=>`<li>${recDateLabel(r.date)}　${r.kind==='tutti'?'👥 ':''}${r.title}</li>`).join('');
+  card.querySelector('.cont-app').href=contApp(ids);
+  card.querySelectorAll('.cont-tabs button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.order===order)));
+}
+const CONT_SETS={};
+(function buildCont(){
+  // 各パートページ（録画一覧の上）
+  Object.entries(PART_KEY).forEach(([p,k])=>{
+    const rs=partRecs(p); const box=document.querySelector(`#sec-${k} .rec-part`);
+    if(!box||rs.length<2) return;
+    CONT_SETS[p]=rs; box.insertAdjacentHTML('afterbegin',contCard(p,PART_NAME[p],rs));
+  });
+  // 広布の山のページ（録画が2本以上になったら表示）
+  const sn=RECS.filter(r=>r.song==='seinen'); const snBox=document.getElementById('sn-recs');
+  if(snBox&&sn.length>=2){ CONT_SETS.seinen=sn; snBox.insertAdjacentHTML('afterbegin',contCard('seinen','青年よ広布の山を登れ',sn)); }
+  document.querySelectorAll('.cont-card').forEach(c=>contRender(c,CONT_SETS[c.dataset.key],'new'));
+  document.addEventListener('click',e=>{
+    const b=e.target.closest('.cont-tabs button'); if(!b) return;
+    const c=b.closest('.cont-card'); contRender(c,CONT_SETS[c.dataset.key],b.dataset.order);
+  });
+  // パート別ボタン（ホームの最新録画・録画アーカイブ）
+  const btns=()=>Object.keys(PART_KEY).filter(p=>CONT_SETS[p]).map(p=>`<button type="button" class="cont-go ${p}" onclick="goCont('${p}')">${PART_NAME[p]}</button>`).join('');
+  const ar=document.getElementById('rec-archive-list');
+  if(ar) ar.insertAdjacentHTML('beforebegin',`<div class="cont-jump"><div class="cont-jump-t">▶ パート別にまとめて連続再生</div><div class="cont-gos">${btns()}</div></div>`);
+  const hl=document.getElementById('home-latest');
+  const last=[...new Set(RECS.filter(r=>r.song!=='seinen').map(r=>r.date))].sort().pop();
+  if(hl&&last){ const ev=recEv(last);
+    hl.innerHTML=`<div class="hl-card"><div class="hl-t">🎥 最新の練習録画</div><div class="hl-d">${recDateLabel(last)}${ev?' '+ev.title:''}${ev&&songLabel(ev)?`<span>${songLabel(ev)}</span>`:''}</div>
+      <div class="hl-q">自分のパートを押すと、これまでの録画を新しい順に連続再生できます</div><div class="cont-gos">${btns()}</div>
+      <button type="button" class="hl-all" onclick="goRecArchive('${last}')">この日の録画をすべて見る（全体練習を含む）</button></div>`; }
+})();
+function goCont(p){
+  showSection(PART_KEY[p],null);
+  setTimeout(()=>{ const c=document.getElementById('cont-'+p); if(!c) return; const nw=document.getElementById('nav-wrap'); window.scrollTo({top:c.getBoundingClientRect().top+window.scrollY-(nw?nw.offsetHeight:0)-8,behavior:'smooth'}); },450);
+}
+
 // スケジュールの「録画を見る」／日付ジャンプ → 映像アーカイブの該当日を開いて表示
 function goRecArchive(ds){
   if(!document.getElementById('sec-video').classList.contains('active')) showSection('video',null);
@@ -1955,18 +2045,18 @@ const SEINEN=[
 })();
 
 // ── YouTube遅延読み込み（サムネ＋再生ボタン。クリックで初めて読み込み）──
-document.querySelectorAll('.yt-wrap iframe').forEach(function(f){
+function ytFacade(f){
   const ds=f.getAttribute('data-src')||f.getAttribute('src')||'';
   const m=ds.match(/embed\/([\w-]+)/);
   if(!m) return;
-  const id=m[1];
+  const id=m[1], q=ds.split('?')[1]||'';   // ?playlist=… を保持（連続再生用）
   const w=f.closest('.yt-wrap');
   w.classList.add('yt-facade');
   w.style.backgroundImage="url(https://i.ytimg.com/vi/"+id+"/hqdefault.jpg)";
   w.innerHTML='<button class="yt-play" aria-label="動画を再生">▶</button>';
   w.addEventListener('click', function(){
     const ifr=document.createElement('iframe');
-    ifr.src="https://www.youtube.com/embed/"+id+"?autoplay=1&rel=0";
+    ifr.src="https://www.youtube.com/embed/"+id+"?autoplay=1&rel=0"+(q?'&'+q:'');
     ifr.setAttribute('allow','accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
     ifr.setAttribute('allowfullscreen','');
     w.classList.remove('yt-facade');
@@ -1974,7 +2064,8 @@ document.querySelectorAll('.yt-wrap iframe').forEach(function(f){
     w.innerHTML='';
     w.appendChild(ifr);
   }, {once:true});
-});
+}
+document.querySelectorAll('.yt-wrap iframe').forEach(ytFacade);
 
 // ── 共有リンク（#schedule 等）で開いた場合、その画面を表示 ──
 (function(){
