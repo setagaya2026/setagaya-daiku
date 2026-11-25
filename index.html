@@ -607,6 +607,33 @@ details.rec-day>summary .rec-count.tutti{background:#b7791f}
 .hlv:focus-visible{outline:3px solid #ffd43b;outline-offset:2px}
 .sch-live-link{background:#fde8e8;color:#9b1b30}
 @media (prefers-reduced-motion: reduce){.hlv.on{animation:none}}
+
+/* ════ ティザー動画・本番ウィーク ════ */
+.tz{background:#1a1208;border-radius:12px;padding:14px;margin-bottom:16px;box-shadow:0 6px 20px rgba(26,18,8,.28)}
+.tz-t{font-family:'Noto Serif JP',serif;font-size:16px;font-weight:700;color:#e8c06a;margin-bottom:10px}
+.tz-share{display:block;text-align:center;margin-top:10px;background:#06C755;color:#fff;border-radius:8px;padding:10px;font-size:13px;font-weight:700;text-decoration:none}
+.wk{background:#fff;border:2px solid #c9963a;border-radius:12px;padding:16px;margin-bottom:16px}
+.wk.thanks{background:linear-gradient(135deg,#1a1208,#2d1a0a);border-color:#c9963a;color:#fff}
+.wk.thanks .wk-t{color:#e8c06a}.wk.thanks .wk-lead{font-size:13px;line-height:1.8;color:rgba(255,255,255,.88)}
+.wk-t{font-family:'Noto Serif JP',serif;font-size:19px;font-weight:900;color:#9b1b30;margin-bottom:10px}
+.wk-flow{display:grid;gap:6px;margin-bottom:14px}
+.wk-flow>div{display:grid;grid-template-columns:86px 1fr;gap:8px;align-items:center;background:#faf6ef;border-radius:8px;padding:9px 12px;font-size:13.5px}
+.wk-flow>div.main{background:#fdf0d5}
+.wk-flow b{color:#2d1f0f;font-size:13px}
+.wk-flow span{font-weight:700;color:#2d1f0f}
+.wk-flow small{display:block;font-weight:400;font-size:12px;color:#6b5a45;margin-top:1px}
+.wk-ch{font-size:14px;font-weight:900;color:#2d1f0f;display:flex;justify-content:space-between;align-items:baseline}
+.wk-ch span{font-size:12px;color:#8a5a00}
+.wk-bar{height:6px;background:#eee4d2;border-radius:3px;overflow:hidden;margin:6px 0 8px}
+.wk-bar i{display:block;height:100%;background:linear-gradient(90deg,#c9963a,#ffd43b);transition:width .4s}
+.wk-list{list-style:none;margin:0;padding:0}
+.wk-list li{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid rgba(0,0,0,.06)}
+.wk-list label{flex:1;display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.5;cursor:pointer;color:#2d1f0f}
+.wk-list input{width:20px;height:20px;accent-color:#9b1b30;flex-shrink:0;margin-top:1px}
+.wk-list li.done label span{color:#9a8f80;text-decoration:line-through}
+.wk-list button{flex-shrink:0;background:#eef3f8;color:#1a5276;border:none;border-radius:14px;padding:6px 11px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif}
+.wk-note{font-size:11px;color:var(--muted);margin-top:8px}
+.wk-all{margin-top:10px;background:#fdf0d5;border-radius:8px;padding:10px 12px;font-size:13.5px;font-weight:700;color:#9b1b30;text-align:center}
 </style>
 </head>
 <body>
@@ -636,7 +663,7 @@ details.rec-day>summary .rec-count.tutti{background:#b7791f}
     <div class="cdsep">:</div>
     <div class="cdb"><span class="cdn" id="cd-s">--</span><span class="cdl">秒</span></div>
   </div>
-  <div class="cdsub"><strong>2026年11月29日（日）</strong> 世田谷ユースアクションフェス本番</div>
+  <div class="cdsub"><strong>2026年11月29日（日）</strong> 第1回公演 14:00 ／ 第2回公演 17:30</div>
 </div>
 
 <!-- NAV -->
@@ -666,6 +693,16 @@ details.rec-day>summary .rec-count.tutti{background:#b7791f}
 
   <!-- ── 本番ライブ配信の案内（JSで自動表示）── -->
   <div id="home-live"></div>
+
+  <!-- ── ティザー動画 ── -->
+  <div class="tz home">
+    <div class="tz-t">🎬 ティザー動画ができました！</div>
+    <div class="yt-wrap"><iframe data-src="https://www.youtube.com/embed/sTRNgEUPHt0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div>
+    <a class="tz-share" href="https://line.me/R/msg/text/?Re%3AFreude%20%E4%B8%96%E7%94%B0%E8%B0%B7%E3%83%A6%E3%83%BC%E3%82%B9%E3%82%A2%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%E3%83%95%E3%82%A7%E3%82%B9%20%E3%83%86%E3%82%A3%E3%82%B6%E3%83%BC%E5%8B%95%E7%94%BB%E3%81%8C%E3%81%A7%E3%81%8D%E3%81%BE%E3%81%97%E3%81%9F%EF%BC%81%0Ahttps%3A%2F%2Fyoutu.be%2FsTRNgEUPHt0%0A%0A%E6%9C%AC%E7%95%AA%EF%BC%8811%2F29%EF%BC%89%E3%81%AE%E3%83%A9%E3%82%A4%E3%83%96%E9%85%8D%E4%BF%A1%E3%81%AF%E3%81%93%E3%81%A1%E3%82%89%0Ahttps%3A%2F%2Fsetagaya2026.github.io%2Fsetagaya-daiku%2F%23live" target="_blank" rel="noopener">LINEで友人・家族に送る</a>
+  </div>
+
+  <!-- ── 本番ウィーク（流れ・準備チェック。JSで自動表示）── -->
+  <div id="home-week"></div>
 
   <!-- ── お知らせ（最新）──
        ★ 各項目の data-until="YYYY-MM-DD" を過ぎると自動で非表示。全部消えたらバナーごと消えます -->
@@ -727,6 +764,20 @@ details.rec-day>summary .rec-count.tutti{background:#b7791f}
     <div class="mz-mine">あなたが置いたピース <b id="mz-mycount">0</b> 個（連続 <b id="mz-streak">0</b> 日）</div>
   </section>
 
+  <!-- ── なぜ第九を歌うのか ── -->
+  <div class="meaning-card">
+    <div class="meaning-label">Why we sing</div>
+    <h2 class="meaning-title">なぜ、私たちは<br><span class="accent">「歓喜の歌」</span>を歌うのか</h2>
+    <div class="meaning-body">
+      <p>ベートーヴェンが「歓喜の歌」に込めた確信は、たった一つだった。<br><strong>——人類は、必ずひとつになれる。</strong></p>
+      <p>二百年のあいだ、この歌は国境も言語も越えてきた。ベルリンの壁が崩れた夜にも、戦火の止んだ広場にも、第九は響いていた。</p>
+      <p>2011年11月27日、池田講堂。<br>“魂の独立”から二十年の節目に、400名のフロイデ合唱団がこの歌を歌い上げた日、先生はこう寄せてくださった。<br>「<strong>今日の会合は、2030年への出発です</strong>」と。</p>
+      <p>あれから15年。約束の年まで、あと4年。<br><strong>次に歌うのは、私たちだ。</strong></p>
+      <p>誰かのために歌うのではない。自分の中でまだ眠っている歓喜を、解き放つために歌う。一人の歓喜は、必ず誰かの歓喜を呼び覚ます。その連鎖こそが、世界を動かす力になる。</p>
+      <p class="meaning-finale"><strong>『Re：Freude』</strong>——わたしたちの、新しい歓喜の歌。<br>2026年11月29日。<strong>次の物語は、あなたの一声から始まる。</strong></p>
+    </div>
+  </div>
+
   <!-- ── 補習まとめ（8/2までの内容を8/22・8/29に補習）── -->
   <div class="hosyu-card">
     <div class="hc-title">🎥 補習の録画で追いつこう！</div>
@@ -739,20 +790,6 @@ details.rec-day>summary .rec-count.tutti{background:#b7791f}
     <div class="hc-btns">
       <button class="hc-btn" onclick="goRecArchive('2026-08-22')">♂ 男声補習（8/22）の録画</button>
       <button class="hc-btn f" onclick="goRecArchive('2026-08-29')">♀ 女声補習（8/29）の録画</button>
-    </div>
-  </div>
-
-  <!-- ── なぜ第九を歌うのか ── -->
-  <div class="meaning-card">
-    <div class="meaning-label">Why we sing</div>
-    <h2 class="meaning-title">なぜ、私たちは<br><span class="accent">「歓喜の歌」</span>を歌うのか</h2>
-    <div class="meaning-body">
-      <p>ベートーヴェンが「歓喜の歌」に込めた確信は、たった一つだった。<br><strong>——人類は、必ずひとつになれる。</strong></p>
-      <p>二百年のあいだ、この歌は国境も言語も越えてきた。ベルリンの壁が崩れた夜にも、戦火の止んだ広場にも、第九は響いていた。</p>
-      <p>2011年11月27日、池田講堂。<br>“魂の独立”から二十年の節目に、400名のフロイデ合唱団がこの歌を歌い上げた日、先生はこう寄せてくださった。<br>「<strong>今日の会合は、2030年への出発です</strong>」と。</p>
-      <p>あれから15年。約束の年まで、あと4年。<br><strong>次に歌うのは、私たちだ。</strong></p>
-      <p>誰かのために歌うのではない。自分の中でまだ眠っている歓喜を、解き放つために歌う。一人の歓喜は、必ず誰かの歓喜を呼び覚ます。その連鎖こそが、世界を動かす力になる。</p>
-      <p class="meaning-finale"><strong>『Re：Freude』</strong>——わたしたちの、新しい歓喜の歌。<br>2026年11月29日。<strong>次の物語は、あなたの一声から始まる。</strong></p>
     </div>
   </div>
 
@@ -1200,6 +1237,11 @@ details.rec-day>summary .rec-count.tutti{background:#b7791f}
   <div class="ph ph-live"><h2>📺 本番ライブ配信</h2><p>2026年11月29日（日） 第1回公演 14:00〜 ／ 第2回公演 17:30〜</p></div>
   <p class="lv-lead">会場に来られない方も、ここから本番の様子をご覧いただけます。<br>ご家族やお友だちにも、このページを教えてあげてください。</p>
   <a class="lv-share" href="https://line.me/R/msg/text/?Re%3AFreude%20%E4%B8%96%E7%94%B0%E8%B0%B7%E3%83%A6%E3%83%BC%E3%82%B9%E3%82%A2%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%E3%83%95%E3%82%A7%E3%82%B9%20%E6%9C%AC%E7%95%AA%E3%83%A9%E3%82%A4%E3%83%96%E9%85%8D%E4%BF%A1%0A11%2F29%EF%BC%88%E6%97%A5%EF%BC%89%E7%AC%AC1%E5%9B%9E%2014%3A00%E3%80%9C%EF%BC%8F%E7%AC%AC2%E5%9B%9E%2017%3A30%E3%80%9C%0Ahttps%3A%2F%2Fsetagaya2026.github.io%2Fsetagaya-daiku%2F%23live" target="_blank" rel="noopener">LINEでこの配信ページを送る</a>
+  <div class="tz live">
+    <div class="tz-t">🎬 ティザー動画ができました！</div>
+    <div class="yt-wrap"><iframe data-src="https://www.youtube.com/embed/sTRNgEUPHt0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div>
+    <a class="tz-share" href="https://line.me/R/msg/text/?Re%3AFreude%20%E4%B8%96%E7%94%B0%E8%B0%B7%E3%83%A6%E3%83%BC%E3%82%B9%E3%82%A2%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%E3%83%95%E3%82%A7%E3%82%B9%20%E3%83%86%E3%82%A3%E3%82%B6%E3%83%BC%E5%8B%95%E7%94%BB%E3%81%8C%E3%81%A7%E3%81%8D%E3%81%BE%E3%81%97%E3%81%9F%EF%BC%81%0Ahttps%3A%2F%2Fyoutu.be%2FsTRNgEUPHt0%0A%0A%E6%9C%AC%E7%95%AA%EF%BC%8811%2F29%EF%BC%89%E3%81%AE%E3%83%A9%E3%82%A4%E3%83%96%E9%85%8D%E4%BF%A1%E3%81%AF%E3%81%93%E3%81%A1%E3%82%89%0Ahttps%3A%2F%2Fsetagaya2026.github.io%2Fsetagaya-daiku%2F%23live" target="_blank" rel="noopener">LINEで友人・家族に送る</a>
+  </div>
   <div id="lv-list"></div>
   <div class="lv-tips">
     <b>見られないときは</b>
@@ -1256,7 +1298,7 @@ details.rec-day>summary .rec-count.tutti{background:#b7791f}
 const TARGET=new Date('2026-11-29T14:00:00+09:00');
 function updateCD(){
   const diff=TARGET-new Date();
-  if(diff<=0){document.querySelector('.cdbar').innerHTML='<div style="color:var(--gold-light);font-family:Noto Serif JP,serif;font-size:22px;font-weight:700;text-align:center;position:relative;padding:20px">🎉 本番当日！フロイデー！！！</div>';return;}
+  if(diff<=0){const over=new Date()>=new Date('2026-11-30T00:00:00+09:00');document.querySelector('.cdbar').innerHTML='<div style="color:var(--gold-light);font-family:Noto Serif JP,serif;font-size:22px;font-weight:700;text-align:center;position:relative;padding:20px">'+(over?'🎉 本番、おつかれさまでした！':'🎉 本番当日！フロイデー！！！')+'</div>';return;}
   const d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
   document.getElementById('cd-d').textContent=d;
   document.getElementById('cd-h').textContent=String(h).padStart(2,'0');
@@ -1354,7 +1396,7 @@ const RECS=[
   {date:'2026-11-11',title:'全体練習②（全パート合同）', id:'zA71335JaNo',parts:['S','A','T','B'],kind:'tutti'},
   {date:'2026-11-11',title:'青年よ広布の山を登れ（全体練習）',id:'x1WIGE-pP3c',parts:['S','A','T','B'],kind:'tutti',song:'seinen'},
   {date:'2026-11-15',title:'全体練習（前半）',           id:'5AAHdSVGgYY',parts:['S','A','T','B'],kind:'tutti'},
-  {date:'2026-11-15',title:'全体練習（後半）',           id:'m25cWR-Ujh0',parts:['S','A','T','B'],kind:'tutti'},
+  {date:'2026-11-15',title:'全体練習（後半）',           id:'m25cWR-Ujh0',parts:['S','A','T','B'],kind:'tutti'},  {date:'2026-11-22',title:'全体練習（全パート合同）',   id:'KwYxVAhxLE8',parts:['S','A','T','B'],kind:'tutti'},
 ];
 const DOW=['日','月','火','水','木','金','土'];
 const MON=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
@@ -2109,6 +2151,46 @@ function buildLive(){
 }
 buildLive();
 setInterval(buildLive,60000);   // 1分ごとに「配信予定／配信中／終了」を更新
+
+// ── 本番ウィーク：本番までの流れ＋準備チェック（11/29まで）／本番後はお礼の表示 ──
+(function(){
+  const box=document.getElementById('home-week'); if(!box) return;
+  const now=new Date(), show=new Date('2026-11-29T23:59:59+09:00'), day0=new Date('2026-11-29T00:00:00+09:00');
+  if(now>show){
+    box.innerHTML=`<div class="wk thanks"><div class="wk-t">🎉 本番、おつかれさまでした！</div><div class="wk-lead">一人ひとりの挑戦が、歓喜の歌声になりました。練習の録画は、これからも「映像アーカイブ」で見返せます。</div></div>`;
+    return;
+  }
+  const jp=now.toLocaleDateString('sv-SE',{timeZone:'Asia/Tokyo'}).split('-').map(Number);   // 日本時間の今日
+  const left=Math.round((Date.UTC(2026,10,29)-Date.UTC(jp[0],jp[1]-1,jp[2]))/86400000);
+  const head= left<=0 ? '🎶 いよいよ本番当日！' : (left===1 ? '🎶 いよいよ明日が本番！' : `🎶 本番まであと${left}日`);
+  // ★ チェック項目（go は押したときの移動先）
+  const ITEMS=[
+    {k:'tutti', t:'最新の全体練習の録画を見る', go:"goRecArchive('2026-11-22')", gl:'録画へ'},
+    {k:'part',  t:'自分のパートの録画で、不安な箇所を復習する', go:"(function(){var m=null;try{m=localStorage.getItem('mypart')}catch(e){}var P={soprano:'S',alto:'A',tenor:'T',bass:'B'};if(m&&P[m])goCont(P[m]);else{var g=document.getElementById('mypart-select')||document.getElementById('parts-all');if(g)g.scrollIntoView({behavior:'smooth',block:'center'});}})()", gl:'パートへ'},
+    {k:'seinen',t:'『青年よ広布の山を登れ』を確認する', go:"showSection('seinen',null)", gl:'音源へ'},
+    {k:'time',  t:'当日の集合時間を確認する（第1回 12:30／第2回 16:00）'},
+    {k:'live',  t:'家族・友人に、ライブ配信のページを送る', go:"showSection('live',null)", gl:'配信ページへ'},
+    {k:'care',  t:'よく寝て、のどと体調を整える'},
+  ];
+  let st={}; try{ st=JSON.parse(localStorage.getItem('wk-check')||'{}'); }catch(e){}
+  const draw=()=>{
+    const n=ITEMS.filter(i=>st[i.k]).length, all=n===ITEMS.length;
+    box.innerHTML=`<div class="wk">
+      <div class="wk-t">${head}</div>
+      <div class="wk-flow">
+        <div><b>11/28（土）</b><span>リハーサル<small>本番会場にて（時間は別途連絡）</small></span></div>
+        <div class="main"><b>11/29（日）</b><span>第1回公演<small>12:30集合 → 14:00スタート</small></span></div>
+        <div class="main"><b></b><span>第2回公演<small>16:00集合 → 17:30スタート</small></span></div>
+      </div>
+      <div class="wk-ch">✅ 本番までの準備チェック <span>${n} / ${ITEMS.length}</span></div>
+      <div class="wk-bar"><i style="width:${n/ITEMS.length*100}%"></i></div>
+      <ul class="wk-list">${ITEMS.map(i=>`<li class="${st[i.k]?'done':''}"><label><input type="checkbox" data-k="${i.k}" ${st[i.k]?'checked':''}><span>${i.t}</span></label>${i.go?`<button type="button" onclick="${i.go}">${i.gl}</button>`:''}</li>`).join('')}</ul>
+      ${all?'<div class="wk-all">🎉 準備万端！ あとは思いきり歌うだけ。フロイデー！</div>':'<div class="wk-note">チェックはこの端末にだけ記録されます。</div>'}
+    </div>`;
+  };
+  box.addEventListener('change',e=>{ const k=e.target.dataset&&e.target.dataset.k; if(!k) return; st[k]=e.target.checked; try{ localStorage.setItem('wk-check',JSON.stringify(st)); }catch(err){} draw(); });
+  draw();
+})();
 
 // スケジュールの「録画を見る」／日付ジャンプ → 映像アーカイブの該当日を開いて表示
 function goRecArchive(ds){
